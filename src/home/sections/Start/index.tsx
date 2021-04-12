@@ -10,12 +10,13 @@ const StartContainer = styled(Container)`
 
 const Start = () => {
   const ref = React.useRef<HTMLDivElement>(null)
-  const [nameRect, setNameRect] = React.useState<DOMRect | undefined>(undefined)
+  const [nameBottom, setNameBottom] = React.useState<number | undefined>(undefined)
   const [captionComplete, setCaptionComplete] = React.useState(false)
+  console.log(nameBottom)
   return (
     <StartContainer ref={ref}>
-      <Name onComplete={setNameRect} />
-      {nameRect && !captionComplete && <div style={{ position: 'absolute', top: nameRect.bottom - ref.current!.getBoundingClientRect().top }}><Caption onComplete={() => setCaptionComplete(true)} /></div>}
+      <Name onComplete={setNameBottom} />
+      {nameBottom && <div style={{ position: 'absolute', top: nameBottom }}><Caption onComplete={() => setCaptionComplete(true)} /></div>}
       {captionComplete && <div style={{ position: 'absolute', bottom: 150 }}><Explore /></div>}
     </StartContainer>
   )

@@ -24,7 +24,8 @@ const Shadow = styled(Name)`
     -webkit-text-stroke-color: ${props => props.highlighted ? props.color : 'white'};
 `
 
-const AnimatedName = ({ onComplete }: { onComplete: (rect: DOMRect) => void }) => {
+const AnimatedName = ({ onComplete }: { onComplete: (bottom: number) => void }) => {
+    const parentRef = React.useRef<HTMLDivElement>(null)
     const centerRef = React.useRef<HTMLDivElement>(null)
     const [centerRect, setCenterRect] = React.useState<DOMRect | undefined>(undefined)
     React.useLayoutEffect(() => {
@@ -34,10 +35,13 @@ const AnimatedName = ({ onComplete }: { onComplete: (rect: DOMRect) => void }) =
     const [isComplete, setComplete] = React.useState(false)
     const handleComplete = () => {
         setComplete(true)
-        onComplete(centerRect!)
+        const parentRect = parentRef.current!.parentElement!.getBoundingClientRect()
+        const rect = centerRef.current!.getBoundingClientRect()
+        console.log(parentRect, rect)
+        onComplete(rect.bottom - parentRect.top)
     }
     return (
-        <div style={{ position: 'relative' }}>
+        <div ref={parentRef} style={{ position: 'relative' }}>
             <Name color={'white'} style={{ visibility: isComplete ? 'visible' : 'hidden' }} ref={centerRef}>Luke Millar</Name>
             {centerRect && !isComplete && <ShadowTrail height={centerRect.height} onComplete={handleComplete} />}
         </div>

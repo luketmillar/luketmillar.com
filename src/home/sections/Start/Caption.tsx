@@ -67,7 +67,9 @@ const Caption = ({ onComplete }: { onComplete: () => void }) => {
       setIndex(i => {
         const next = (i + 1) % captions.length
         if (next === 0) {
-          onComplete()
+          requestAnimationFrame(() => {
+            onComplete()
+          })
           return i
         }
         return next
