@@ -10,6 +10,7 @@ const Name = styled.div<{ highlighted?: boolean, color: string }>`
   font-size: 3rem;
   text-align: center;
   line-height: .9em;
+  padding: 0 10px;
 
   color: ${props => props.highlighted ? props.color : 'white'};
 
@@ -37,7 +38,6 @@ const AnimatedName = ({ onComplete }: { onComplete: (bottom: number) => void }) 
         setComplete(true)
         const parentRect = parentRef.current!.parentElement!.getBoundingClientRect()
         const rect = centerRef.current!.getBoundingClientRect()
-        console.log(parentRect, rect)
         onComplete(rect.bottom - parentRect.top)
     }
     return (
@@ -78,9 +78,9 @@ const ShadowTrail = ({ height, onComplete }: { height: number, onComplete: () =>
         const highlighted = i === startRenderIndex
         const color = getColor(Math.min(i / (positions.length - 3), 1))
         if (position.isShadow) {
-            return <Shadow key={i} color={color} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Shadow>
+            return <Shadow key={i} color={color} highlighted={highlighted} style={{ opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Shadow>
         } else {
-            return <Name key={i} color={color} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Name>
+            return <Name key={i} color={color} highlighted={highlighted} style={{ opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Name>
         }
     })
     return <>
