@@ -1,8 +1,11 @@
 * {
   box-sizing: border-box;
 }
+:root {
+  --app-height: 100%;
+}
 html {
-  height: -webkit-fill-available;
+  height: var(--app-height);
 }
 body {
   margin: 0;
@@ -11,7 +14,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: -webkit-fill-available;
+  height: var(--app-height);
 
   background-color: #000;
   color: #fff;
