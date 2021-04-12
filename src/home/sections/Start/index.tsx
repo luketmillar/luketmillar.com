@@ -18,7 +18,7 @@ const Start = () => {
   return (
     <StartContainer ref={ref}>
       <Name onComplete={setNameRect} />
-      {nameRect && !captionComplete && <div style={{ position: 'absolute', top: nameRect.bottom }}><Caption onComplete={() => setCaptionComplete(true)} /></div>}
+      {nameRect && !captionComplete && <div style={{ position: 'absolute', top: nameRect.bottom - ref.current!.getBoundingClientRect().top }}><Caption onComplete={() => setCaptionComplete(true)} /></div>}
       {captionComplete && <div style={{ position: 'absolute', bottom: 50 }}><Explore /></div>}
     </StartContainer>
   )
