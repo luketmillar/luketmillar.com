@@ -3,17 +3,24 @@ import Name from './Name'
 import Container from '../container'
 import Caption from './Caption'
 import Explore from './Explore'
+import styled from 'styled-components'
+
+const StartContainer = styled(Container)`
+  @supports (-webkit-touch-callout: none) {
+    transform: translateY(-100px);
+  }
+`
 
 const Start = () => {
   const ref = React.useRef<HTMLDivElement>(null)
   const [nameRect, setNameRect] = React.useState<DOMRect | undefined>(undefined)
   const [captionComplete, setCaptionComplete] = React.useState(false)
   return (
-    <Container ref={ref}>
+    <StartContainer ref={ref}>
       <Name onComplete={setNameRect} />
       {nameRect && !captionComplete && <div style={{ position: 'absolute', top: nameRect.bottom }}><Caption onComplete={() => setCaptionComplete(true)} /></div>}
       {captionComplete && <div style={{ position: 'absolute', bottom: 50 }}><Explore /></div>}
-    </Container>
+    </StartContainer>
   )
 }
 
