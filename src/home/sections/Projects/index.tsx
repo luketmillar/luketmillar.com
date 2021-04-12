@@ -42,7 +42,7 @@ const ProjectsSection = () => {
         <GradientBlob size={110} color={Colors.aqua} style={{ animationDelay: `${2 * duration / 4}s` }} />
         <GradientBlob size={120} color={Colors.purple} />
         <GradientBlob size={140} color={Colors.pink} style={{ animationDelay: `${duration / 4}s` }} />
-        <h1 style={{ lineHeight: '0.9em', fontWeight: 900, fontStyle: 'italic' }}>More coming soon</h1>
+        <h1 style={{ lineHeight: '0.9em', fontWeight: 900, fontStyle: 'italic' }}>Coming soon.</h1>
     </ProjectsContainer>
 }
 
