@@ -78,9 +78,9 @@ const ShadowTrail = ({ height, onComplete }: { height: number, onComplete: () =>
         const highlighted = i === startRenderIndex
         const color = getColor(Math.min(i / (positions.length - 3), 1))
         if (position.isShadow) {
-            return <Shadow key={i} color={color} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Shadow>
+            return <Shadow key={i} color={color} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Shadow>
         } else {
-            return <Name key={i} color={color} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Name>
+            return <Name key={i} color={color} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Name>
         }
     })
     return <>
