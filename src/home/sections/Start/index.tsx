@@ -1,31 +1,19 @@
 import React from 'react'
-import styled from 'styled-components'
 import Name from './Name'
+import Container from '../container'
 import Caption from './Caption'
 import Explore from './Explore'
 
-const Container = styled.section`
-  height: 100vh;
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-`
-
 const Start = () => {
+  const ref = React.useRef<HTMLDivElement>(null)
   const [nameRect, setNameRect] = React.useState<DOMRect | undefined>(undefined)
   const [captionComplete, setCaptionComplete] = React.useState(false)
   return (
-    <>
-      <Container>
-        <Name onComplete={setNameRect} />
-        {nameRect && !captionComplete && <div style={{ position: 'absolute', top: nameRect.bottom }}><Caption onComplete={() => setCaptionComplete(true)} /></div>}
-        {captionComplete && <div style={{ position: 'absolute', bottom: 50 }}><Explore /></div>}
-      </Container>
-    </>
+    <Container ref={ref}>
+      <Name onComplete={setNameRect} />
+      {nameRect && !captionComplete && <div style={{ position: 'absolute', top: nameRect.bottom }}><Caption onComplete={() => setCaptionComplete(true)} /></div>}
+      {captionComplete && <div style={{ position: 'absolute', bottom: 50 }}><Explore /></div>}
+    </Container>
   )
 }
 

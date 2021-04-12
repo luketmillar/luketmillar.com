@@ -50,7 +50,7 @@ const ShadowTrail = ({ height, onComplete }: { height: number, onComplete: () =>
     }, [trailCount, height])
     const frameTime = useFrameTime()
     const startRenderIndex = Math.floor((frameTime - 1000) / 50)
-    const endRenderIndex = Math.floor((frameTime - 2000) / 50)
+    const endRenderIndex = Math.floor((frameTime - positions.length * 50 - 1000) / 50)
     const complete = endRenderIndex > (trailCount * 2) + 2
     React.useEffect(() => {
         if (complete) {
