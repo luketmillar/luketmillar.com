@@ -6,9 +6,6 @@ import Explore from './Explore'
 import styled from 'styled-components'
 
 const StartContainer = styled(Container)`
-  @supports (-webkit-touch-callout: none) {
-    transform: translateY(-100px);
-  }
 `
 
 const Start = () => {
@@ -19,7 +16,7 @@ const Start = () => {
     <StartContainer ref={ref}>
       <Name onComplete={setNameRect} />
       {nameRect && !captionComplete && <div style={{ position: 'absolute', top: nameRect.bottom - ref.current!.getBoundingClientRect().top }}><Caption onComplete={() => setCaptionComplete(true)} /></div>}
-      {captionComplete && <div style={{ position: 'absolute', bottom: 50 }}><Explore /></div>}
+      {captionComplete && <div style={{ position: 'absolute', bottom: 150 }}><Explore /></div>}
     </StartContainer>
   )
 }
