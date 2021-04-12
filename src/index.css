@@ -1,6 +1,8 @@
 * {
   box-sizing: border-box;
-
+}
+html {
+  height: -webkit-fill-available;
 }
 body {
   margin: 0;
