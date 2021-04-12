@@ -38,7 +38,7 @@ const GradientBlob = styled.div<{ color: string, size: number }>`
 
 const ProjectsSection = () => {
     return <ProjectsContainer>
-        <GradientBlob size={100} color={'white'} style={{ animationDelay: `-${duration / 4}s` }} />
+        <GradientBlob size={100} color={'rgba(255,255,255,0.5)'} style={{ animationDelay: `-${duration / 4}s` }} />
         <GradientBlob size={110} color={Colors.aqua} style={{ animationDelay: `-${3 * duration / 4}s` }} />
         <GradientBlob size={120} color={Colors.purple} />
         <GradientBlob size={140} color={Colors.pink} style={{ animationDelay: `-${2 * duration / 4}s` }} />
