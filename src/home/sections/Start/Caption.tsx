@@ -56,9 +56,9 @@ const captions = [
   'Podcaster.'
 ]
 const colors = [
-  Colors.purple,
-  Colors.pink,
   Colors.aqua,
+  Colors.pink,
+  Colors.purple,
 ]
 const Caption = ({ onComplete }: { onComplete: () => void }) => {
   const [index, setIndex] = React.useState(0)
