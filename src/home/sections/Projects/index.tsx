@@ -25,8 +25,8 @@ const GradientBlob = styled.div<{ color: string, size: number }>`
     position: absolute;
     bottom: 0;
     left: 0;
-    width: ${props => props.size}vmax;
-    height: ${props => props.size}vmax;
+    width: ${props => props.size}vh;
+    height: ${props => props.size}vh;
     transform: translate(-50%, 50%);
 
     animation: ${move} ${duration}s linear infinite;
