@@ -49,22 +49,29 @@ const CaptionText = styled.div`
 `
 
 const captions = [
-    'Engineer.',
-    'Designer.',
-    'Diet Coke.',
-    'Human.',
+  'Engineer.',
+  'Designer.',
+  'Diet Coke.',
+  'Human.',
 ]
-const Caption = () => {
-    const [index, setIndex] = React.useState(0)
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            setIndex(i => (i + 1) % captions.length)
-        }, 2000)
-        return () => {
-            clearInterval(interval)
+const Caption = ({ onComplete }: { onComplete: () => void }) => {
+  const [index, setIndex] = React.useState(0)
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex(i => {
+        const next = (i + 1) % captions.length
+        if (next === 0) {
+          onComplete()
+          return i
         }
-    }, [])
-    return <CaptionText key={index}>{captions[index]}</CaptionText>
+        return next
+      })
+    }, 2000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [onComplete])
+  return <CaptionText key={index}>{captions[index]}</CaptionText>
 }
 
 export default Caption
