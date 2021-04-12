@@ -25,8 +25,8 @@ const GradientBlob = styled.div<{ color: string, size: number }>`
     position: absolute;
     bottom: 0;
     left: 0;
-    width: ${props => props.size}vh;
-    height: ${props => props.size}vh;
+    width: ${props => props.size}vmax;
+    height: ${props => props.size}vmax;
     transform: translate(-50%, 50%);
 
     animation: ${move} ${duration}s linear infinite;
@@ -38,10 +38,10 @@ const GradientBlob = styled.div<{ color: string, size: number }>`
 
 const ProjectsSection = () => {
     return <ProjectsContainer>
-        <GradientBlob size={100} color={'white'} style={{ animationDelay: `${3 * duration / 4}s` }} />
-        <GradientBlob size={110} color={Colors.aqua} style={{ animationDelay: `${2 * duration / 4}s` }} />
+        <GradientBlob size={100} color={'white'} style={{ animationDelay: `-${duration / 4}s` }} />
+        <GradientBlob size={110} color={Colors.aqua} style={{ animationDelay: `-${2 * duration / 4}s` }} />
         <GradientBlob size={120} color={Colors.purple} />
-        <GradientBlob size={140} color={Colors.pink} style={{ animationDelay: `${duration / 4}s` }} />
+        <GradientBlob size={140} color={Colors.pink} style={{ animationDelay: `-${3 * duration / 4}s` }} />
         <h1 style={{ lineHeight: '0.9em', fontWeight: 900, fontStyle: 'italic' }}>Coming soon.</h1>
     </ProjectsContainer>
 }
