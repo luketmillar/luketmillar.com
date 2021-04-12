@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { WidescreenSelect } from '../../utils'
+import Colors from '../../../colors'
 
 const textReveal = keyframes`
   from {
@@ -14,19 +15,20 @@ const textReveal = keyframes`
 const cursor = keyframes`
 from {
     left: 0;
-    width: 0;
+    width: 10px;
   }
   to {
     left: calc(100% + 20px);
     width: 400px;
   }
 `
-const CaptionText = styled.div`
+const CaptionText = styled.div<{ color: string }>`
   text-transform: uppercase;
   letter-spacing: 0.5em;
   margin-left: 0;
   font-size: 1rem;
   position: relative;
+  color: ${props => props.color};
 
   animation: ${textReveal} 300ms ease-in;
   animation-fill-mode: forwards;
@@ -51,8 +53,12 @@ const CaptionText = styled.div`
 const captions = [
   'Engineer.',
   'Designer.',
-  'Diet Coke.',
-  'Human.',
+  'Podcaster.'
+]
+const colors = [
+  Colors.purple,
+  Colors.pink,
+  Colors.aqua,
 ]
 const Caption = ({ onComplete }: { onComplete: () => void }) => {
   const [index, setIndex] = React.useState(0)
@@ -71,7 +77,7 @@ const Caption = ({ onComplete }: { onComplete: () => void }) => {
       clearInterval(interval)
     }
   }, [onComplete])
-  return <CaptionText key={index}>{captions[index]}</CaptionText>
+  return <CaptionText color={colors[index]} key={index}>{captions[index]}</CaptionText>
 }
 
 export default Caption

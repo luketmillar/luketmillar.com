@@ -52,7 +52,7 @@ const Label = styled.div`
 
 const Explore = () => {
     return <Container>
-        <Label>Explore more</Label>
+        <Label>Let's go</Label>
         <ArrowContainer>
             <Arrow style={{ animationDelay: '0s' }} />
             <Arrow style={{ animationDelay: '0.75s' }} />

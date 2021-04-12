@@ -2,15 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import useFrameTime from '../../../hooks/useFrameTime'
 import { WidescreenSelect } from '../../utils'
+import Colors from '../../../colors'
 
-const Name = styled.div<{ highlighted?: boolean }>`
+const Name = styled.div<{ highlighted?: boolean, color: string }>`
   font-weight: 900;
   font-style: italic;
   font-size: 3rem;
   text-align: center;
   line-height: .9em;
 
-  color: ${props => props.highlighted ? 'orange' : 'white'};
+  color: ${props => props.highlighted ? props.color : 'white'};
 
   ${WidescreenSelect} {
     font-size: 8rem;
@@ -20,7 +21,7 @@ const Name = styled.div<{ highlighted?: boolean }>`
 const Shadow = styled(Name)`
     color: transparent;
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: ${props => props.highlighted ? 'orange' : 'white'};
+    -webkit-text-stroke-color: ${props => props.highlighted ? props.color : 'white'};
 `
 
 const AnimatedName = ({ onComplete }: { onComplete: (rect: DOMRect) => void }) => {
@@ -37,10 +38,21 @@ const AnimatedName = ({ onComplete }: { onComplete: (rect: DOMRect) => void }) =
     }
     return (
         <div style={{ position: 'relative' }}>
-            <Name style={{ visibility: isComplete ? 'visible' : 'hidden' }} ref={centerRef}>Luke Millar</Name>
+            <Name color={'white'} style={{ visibility: isComplete ? 'visible' : 'hidden' }} ref={centerRef}>Luke Millar</Name>
             {centerRect && !isComplete && <ShadowTrail height={centerRect.height} onComplete={handleComplete} />}
         </div>
     )
+}
+
+const start = Colors.hexToRgb(Colors.orange)
+const end = Colors.hexToRgb(Colors.purple)
+const diff = [end[0] - start[0], end[1] - start[1], end[2] - start[2]]
+
+const getColor = (percent: number) => {
+    const h = start[0] + diff[0] * percent
+    const s = start[1] + diff[1] * percent
+    const v = start[2] + diff[2] * percent
+    return Colors.rgbToHex([h, s, v])
 }
 
 const ShadowTrail = ({ height, onComplete }: { height: number, onComplete: () => void }) => {
@@ -60,10 +72,11 @@ const ShadowTrail = ({ height, onComplete }: { height: number, onComplete: () =>
     const shadows: React.ReactNode[] = positions.map((position, i) => {
         const visible = i <= startRenderIndex && (i >= endRenderIndex || !position.isShadow)
         const highlighted = i === startRenderIndex
+        const color = getColor(Math.min(i / (positions.length - 3), 1))
         if (position.isShadow) {
-            return <Shadow key={i} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Shadow>
+            return <Shadow key={i} color={color} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Shadow>
         } else {
-            return <Name key={i} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Name>
+            return <Name key={i} color={color} highlighted={highlighted} style={{ visibility: visible ? 'visible' : 'hidden', position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Name>
         }
     })
     return <>
