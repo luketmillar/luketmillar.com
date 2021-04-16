@@ -6,9 +6,10 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const testMessages = [
+    'Click me',
     'Welcome to Split Flap',
     'You can make your own',
-    'In the top right',
+    'click create In the top right',
 ]
 
 const Marquee = () => {
@@ -18,6 +19,11 @@ const Marquee = () => {
     const nextMessage = () => {
         setIndex((index + 1) % messages.length)
     }
+    React.useEffect(() => {
+        if (index === -1) {
+            setIndex(0)
+        }
+    }, [index])
     const onCreate = (messages: string[]) => {
         setMessages(messages)
         setIndex(-1)
