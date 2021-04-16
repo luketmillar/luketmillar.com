@@ -55,12 +55,12 @@ const SplitFlap = ({ character, onClick }: IProps) => {
             const nextCharacter = characterList[nextIndex]
             setDisplayCharacter(nextCharacter)
             if (nextIndex !== destinationIndex) {
-                requestAnimationFrame(goToNextCharacter)
+                skipFrames(2, goToNextCharacter)
             }
         }
         const currentIndex = getIndex(displayCharacterRef.current)
         if (currentIndex !== destinationIndex) {
-            requestAnimationFrame(goToNextCharacter)
+            skipFrames(Math.floor(Math.random() * 3), goToNextCharacter)
         }
         return () => {
             canceled = true
@@ -69,6 +69,13 @@ const SplitFlap = ({ character, onClick }: IProps) => {
 
     displayCharacterRef.current = displayCharacter
     return <Flap onClick={onClick}>{displayCharacter}</Flap>
+}
+
+const skipFrames = (n: number, fn: () => void) => {
+    if (n === 0) {
+        return fn()
+    }
+    requestAnimationFrame(() => skipFrames(n - 1, fn))
 }
 
 export default SplitFlap
