@@ -64,7 +64,7 @@ const ShadowTrail = ({ height, onComplete }: { height: number, onComplete: () =>
     const positions = React.useMemo(() => {
         return getPositions(trailCount, height)
     }, [trailCount, height])
-    const startTime = React.useMemo(() => performance.now(), []) - 1000
+    const startTime = React.useMemo(() => performance.now(), []) + 500
     const frameTime = useFrameTime()
     const startRenderIndex = Math.floor((frameTime - startTime) / 50)
     const endRenderIndex = Math.floor((frameTime - positions.length * 50 - startTime) / 50)
