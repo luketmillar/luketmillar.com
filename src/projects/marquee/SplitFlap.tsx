@@ -9,7 +9,7 @@ const Flap = styled.div`
     align-items: center;
     justify-content: center;
 
-    border: 1px solid #555;
+    border: 1px solid #222;
     border-radius: 3px;
 
     width: 50px;
@@ -29,7 +29,7 @@ const Flap = styled.div`
         bottom: calc(50% - 1px);
         width: 100%;
         height: 1px;
-        background-color: #555;
+        background-color: #222;
     }
 `
 
