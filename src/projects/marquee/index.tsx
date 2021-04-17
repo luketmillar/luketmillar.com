@@ -6,8 +6,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const testMessages = [
-    'Click me',
-    'Welcome to Split Flap',
+    'This is a Split Flap board',
     'You can make your own',
     'click create In the top right',
 ]
@@ -29,14 +28,14 @@ const Marquee = () => {
         setIndex(-1)
         history.push('/project/split-flap')
     }
-    const message = messages[index] ?? ''
+    const message = messages[index]
     return <div onClick={nextMessage} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
         <Switch>
             <Route path="/project/split-flap/create">
                 <Creator onCreate={onCreate} />
             </Route>
             <Route>
-                <Board message={message} width={20} height={6} />
+                <Board message={message} width={20} height={7} />
                 <CreateButton to="/project/split-flap/create">Create</CreateButton>
             </Route>
         </Switch>

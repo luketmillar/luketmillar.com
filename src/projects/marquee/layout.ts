@@ -1,3 +1,5 @@
+import { getRandomCharacter } from "./characters"
+
 export const getLayout = (message: string, width: number, height: number): Record<string, string> => {
     const layout: Record<string, string> = {}
     const lines = splitIntoLines(message, width, height)
@@ -63,3 +65,12 @@ const findClosestSpace = (message: string, index: number, distance: number = 0):
     return findClosestSpace(message, index, distance + 1)
 }
 
+export const getRandomLayout = (width: number, height: number) => {
+    const layout: Record<string, string> = {}
+    for (let row = 0; row < height; row++) {
+        for (let column = 0; column < width; column++) {
+            layout[`${row}-${column}`] = getRandomCharacter()
+        }
+    }
+    return layout
+}

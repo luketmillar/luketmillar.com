@@ -1,16 +1,22 @@
 import React from 'react'
 import SplitFlap from './SplitFlap'
-import { getLayout } from './layout'
+import { getLayout, getRandomLayout } from './layout'
 
 const duplicate = (x: (i: number) => React.ReactNode, n: number) => Array.from(new Array(n), (_, i) => x(i))
 
 interface IProps {
-    message: string
+    message: string | undefined
     width: number
     height: number
 }
 const Board = ({ message, width, height }: IProps) => {
-    const layout = React.useMemo(() => getLayout(message, width, height), [message, width, height])
+    const layout = React.useMemo(() => {
+        if (message) {
+            return getLayout(message, width, height)
+        } else {
+            return getRandomLayout(width, height)
+        }
+    }, [message, width, height])
     const center = Math.floor(width / 2)
     return <div>
         {duplicate((row: number) => (

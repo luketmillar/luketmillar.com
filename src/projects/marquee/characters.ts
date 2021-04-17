@@ -1,4 +1,4 @@
-export const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890=-+_|.,;:!?\'"@#$%^&*()~ '
+export const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .-+_|=,;:!?\'"@#$%^&*()~'
 export const characterList = characters.split('')
 
 export const getRandomCharacter = () => {
