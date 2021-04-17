@@ -15,9 +15,14 @@ const Marquee = () => {
     const history = useHistory()
     const [messages, setMessages] = React.useState<string[]>(testMessages)
     const [index, setIndex] = React.useState(-1)
-    const nextMessage = () => {
-        setIndex((index + 1) % messages.length)
-    }
+    React.useEffect(() => {
+        const interval = window.setInterval(() => {
+            setIndex(index => (index + 1) % messages.length)
+        }, 5000)
+        return () => {
+            window.clearInterval(interval)
+        }
+    }, [messages.length])
     React.useEffect(() => {
         if (index === -1) {
             setIndex(0)
@@ -29,7 +34,7 @@ const Marquee = () => {
         history.push('/project/split-flap')
     }
     const message = messages[index]
-    return <div onClick={nextMessage} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+    return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
         <Switch>
             <Route path="/project/split-flap/create">
                 <Creator onCreate={onCreate} />
