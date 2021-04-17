@@ -13,6 +13,7 @@ const Flap = styled.div`
     border-radius: 3px;
 
     width: 50px;
+
     height: 75px;
 
     font-family: 'PT Sans Narrow';
@@ -36,9 +37,10 @@ const Flap = styled.div`
 interface IProps {
     character: string
     onClick?: React.MouseEventHandler
+    distanceFromCenter: number
 }
 
-const SplitFlap = ({ character, onClick }: IProps) => {
+const SplitFlap = ({ character, onClick, distanceFromCenter }: IProps) => {
     character = character.toLocaleUpperCase()
     const [displayCharacter, setDisplayCharacter] = React.useState(character)
     const displayCharacterRef = React.useRef(displayCharacter)
@@ -60,12 +62,12 @@ const SplitFlap = ({ character, onClick }: IProps) => {
         }
         const currentIndex = getIndex(displayCharacterRef.current)
         if (currentIndex !== destinationIndex) {
-            skipFrames(Math.floor(Math.random() * 3), goToNextCharacter)
+            skipFrames(distanceFromCenter * 10, goToNextCharacter)
         }
         return () => {
             canceled = true
         }
-    }, [character])
+    }, [character, distanceFromCenter])
 
     displayCharacterRef.current = displayCharacter
     return <Flap onClick={onClick}>{displayCharacter}</Flap>

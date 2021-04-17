@@ -10,11 +10,12 @@ interface IProps {
 }
 const Board = ({ message, width, height }: IProps) => {
     const characters = getCharacterPositions(message, width, height)
+    const center = Math.floor(width / 2)
     return <div>
         {duplicate((row: number) => (
             <div style={{ display: 'flex' }}>
                 {duplicate((column: number) => (
-                    <SplitFlap character={`${characters.find(character => character.row === row && character.column === column)?.character ?? ' '}`} />
+                    <SplitFlap distanceFromCenter={Math.abs(center - column)} character={`${characters.find(character => character.row === row && character.column === column)?.character ?? ' '}`} />
                 ), width)}
             </div>), height)}</div>
 }
