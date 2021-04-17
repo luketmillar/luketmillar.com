@@ -1,7 +1,8 @@
 import { getRandomCharacter } from "./characters"
 
-export const getLayout = (message: string, width: number, height: number): Record<string, string> => {
-    const layout: Record<string, string> = {}
+export type Layout = string[][]
+
+export const getLayout = (message: string, width: number, height: number): Layout => {
     const lines = splitIntoLines(message, width, height)
     const rowStart = Math.floor((height - lines.length) / 2)
     const characters = lines.map((line, i) => {
@@ -11,9 +12,14 @@ export const getLayout = (message: string, width: number, height: number): Recor
             return { character, row, column: columnStart + i }
         })
     }).reduce((result, line) => ([...result, ...line]), [])
-    characters.forEach(({ character, row, column }) => {
-        layout[`${row}-${column}`] = character
-    })
+    const layout: string[][] = []
+    for (let r = 0; r < height; r++) {
+        const layoutRow: string[] = []
+        for (let c = 0; c < width; c++) {
+            layoutRow.push(characters.find(({ row, column }) => row === r && column === c)?.character ?? ' ')
+        }
+        layout.push(layoutRow)
+    }
     return layout
 }
 
@@ -65,12 +71,14 @@ const findClosestSpace = (message: string, index: number, distance: number = 0):
     return findClosestSpace(message, index, distance + 1)
 }
 
-export const getRandomLayout = (width: number, height: number) => {
-    const layout: Record<string, string> = {}
-    for (let row = 0; row < height; row++) {
-        for (let column = 0; column < width; column++) {
-            layout[`${row}-${column}`] = getRandomCharacter()
+export const getRandomLayout = (width: number, height: number): Layout => {
+    const layout: string[][] = []
+    for (let r = 0; r < height; r++) {
+        const layoutRow: string[] = []
+        for (let c = 0; c < width; c++) {
+            layoutRow.push(getRandomCharacter())
         }
+        layout.push(layoutRow)
     }
     return layout
 }

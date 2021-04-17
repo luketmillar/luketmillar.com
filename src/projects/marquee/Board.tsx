@@ -1,22 +1,25 @@
 import React from 'react'
 import SplitFlap from './SplitFlap'
-import { getLayout, getRandomLayout } from './layout'
+import { Layout } from './layout'
 
 const duplicate = (x: (i: number) => React.ReactNode, n: number) => Array.from(new Array(n), (_, i) => x(i))
 
 interface IProps {
-    message: string | undefined
-    width: number
-    height: number
+    messageLayout: Layout
+    onComplete: () => void
 }
-const Board = ({ message, width, height }: IProps) => {
-    const layout = React.useMemo(() => {
-        if (message) {
-            return getLayout(message, width, height)
-        } else {
-            return getRandomLayout(width, height)
-        }
-    }, [message, width, height])
+const Board = ({ messageLayout, onComplete }: IProps) => {
+    const completion = React.useMemo(() => new CompletionTracker(onComplete), [onComplete])
+
+    React.useMemo(() => {
+        completion.start()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [completion, messageLayout])
+
+
+    const height = messageLayout.length
+    const width = messageLayout[0].length
+
     const center = Math.floor(width / 2)
     return <div>
         {duplicate((row: number) => (
@@ -24,11 +27,35 @@ const Board = ({ message, width, height }: IProps) => {
                 {duplicate((column: number) => (
                     <SplitFlap
                         key={`column-${column}`}
-                        distanceFromCenter={Math.abs(center - column)}
-                        character={layout[`${row}-${column}`] ?? ' '}
+                        delay={Math.abs(center - column) * 5}
+                        character={messageLayout[row][column]}
+                        onStart={completion.cellStart}
+                        onComplete={completion.cellComplete}
                     />
                 ), width)}
             </div>), height)}</div>
+}
+
+class CompletionTracker {
+    private readonly onComplete: () => void
+    private incompleteCount = 0
+    constructor(onComplete: () => void) {
+        this.onComplete = onComplete
+    }
+
+    public start() {
+        this.incompleteCount = 0
+    }
+
+    public cellStart = () => {
+        this.incompleteCount++
+    }
+    public cellComplete = () => {
+        this.incompleteCount--
+        if (this.incompleteCount === 0) {
+            this.onComplete()
+        }
+    }
 }
 
 export default Board

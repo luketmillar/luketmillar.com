@@ -36,11 +36,13 @@ const Flap = styled.div`
 
 interface IProps {
     character: string
+    onStart: () => void
+    onComplete: () => void
     onClick?: React.MouseEventHandler
-    distanceFromCenter: number
+    delay: number
 }
 
-const SplitFlap = ({ character, onClick, distanceFromCenter }: IProps) => {
+const SplitFlap = ({ character, onStart, onComplete, onClick, delay }: IProps) => {
     character = character.toLocaleUpperCase()
     const [displayCharacter, setDisplayCharacter] = React.useState(character)
     const displayCharacterRef = React.useRef(displayCharacter)
@@ -56,18 +58,21 @@ const SplitFlap = ({ character, onClick, distanceFromCenter }: IProps) => {
             const nextIndex = (currentIndex + 1) % characterList.length
             const nextCharacter = characterList[nextIndex]
             setDisplayCharacter(nextCharacter)
-            if (nextIndex !== destinationIndex) {
+            if (nextIndex === destinationIndex) {
+                onComplete()
+            } else {
                 skipFrames(2, goToNextCharacter)
             }
         }
         const currentIndex = getIndex(displayCharacterRef.current)
         if (currentIndex !== destinationIndex) {
-            skipFrames(distanceFromCenter * 10, goToNextCharacter)
+            onStart()
+            skipFrames(delay, goToNextCharacter)
         }
         return () => {
             canceled = true
         }
-    }, [character, distanceFromCenter])
+    }, [character, delay, onComplete, onStart])
 
     displayCharacterRef.current = displayCharacter
     return <Flap onClick={onClick}>{displayCharacter}</Flap>
@@ -80,4 +85,4 @@ const skipFrames = (n: number, fn: () => void) => {
     requestAnimationFrame(() => skipFrames(n - 1, fn))
 }
 
-export default SplitFlap
+export default React.memo(SplitFlap)
