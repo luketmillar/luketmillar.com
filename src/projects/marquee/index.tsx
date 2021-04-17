@@ -18,14 +18,19 @@ const Marquee = () => {
     const [index, setIndex] = React.useState(-1)
     const nextMessage = () => {
         window.setTimeout(() => {
-            setIndex(index => (index + 1) % messages.length)
+            setIndex(index => {
+                const nextIndex = index + 1
+                if (nextIndex === messages.length) {
+                    return -1
+                } else {
+                    return nextIndex
+                }
+            })
         }, 2000)
     }
     React.useEffect(() => {
-        if (index === -1) {
-            setIndex(0)
-        }
-    }, [index])
+        setIndex(0)
+    }, [])
     const onCreate = (messages: string[]) => {
         setMessages(messages)
         setIndex(-1)
@@ -33,7 +38,7 @@ const Marquee = () => {
     }
     const message = messages[index]
     const layout = message ? getLayout(message, 40, 15) : getRandomLayout(40, 15)
-    return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }} onClick={nextMessage}>
+    return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
         <Switch>
             <Route path="/project/split-flap/create">
                 <Creator onCreate={onCreate} />

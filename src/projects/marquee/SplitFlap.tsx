@@ -2,27 +2,25 @@ import React from 'react'
 import styled from 'styled-components'
 import { getIndex, characterList } from "./characters"
 
-const Flap = styled.div`
+const Flap = styled.div<{ width: number, height: number }>`
     position: relative;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border: 1px solid #222;
     border-radius: 3px;
+    background-color: #111;
 
-    width: 50px;
-
-    height: 75px;
+    width: ${props => props.width}px;
+    height: ${props => props.height}px;
 
     font-family: 'PT Sans Narrow';
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: ${props => Math.min(props.width, props.height)}px;;
+    font-weight: 300;
 
-    margin-bottom: 4px;
+    margin-bottom: 10px;
     margin-right: 4px;
-    
 
     ::after {
         content: '';
@@ -30,7 +28,7 @@ const Flap = styled.div`
         bottom: calc(50% - 1px);
         width: 100%;
         height: 1px;
-        background-color: #222;
+        background-color: #000;
     }
 `
 
@@ -38,6 +36,7 @@ interface IProps {
     character: string
     onStart: () => void
     onComplete: () => void
+    // size: { width: number, height: number }
     onClick?: React.MouseEventHandler
     delay: number
 }
@@ -75,7 +74,7 @@ const SplitFlap = ({ character, onStart, onComplete, onClick, delay }: IProps) =
     }, [character, delay, onComplete, onStart])
 
     displayCharacterRef.current = displayCharacter
-    return <Flap onClick={onClick}>{displayCharacter}</Flap>
+    return <Flap width={50} height={75} onClick={onClick}>{displayCharacter}</Flap>
 }
 
 const skipFrames = (n: number, fn: () => void) => {
