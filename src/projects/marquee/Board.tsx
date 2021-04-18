@@ -44,7 +44,7 @@ const Board = ({ messageLayout, cellSize, onComplete, onChangeMessage, onKeyboar
                     <SplitFlap
                         key={`column-${column}`}
                         delay={editor ? 0 : Math.abs(center - column) * 5}
-                        character={messageLayout[row][column]}
+                        character={messageLayout[row].charAt(column)}
                         onStart={completion.cellStart}
                         onComplete={completion.cellComplete}
                         size={cellSize}

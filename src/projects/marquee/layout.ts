@@ -1,6 +1,6 @@
 import { getRandomCharacter } from "./characters"
 
-export type Layout = string[][]
+export type Layout = string[]
 
 export const getLayout = (message: string, width: number, height: number): Layout => {
     const lines = splitIntoLines(message, width, height)
@@ -12,11 +12,11 @@ export const getLayout = (message: string, width: number, height: number): Layou
             return { character, row, column: columnStart + i }
         })
     }).reduce((result, line) => ([...result, ...line]), [])
-    const layout: string[][] = []
+    const layout: string[] = []
     for (let r = 0; r < height; r++) {
-        const layoutRow: string[] = []
+        let layoutRow: string = ''
         for (let c = 0; c < width; c++) {
-            layoutRow.push(characters.find(({ row, column }) => row === r && column === c)?.character ?? ' ')
+            layoutRow += characters.find(({ row, column }) => row === r && column === c)?.character ?? ' '
         }
         layout.push(layoutRow)
     }
@@ -72,11 +72,11 @@ const findClosestSpace = (message: string, index: number, distance: number = 0):
 }
 
 export const getRandomLayout = (width: number, height: number): Layout => {
-    const layout: string[][] = []
+    const layout: Layout = []
     for (let r = 0; r < height; r++) {
-        const layoutRow: string[] = []
+        let layoutRow: string = ''
         for (let c = 0; c < width; c++) {
-            layoutRow.push(getRandomCharacter())
+            layoutRow += getRandomCharacter()
         }
         layout.push(layoutRow)
     }

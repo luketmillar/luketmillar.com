@@ -1,6 +1,7 @@
 import React from 'react'
 import Board from './Board'
 import * as generator from './generator'
+import { replaceCharacter } from './utils'
 
 const onComplete = () => null
 const size = { width: 50, height: 75 }
@@ -13,11 +14,13 @@ const Creator = ({ onCreate }: IProps) => {
     const height = layout.length
     const width = layout[0].length
     const handleCharacterChange = React.useCallback((row: number, column: number, character: string) => {
+        let line = layout[row]
         if (character === 'Backspace') {
-            layout[row][column] = ' '
+            line = replaceCharacter(line, column, ' ')
         } else {
-            layout[row][column] = character
+            line = replaceCharacter(line, column, character)
         }
+        layout[row] = line
         // go right
         const newColumn = Math.min(column + 1, width - 1)
         document.getElementById(`${row}-${newColumn}`)?.focus()
@@ -30,7 +33,7 @@ const Creator = ({ onCreate }: IProps) => {
     }
     const addColumn = (index: number) => {
         const newLayout = layout.map(row => {
-            return [...row.slice(0, index), ' ', ...row.slice(index)]
+            return row.slice(0, index) + ' ' + row.slice(index)
         })
         setLayout(newLayout)
     }
@@ -38,7 +41,7 @@ const Creator = ({ onCreate }: IProps) => {
     const handleKeyboardEvent = React.useCallback((row: number, column: number, character: string) => {
         switch (character) {
             case 'Backspace': {
-                layout[row][column] = ' '
+                layout[row] = replaceCharacter(layout[row], column, ' ')
                 setLayout([...layout])
                 const newColumn = Math.max(column - 1, 0)
                 document.getElementById(`${row}-${newColumn}`)?.focus()
@@ -67,7 +70,12 @@ const Creator = ({ onCreate }: IProps) => {
         }
     }, [layout, height, width])
 
+    const reset = () => {
+        setLayout(generator.emptyLayout(width, height))
+    }
+
     return <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div onClick={reset}>Reset</div>
         <div onClick={() => addRow(0)}>
             <h1 style={{ width: 80, textAlign: 'center' }}>+</h1>
         </div>
