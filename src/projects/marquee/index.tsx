@@ -33,7 +33,9 @@ const Marquee = () => {
         nextMessage(0)
         history.push('/project/split-flap')
     }
-    let layout = layouts[index] ?? getRandomLayout(40, 15)
+    const rows = layouts.length
+    const columns = layouts[0].length
+    let layout = layouts[index] ?? getRandomLayout(columns, rows)
     if (layout === layout4) {
         const time = moment().format('LT')
         layout = layout.map(line => line.replace('10:30 PM', time.length === 8 ? time : `0${time}`))
