@@ -8,9 +8,11 @@ import { getLayout, getRandomLayout } from './layout'
 
 const testMessages = [
     'This is a Split Flap board',
-    'You can make your own',
     'This was made by @ltm',
+    'Make your own.                   Coming soon.',
 ]
+
+const size = { width: 30, height: 45 }
 
 const Marquee = () => {
     const history = useHistory()
@@ -44,7 +46,7 @@ const Marquee = () => {
                 <Creator onCreate={onCreate} />
             </Route>
             <Route>
-                <Board messageLayout={layout} onComplete={nextMessage} />
+                <Board messageLayout={layout} onComplete={nextMessage} cellSize={size} />
                 {/* <CreateButton to="/project/split-flap/create">Create</CreateButton> */}
             </Route>
         </Switch>

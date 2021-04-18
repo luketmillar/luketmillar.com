@@ -32,7 +32,7 @@ const splitIntoLines = (message: string, width: number, height: number) => {
         const extraLines = splitSpaces.map((splitSpaceIndex, i) => {
             return message.slice(splitSpaceIndex + 1, splitSpaces[i + 1]).trim()
         })
-        lines = [message.slice(0, splitSpaces[0]), ...extraLines]
+        lines = [message.slice(0, splitSpaces[0]).trim(), ...extraLines]
     }
     return lines
 
