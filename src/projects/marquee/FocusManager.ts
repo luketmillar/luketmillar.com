@@ -20,6 +20,7 @@ const ID = {
 }
 
 export default class FocusManager {
+    public static ID = ID
     private rows: number
     private columns: number
     constructor(rows: number, columns: number) {

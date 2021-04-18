@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { getIndex, characterList } from "./characters"
 import Colors from 'colors'
+import FocusManager from './FocusManager'
 
 const Width = 50
 const Height = 75
@@ -94,7 +95,7 @@ const SplitFlap = ({ character, row, column, size, onStart, onComplete, onClick,
     }, [character, delay, onComplete, onStart])
 
     displayCharacterRef.current = displayCharacter
-    return <Flap id={`${row}-${column}`} onKeyDown={onKeyDown} tabIndex={selectable ? 0 : undefined} width={size.width} height={size.height} onClick={onClick}>{displayCharacter}</Flap>
+    return <Flap id={FocusManager.ID.create(row, column)} onKeyDown={onKeyDown} tabIndex={selectable ? 0 : undefined} width={size.width} height={size.height} onClick={onClick}>{displayCharacter}</Flap>
 }
 
 const skipFrames = (n: number, fn: () => void) => {
