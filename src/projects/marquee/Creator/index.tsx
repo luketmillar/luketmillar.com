@@ -32,9 +32,31 @@ const Creator = ({ onCreate }: IProps) => {
         })
     }, [index])
 
+    const addLayout = () => {
+        setLayouts(layouts => {
+            const rows = layouts[0].length
+            const columns = layouts[0][0].length
+            return [...layouts, generator.emptyLayout(columns, rows)]
+        })
+        setIndex(layouts.length)
+    }
+
+    const removeLayout = (index: number) => {
+        setLayouts(layouts => {
+            const rows = layouts[0].length
+            const columns = layouts[0][0].length
+            if (layouts.length === 1) {
+                // deleted the last one so just replace the list with a single empty
+                return [generator.emptyLayout(columns, rows)]
+            }
+            return [...layouts.slice(0, index), ...layouts.slice(index + 1)]
+        })
+        setIndex(Math.max(0, index - 1))
+    }
+
     return <div>
-        <MessageRail layouts={layouts} index={index} selectLayout={setIndex} />
-        <Editor layout={currentLayout} onChange={handleEditorChange} />
+        <MessageRail layouts={layouts} index={index} selectLayout={setIndex} addLayout={addLayout} removeLayout={removeLayout} />
+        <Editor key={index} layout={currentLayout} onChange={handleEditorChange} />
     </div>
 }
 

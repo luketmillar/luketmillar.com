@@ -7,6 +7,9 @@ export default class LayoutManager {
     constructor(layout: Layout) {
         this.layout = layout
     }
+    public replaceLayout = (layout: Layout) => {
+        this.layout = layout
+    }
     public addRow = (index: number) => {
         this.setLayout([...this.layout.slice(0, index), generator.emptyRow(this.columns), ...this.layout.slice(index)])
     }

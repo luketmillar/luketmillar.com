@@ -21,7 +21,9 @@ const Editor = ({ onChange, layout }: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const layoutManager = React.useMemo(() => new LayoutManager(layout), [])
     const focusManager = React.useMemo(() => new FocusManager(layoutManager.rows, layoutManager.columns), [layoutManager])
-
+    React.useEffect(() => {
+        layoutManager.replaceLayout(layout)
+    }, [layoutManager, layout])
     React.useEffect(() => {
         layoutManager.setOnChange(onChange)
     }, [layoutManager, onChange])
