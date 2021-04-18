@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { getIndex, characterList } from "./characters"
 import Colors from 'colors'
-import FocusManager from './FocusManager'
+import FocusManager from './Creator/FocusManager'
 
 const Width = 50
 const Height = 75

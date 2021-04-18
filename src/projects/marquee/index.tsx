@@ -1,25 +1,20 @@
 import React from 'react'
-import { Route, Switch, useHistory } from 'react-router'
+import { Route, Switch } from 'react-router'
 import Creator from './Creator'
 import Board from './Board'
-import { getLayout, getRandomLayout } from './layout'
+import { getRandomLayout, Layout } from './layout'
 import { useWindowSize } from './ResizeListener'
-
-const testMessages = [
-    'This is a Split Flap board',
-    'This was made by @ltm',
-    'Make your own.                   Coming soon.',
-]
+import startData, { layout4 } from './startLayoutData'
+import moment from 'moment'
 
 const Marquee = () => {
-    const history = useHistory()
-    const [messages, setMessages] = React.useState<string[]>(testMessages)
+    const [layouts, setLayouts] = React.useState<Layout[]>(startData)
     const [index, setIndex] = React.useState(-1)
     const nextMessage = () => {
         window.setTimeout(() => {
             setIndex(index => {
                 const nextIndex = index + 1
-                if (nextIndex === messages.length) {
+                if (nextIndex === layouts.length) {
                     return -1
                 } else {
                     return nextIndex
@@ -30,26 +25,29 @@ const Marquee = () => {
     React.useEffect(() => {
         setIndex(0)
     }, [])
-    const onCreate = (messages: string[]) => {
-        setMessages(messages)
-        setIndex(-1)
-        history.push('/project/split-flap')
+    // const onCreate = (messages: string[]) => {
+    //     setMessages(messages)
+    //     setIndex(-1)
+    //     history.push('/project/split-flap')
+    // }
+    let layout = layouts[index] ?? getRandomLayout(40, 15)
+    if (layout === layout4) {
+        const time = moment().format('LT')
+        layout = layout.map(line => line.replace('10:30 PM', time.length === 8 ? time : `0${time}`))
     }
-    const message = messages[index]
-    const layout = message ? getLayout(message, 40, 15) : getRandomLayout(40, 15)
     const windowSize = useWindowSize()
     const boardSize = React.useMemo(() => ({ width: windowSize.width - 20, height: windowSize.height - 200 }), [windowSize])
-    return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-        <Switch>
-            <Route path="/project/split-flap/create">
-                <Creator onCreate={onCreate} />
-            </Route>
-            <Route>
+    return <Switch>
+        <Route path="/project/split-flap/create">
+            <Creator onCreate={setLayouts} />
+        </Route>
+        <Route>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
                 <Board messageLayout={layout} onComplete={nextMessage} screenSize={boardSize} />
                 {/* <CreateButton to="/project/split-flap/create">Create</CreateButton> */}
-            </Route>
-        </Switch>
-    </div>
+            </div>
+        </Route>
+    </Switch>
 }
 
 
