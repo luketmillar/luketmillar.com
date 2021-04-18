@@ -43,8 +43,8 @@ const Flap = styled.div<{ width: number, height: number }>`
     }
 
     border: 1px solid transparent;
-    :focus, :active {
-        border-color: ${Colors.aqua};
+    :focus {
+        border-color: ${Colors.purple};
         outline: none;
     }
 `

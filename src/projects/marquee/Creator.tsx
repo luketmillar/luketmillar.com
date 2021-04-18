@@ -38,7 +38,7 @@ const Creator = ({ onCreate }: IProps) => {
     const windowSize = useWindowSize()
     const boardSize = React.useMemo(() => ({ width: windowSize.width - 300, height: windowSize.height - 400 }), [windowSize])
 
-    return <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    return <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
         <Button onClick={reset}>Reset</Button>
         <div style={{ height: 12 }} />
         <AddSubtract onAdd={() => addRow(0)} onSubtract={() => subtractRow(0)} />
