@@ -1,5 +1,5 @@
 import React from 'react'
-import SplitFlap from './SplitFlap'
+import SplitFlap, { CellRatio } from './SplitFlap'
 import { Layout } from './layout'
 import { characterList } from './characters'
 import { duplicate } from './utils'
@@ -11,7 +11,7 @@ const useGetCellSize = (boardSize: { width: number, height: number }, rows: numb
         const targetColumnWidth = Math.floor(boardSize.width / columns)
         const targetRowHeight = Math.floor(boardSize.height / rows)
         const actualAspectRatio = targetColumnWidth / targetRowHeight
-        const targetAspectRatio = 1 / 1.5
+        const targetAspectRatio = CellRatio
         if (actualAspectRatio < targetAspectRatio) {
             return { width: targetColumnWidth, height: targetColumnWidth / targetAspectRatio }
         } else {

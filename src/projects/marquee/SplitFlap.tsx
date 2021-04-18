@@ -3,8 +3,13 @@ import styled from 'styled-components'
 import { getIndex, characterList } from "./characters"
 import Colors from 'colors'
 
-const HeightPaddingRatio = 75 / 85
-const WidthPaddingRatio = 50 / 54
+const Width = 50
+const Height = 75
+const HorizontalMargin = 4
+const VerticalMargin = 10
+export const CellRatio = (Width + HorizontalMargin) / (Height + VerticalMargin)
+const HeightPaddingRatio = Height / (Height + VerticalMargin)
+const WidthPaddingRatio = Width / (Width + HorizontalMargin)
 
 const Flap = styled.div<{ width: number, height: number }>`
     position: relative;
