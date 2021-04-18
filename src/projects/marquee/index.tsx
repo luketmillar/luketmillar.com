@@ -12,8 +12,6 @@ const testMessages = [
     'Make your own.                   Coming soon.',
 ]
 
-const size = { width: 30, height: 45 }
-
 const Marquee = () => {
     const history = useHistory()
     const [messages, setMessages] = React.useState<string[]>(testMessages)
@@ -46,7 +44,7 @@ const Marquee = () => {
                 <Creator onCreate={onCreate} />
             </Route>
             <Route>
-                <Board messageLayout={layout} onComplete={nextMessage} cellSize={size} />
+                <Board messageLayout={layout} onComplete={nextMessage} screenSize={{ width: 1200, height: 1125 }} />
                 {/* <CreateButton to="/project/split-flap/create">Create</CreateButton> */}
             </Route>
         </Switch>

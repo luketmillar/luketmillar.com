@@ -4,36 +4,54 @@ import { Layout } from './layout'
 import { characterList } from './characters'
 import { duplicate } from './utils'
 
-const keyboardEvents = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Backspace']
+const keyboardEvents = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
+
+const useGetCellSize = (boardSize: { width: number, height: number }, rows: number, columns: number) => {
+    return React.useMemo(() => {
+        const targetColumnWidth = Math.floor(boardSize.width / columns)
+        const targetRowHeight = Math.floor(boardSize.height / rows)
+        const actualAspectRatio = targetColumnWidth / targetRowHeight
+        const targetAspectRatio = 1 / 1.5
+        if (actualAspectRatio < targetAspectRatio) {
+            return { width: targetColumnWidth, height: targetColumnWidth / targetAspectRatio }
+        } else {
+            return { width: targetRowHeight * targetAspectRatio, height: targetRowHeight }
+        }
+    }, [boardSize.width, boardSize.height, columns, rows])
+}
 
 interface IProps {
     messageLayout: Layout
-    cellSize: { width: number, height: number }
+    screenSize: { width: number, height: number }
     editor?: boolean
     onChangeMessage?: (row: number, column: number, character: string) => void
-    onKeyboardNavigation?: (row: number, column: number, character: string) => void
+    onKeyboardNavigation?: (character: string) => void
     onComplete: () => void
 }
-const Board = ({ messageLayout, cellSize, onComplete, onChangeMessage, onKeyboardNavigation, editor }: IProps) => {
+const Board = ({ messageLayout, screenSize, onComplete, onChangeMessage, onKeyboardNavigation, editor }: IProps) => {
     const completion = React.useMemo(() => new CompletionTracker(onComplete), [onComplete])
+    const height = messageLayout.length
+    const width = messageLayout[0].length
+
+    const cellSize = useGetCellSize(screenSize, height, width)
 
     React.useMemo(() => {
         completion.start()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [completion, messageLayout])
 
-
-    const height = messageLayout.length
-    const width = messageLayout[0].length
-
     const center = Math.floor(width / 2)
 
     const onCellKeyDown = (row: number, column: number, e: React.KeyboardEvent) => {
-        const character = e.key?.toUpperCase()
-        if (characterList.includes(character)) {
-            onChangeMessage?.(row, column, character)
-        } else if (keyboardEvents.includes(e.key)) {
-            onKeyboardNavigation?.(row, column, e.key)
+        if (e.key === 'Backspace') {
+            onChangeMessage?.(row, column, e.key)
+        } else {
+            const character = e.key?.toUpperCase()
+            if (characterList.includes(character)) {
+                onChangeMessage?.(row, column, character)
+            } else if (keyboardEvents.includes(e.key)) {
+                onKeyboardNavigation?.(e.key)
+            }
         }
     }
 

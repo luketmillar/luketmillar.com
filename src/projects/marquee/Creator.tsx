@@ -2,87 +2,38 @@ import React from 'react'
 import styled from 'styled-components'
 import Board from './Board'
 import * as generator from './generator'
-import { replaceCharacter } from './utils'
+import FocusManager from './FocusManager'
+import LayoutManager from './LayoutManager'
 
 const onComplete = () => null
-const size = { width: 50, height: 75 }
 
 interface IProps {
     onCreate: (messages: string[]) => void
 }
 const Creator = ({ onCreate }: IProps) => {
-    const [layout, setLayout] = React.useState(generator.emptyLayout(10, 5))
-    const height = layout.length
-    const width = layout[0].length
+    const layoutManager = React.useMemo(() => new LayoutManager(generator.emptyLayout(10, 5)), [])
+    const focusManager = React.useMemo(() => new FocusManager(layoutManager.rows, layoutManager.columns), [layoutManager])
+    const [layout, setLayout] = React.useState(layoutManager.layout)
+
+    React.useEffect(() => {
+        focusManager.sizeChanged(layoutManager.rows, layoutManager.columns)
+    }, [focusManager, layoutManager.rows, layoutManager.columns])
+
     const handleCharacterChange = React.useCallback((row: number, column: number, character: string) => {
-        let line = layout[row]
         if (character === 'Backspace') {
-            line = replaceCharacter(line, column, ' ')
+            setLayout(layoutManager.replaceCharacter(row, column, ' '))
+            focusManager.goLeft()
         } else {
-            line = replaceCharacter(line, column, character)
+            setLayout(layoutManager.replaceCharacter(row, column, character))
+            focusManager.goRight()
         }
-        layout[row] = line
-        // go right
-        const newColumn = Math.min(column + 1, width - 1)
-        document.getElementById(`${row}-${newColumn}`)?.focus()
+    }, [focusManager, layoutManager])
 
-        setLayout([...layout])
-    }, [layout, width])
-
-    const addRow = (index: number) => {
-        setLayout([...layout.slice(0, index), generator.emptyRow(width), ...layout.slice(index)])
-    }
-    const addColumn = (index: number) => {
-        const newLayout = layout.map(row => {
-            return row.slice(0, index) + ' ' + row.slice(index)
-        })
-        setLayout(newLayout)
-    }
-    const subtractRow = (index: number) => {
-        setLayout([...layout.slice(0, index), ...layout.slice(index + 1)])
-    }
-    const subtractColumn = (index: number) => {
-        const newLayout = layout.map(row => {
-            return row.slice(0, index) + row.slice(index + 1)
-        })
-        setLayout(newLayout)
-    }
-
-    const handleKeyboardEvent = React.useCallback((row: number, column: number, character: string) => {
-        switch (character) {
-            case 'Backspace': {
-                layout[row] = replaceCharacter(layout[row], column, ' ')
-                setLayout([...layout])
-                const newColumn = Math.max(column - 1, 0)
-                document.getElementById(`${row}-${newColumn}`)?.focus()
-                return
-            }
-            case 'ArrowLeft': {
-                const newColumn = Math.max(column - 1, 0)
-                document.getElementById(`${row}-${newColumn}`)?.focus()
-                return
-            }
-            case 'ArrowRight': {
-                const newColumn = Math.min(column + 1, width - 1)
-                document.getElementById(`${row}-${newColumn}`)?.focus()
-                return
-            }
-            case 'ArrowUp': {
-                const newRow = Math.max(row - 1, 0)
-                document.getElementById(`${newRow}-${column}`)?.focus()
-                return
-            }
-            case 'ArrowDown': {
-                const newRow = Math.min(row + 1, height - 1)
-                document.getElementById(`${newRow}-${column}`)?.focus()
-                return
-            }
-        }
-    }, [layout, height, width])
-
-    const reset = () => {
-        setLayout(generator.emptyLayout(width, height))
-    }
+    const addRow = (index: number) => setLayout(layoutManager.addRow(index))
+    const addColumn = (index: number) => setLayout(layoutManager.addColumn(index))
+    const subtractRow = (index: number) => setLayout(layoutManager.subtractRow(index))
+    const subtractColumn = (index: number) => setLayout(layoutManager.subtractColumn(index))
+    const reset = () => setLayout(layoutManager.reset())
 
     return <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Button onClick={reset}>Reset</Button>
@@ -93,13 +44,13 @@ const Creator = ({ onCreate }: IProps) => {
             <AddSubtract onAdd={() => addColumn(0)} onSubtract={() => subtractColumn(0)} style={{ flexDirection: 'column' }} />
             <div style={{ width: 12 }} />
             <div>
-                <Board editor onChangeMessage={handleCharacterChange} onKeyboardNavigation={handleKeyboardEvent} messageLayout={layout} cellSize={size} onComplete={onComplete} />
+                <Board editor onChangeMessage={handleCharacterChange} onKeyboardNavigation={focusManager.handleKeyboardEvent} messageLayout={layout} screenSize={{ width: 500, height: 200 }} onComplete={onComplete} />
             </div>
             <div style={{ width: 12 }} />
-            <AddSubtract onAdd={() => addColumn(width)} onSubtract={() => subtractColumn(width - 1)} style={{ flexDirection: 'column' }} />
+            <AddSubtract onAdd={() => addColumn(layoutManager.columns)} onSubtract={() => subtractColumn(layoutManager.columns - 1)} style={{ flexDirection: 'column' }} />
         </div>
         <div style={{ height: 12 }} />
-        <AddSubtract onAdd={() => addRow(height)} onSubtract={() => subtractRow(height - 1)} />
+        <AddSubtract onAdd={() => addRow(layoutManager.rows)} onSubtract={() => subtractRow(layoutManager.rows - 1)} />
     </div>
 }
 
