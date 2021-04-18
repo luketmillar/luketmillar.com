@@ -3,13 +3,31 @@ import { Layout } from '../layout'
 import Editor from './Editor'
 import MessageRail from './MessageRail'
 import * as generator from '../generator'
+import { duplicate } from '../utils'
 
 const needToAdjustSize = (layouts: Layout[], rows: number, columns: number) => {
     return !layouts.every(layout => layout.length === rows && layout[0].length === columns)
 }
 const adjustSize = (layouts: Layout[], rows: number, columns: number) => {
-    // need to implement
-    return layouts
+    return layouts.map(layout => {
+        const currentRows = layout.length
+        const currentColumns = layout[0].length
+        if (currentRows !== rows) {
+            while (layout.length < rows) {
+                // add rows to make the same length
+                layout.push(duplicate(() => ' ', currentColumns).join(''))
+            }
+            // remove rows to make the same length
+            layout = layout.slice(0, rows)
+        }
+        if (currentColumns < columns) {
+            const stringToAdd = duplicate(() => ' ', columns - currentColumns).join('')
+            layout = layout.map(line => line + stringToAdd)
+        } else if (currentColumns > columns) {
+            layout = layout.map(line => line.slice(0, columns))
+        }
+        return layout
+    })
 }
 
 interface IProps {
@@ -17,7 +35,7 @@ interface IProps {
     initialLayouts: Layout[] | undefined
 }
 const Creator = ({ onCreate, initialLayouts }: IProps) => {
-    const [layouts, setLayouts] = React.useState<Layout[]>(initialLayouts ?? [generator.emptyLayout(40, 15)])
+    const [layouts, setLayouts] = React.useState<Layout[]>(initialLayouts ?? [generator.emptyLayout(30, 10)])
     const [index, setIndex] = React.useState(0)
     const currentLayout = layouts[index]
 
