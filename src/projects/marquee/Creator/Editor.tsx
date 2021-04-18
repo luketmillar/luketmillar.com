@@ -5,6 +5,7 @@ import FocusManager from './FocusManager'
 import LayoutManager from '../LayoutManager'
 import { useWindowSize } from '../ResizeListener'
 import { Layout } from '../layout'
+import Button from './Button'
 
 const useBoardSize = () => {
     const windowSize = useWindowSize()
@@ -16,8 +17,9 @@ const onComplete = () => null
 interface IProps {
     onChange: (layout: Layout) => void
     layout: Layout
+    save: () => void
 }
-const Editor = ({ onChange, layout }: IProps) => {
+const Editor = ({ onChange, layout, save }: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const layoutManager = React.useMemo(() => new LayoutManager(layout), [])
     const focusManager = React.useMemo(() => new FocusManager(layoutManager.rows, layoutManager.columns), [layoutManager])
@@ -51,7 +53,11 @@ const Editor = ({ onChange, layout }: IProps) => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
-            <Button onClick={reset}>Reset</Button>
+            <div style={{ display: 'flex' }}>
+                <Button onClick={save}>Save</Button>
+                <div style={{ width: 12 }} />
+                <Button onClick={reset}>Reset</Button>
+            </div>
             <div style={{ height: 12 }} />
             <AddSubtract onAdd={() => addRow(0)} onSubtract={() => subtractRow(0)} />
             <div style={{ height: 12 }} />
@@ -79,22 +85,6 @@ const AddSubtract = ({ onAdd, onSubtract, style }: { onAdd: () => void, onSubtra
 
 const Add = ({ onClick }: { onClick: () => void }) => <AddPlusButton onClick={onClick}>+</AddPlusButton>
 const Subtract = ({ onClick }: { onClick: () => void }) => <AddPlusButton onClick={onClick}>-</AddPlusButton>
-
-const Button = styled.button`
-    background-color: #111;
-    border: none;
-    border-radius: 5px;
-    color: white;
-
-    padding: 10px 18px;
-
-    font-size: 18px;
-    font-weight: 700;
-    
-    :hover {
-        background-color: #222;
-    }
-`
 
 const AddPlusButton = styled(Button)`
     font-size: 36px;

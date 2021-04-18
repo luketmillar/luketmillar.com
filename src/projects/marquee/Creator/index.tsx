@@ -14,9 +14,10 @@ const adjustSize = (layouts: Layout[], rows: number, columns: number) => {
 
 interface IProps {
     onCreate: (layout: Layout[]) => void
+    initialLayouts: Layout[] | undefined
 }
-const Creator = ({ onCreate }: IProps) => {
-    const [layouts, setLayouts] = React.useState<Layout[]>([generator.emptyLayout(40, 15)])
+const Creator = ({ onCreate, initialLayouts }: IProps) => {
+    const [layouts, setLayouts] = React.useState<Layout[]>(initialLayouts ?? [generator.emptyLayout(40, 15)])
     const [index, setIndex] = React.useState(0)
     const currentLayout = layouts[index]
 
@@ -56,7 +57,7 @@ const Creator = ({ onCreate }: IProps) => {
 
     return <div>
         <MessageRail layouts={layouts} index={index} selectLayout={setIndex} addLayout={addLayout} removeLayout={removeLayout} />
-        <Editor key={index} layout={currentLayout} onChange={handleEditorChange} />
+        <Editor key={index} layout={currentLayout} onChange={handleEditorChange} save={() => onCreate(layouts)} />
     </div>
 }
 
