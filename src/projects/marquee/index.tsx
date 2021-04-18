@@ -40,13 +40,14 @@ const Marquee = () => {
     }
     const windowSize = useWindowSize()
     const boardSize = React.useMemo(() => ({ width: windowSize.width - 20, height: windowSize.height - 200 }), [windowSize])
+    const isDemoData = startData === layouts
     return <Switch>
         <Route path="/project/split-flap/create">
-            <Creator onCreate={onCreate} initialLayouts={layouts === startData ? undefined : layouts} />
+            <Creator onCreate={onCreate} initialLayouts={isDemoData ? undefined : layouts} />
         </Route>
         <Route>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-                <div style={{ position: 'absolute', top: 30, right: 50 }}><Button onClick={() => history.push('/project/split-flap/create')}>Edit</Button></div>
+                <div style={{ position: 'absolute', top: 30, right: 50 }}><Button onClick={() => history.push('/project/split-flap/create')}>{isDemoData ? 'Create' : 'Edit'}</Button></div>
                 <Board messageLayout={layout} onComplete={nextMessage} screenSize={boardSize} />
                 {/* <CreateButton to="/project/split-flap/create">Create</CreateButton> */}
             </div>
