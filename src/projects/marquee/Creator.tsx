@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import Board from './Board'
 import * as generator from './generator'
 import { replaceCharacter } from './utils'
@@ -34,6 +35,15 @@ const Creator = ({ onCreate }: IProps) => {
     const addColumn = (index: number) => {
         const newLayout = layout.map(row => {
             return row.slice(0, index) + ' ' + row.slice(index)
+        })
+        setLayout(newLayout)
+    }
+    const subtractRow = (index: number) => {
+        setLayout([...layout.slice(0, index), ...layout.slice(index + 1)])
+    }
+    const subtractColumn = (index: number) => {
+        const newLayout = layout.map(row => {
+            return row.slice(0, index) + row.slice(index + 1)
         })
         setLayout(newLayout)
     }
@@ -75,21 +85,53 @@ const Creator = ({ onCreate }: IProps) => {
     }
 
     return <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div onClick={reset}>Reset</div>
-        <div onClick={() => addRow(0)}>
-            <h1 style={{ width: 80, textAlign: 'center' }}>+</h1>
-        </div>
+        <Button onClick={reset}>Reset</Button>
+        <div style={{ height: 12 }} />
+        <AddSubtract onAdd={() => addRow(0)} onSubtract={() => subtractRow(0)} />
+        <div style={{ height: 12 }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <h1 onClick={() => addColumn(0)} style={{ width: 80, textAlign: 'center' }}>+</h1>
+            <AddSubtract onAdd={() => addColumn(0)} onSubtract={() => subtractColumn(0)} style={{ flexDirection: 'column' }} />
+            <div style={{ width: 12 }} />
             <div>
                 <Board editor onChangeMessage={handleCharacterChange} onKeyboardNavigation={handleKeyboardEvent} messageLayout={layout} cellSize={size} onComplete={onComplete} />
             </div>
-            <h1 onClick={() => addColumn(width)} style={{ width: 80, textAlign: 'center' }}>+</h1>
+            <div style={{ width: 12 }} />
+            <AddSubtract onAdd={() => addColumn(width)} onSubtract={() => subtractColumn(width - 1)} style={{ flexDirection: 'column' }} />
         </div>
-        <div onClick={() => addRow(height)}>
-            <h1 style={{ width: 80, textAlign: 'center' }}>+</h1>
-        </div>
+        <div style={{ height: 12 }} />
+        <AddSubtract onAdd={() => addRow(height)} onSubtract={() => subtractRow(height - 1)} />
     </div>
 }
+
+const AddSubtract = ({ onAdd, onSubtract, style }: { onAdd: () => void, onSubtract: () => void, style?: React.CSSProperties }) => (
+    <div style={{ display: 'flex', ...style }}>
+        <Add onClick={onAdd} />
+        <div style={{ width: 8, height: 8 }} />
+        <Subtract onClick={onSubtract} />
+    </div>)
+
+const Add = ({ onClick }: { onClick: () => void }) => <AddPlusButton onClick={onClick}>+</AddPlusButton>
+const Subtract = ({ onClick }: { onClick: () => void }) => <AddPlusButton onClick={onClick}>-</AddPlusButton>
+
+const Button = styled.button`
+    background-color: #111;
+    border: none;
+    border-radius: 5px;
+    color: white;
+
+    padding: 10px 18px;
+
+    font-size: 18px;
+    font-weight: 700;
+    
+    :hover {
+        background-color: #222;
+    }
+`
+
+const AddPlusButton = styled(Button)`
+    font-size: 36px;
+    font-weight: 900;
+`
 
 export default Creator
