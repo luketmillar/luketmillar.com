@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { getIndex, characterList } from "./characters"
 import Colors from 'colors'
 
+const HeightPaddingRatio = 75 / 85
+const WidthPaddingRatio = 50 / 54
+
 const Flap = styled.div<{ width: number, height: number }>`
     position: relative;
 
@@ -10,25 +13,26 @@ const Flap = styled.div<{ width: number, height: number }>`
     align-items: center;
     justify-content: center;
 
-    border-radius: 3px;
+    border-radius: ${props => Math.floor(props.width / 16)}px;
     background-color: #111;
 
-    width: ${props => props.width}px;
-    height: ${props => props.height}px;
+    width: ${props => Math.floor(props.width * WidthPaddingRatio)}px;
+    height: ${props => Math.floor(props.height * HeightPaddingRatio)}px;
 
     font-family: 'PT Sans Narrow';
     font-size: ${props => Math.min(props.width, props.height)}px;;
     font-weight: 300;
 
-    margin-bottom: 10px;
-    margin-right: 4px;
+    margin-right: ${props => props.width - Math.floor(props.width * WidthPaddingRatio)}px;
+    margin-bottom: ${props => props.height - Math.floor(props.height * HeightPaddingRatio)}px;
 
     ::after {
         content: '';
         position: absolute;
-        bottom: calc(50% - 1px);
-        width: 100%;
-        height: 1px;
+        bottom: 50%;
+        left: -1px;
+        right: -1px;
+        height: ${props => props.height > 30 ? 1 : 0}px;
         background-color: #000;
     }
 

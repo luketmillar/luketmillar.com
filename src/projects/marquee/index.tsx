@@ -2,9 +2,8 @@ import React from 'react'
 import { Route, Switch, useHistory } from 'react-router'
 import Creator from './Creator'
 import Board from './Board'
-// import { Link } from 'react-router-dom'
-// import styled from 'styled-components'
 import { getLayout, getRandomLayout } from './layout'
+import { useWindowSize } from './ResizeListener'
 
 const testMessages = [
     'This is a Split Flap board',
@@ -38,27 +37,20 @@ const Marquee = () => {
     }
     const message = messages[index]
     const layout = message ? getLayout(message, 40, 15) : getRandomLayout(40, 15)
+    const windowSize = useWindowSize()
+    const boardSize = React.useMemo(() => ({ width: windowSize.width - 20, height: windowSize.height - 200 }), [windowSize])
     return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
         <Switch>
             <Route path="/project/split-flap/create">
                 <Creator onCreate={onCreate} />
             </Route>
             <Route>
-                <Board messageLayout={layout} onComplete={nextMessage} screenSize={{ width: 1200, height: 1125 }} />
+                <Board messageLayout={layout} onComplete={nextMessage} screenSize={boardSize} />
                 {/* <CreateButton to="/project/split-flap/create">Create</CreateButton> */}
             </Route>
         </Switch>
     </div>
 }
 
-// const CreateButton = styled(Link)`
-//     position: absolute;
-//     top: 20px;
-//     right: 20px;
-//     color: white;
-//     text-decoration: none;
-//     font-weight: 900;
-//     font-size: 2rem;
-// `
 
 export default Marquee

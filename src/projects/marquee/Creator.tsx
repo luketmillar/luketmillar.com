@@ -4,6 +4,7 @@ import Board from './Board'
 import * as generator from './generator'
 import FocusManager from './FocusManager'
 import LayoutManager from './LayoutManager'
+import { useWindowSize } from './ResizeListener'
 
 const onComplete = () => null
 
@@ -11,7 +12,7 @@ interface IProps {
     onCreate: (messages: string[]) => void
 }
 const Creator = ({ onCreate }: IProps) => {
-    const layoutManager = React.useMemo(() => new LayoutManager(generator.emptyLayout(10, 5)), [])
+    const layoutManager = React.useMemo(() => new LayoutManager(generator.emptyLayout(20, 10)), [])
     const focusManager = React.useMemo(() => new FocusManager(layoutManager.rows, layoutManager.columns), [layoutManager])
     const [layout, setLayout] = React.useState(layoutManager.layout)
 
@@ -34,6 +35,8 @@ const Creator = ({ onCreate }: IProps) => {
     const subtractRow = (index: number) => setLayout(layoutManager.subtractRow(index))
     const subtractColumn = (index: number) => setLayout(layoutManager.subtractColumn(index))
     const reset = () => setLayout(layoutManager.reset())
+    const windowSize = useWindowSize()
+    const boardSize = React.useMemo(() => ({ width: windowSize.width - 300, height: windowSize.height - 400 }), [windowSize])
 
     return <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Button onClick={reset}>Reset</Button>
@@ -44,7 +47,7 @@ const Creator = ({ onCreate }: IProps) => {
             <AddSubtract onAdd={() => addColumn(0)} onSubtract={() => subtractColumn(0)} style={{ flexDirection: 'column' }} />
             <div style={{ width: 12 }} />
             <div>
-                <Board editor onChangeMessage={handleCharacterChange} onKeyboardNavigation={focusManager.handleKeyboardEvent} messageLayout={layout} screenSize={{ width: 500, height: 200 }} onComplete={onComplete} />
+                <Board editor onChangeMessage={handleCharacterChange} onKeyboardNavigation={focusManager.handleKeyboardEvent} messageLayout={layout} screenSize={boardSize} onComplete={onComplete} />
             </div>
             <div style={{ width: 12 }} />
             <AddSubtract onAdd={() => addColumn(layoutManager.columns)} onSubtract={() => subtractColumn(layoutManager.columns - 1)} style={{ flexDirection: 'column' }} />
