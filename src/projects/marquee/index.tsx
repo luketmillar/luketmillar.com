@@ -33,8 +33,8 @@ const Marquee = () => {
         nextMessage(0)
         history.push('/project/split-flap')
     }
-    const rows = layouts.length
-    const columns = layouts[0].length
+    const rows = layouts[0].length
+    const columns = layouts[0][0].length
     let layout = layouts[index] ?? getRandomLayout(columns, rows)
     if (layout === layout4) {
         const time = moment().format('LT')

@@ -70,29 +70,11 @@ export const layout4 = (
         "                                        ",
         "                                        ",
         "                                        ",
-        "                 (DYNAMIC BOARDS TOO?)  ",
+        "                                        ",
         "                                        "
     ]
 )
 const layout5 = (
-    [
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "              COMING  SOON              ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        "]
-)
-const layout6 = (
     [
         "                                        ",
         "                                        ",
@@ -112,5 +94,5 @@ const layout6 = (
     ]
 )
 
-const startData = [layout1, layout2, layout3, layout4, layout5, layout6]
+const startData = [layout1, layout2, layout3, layout4, layout5]
 export default startData
