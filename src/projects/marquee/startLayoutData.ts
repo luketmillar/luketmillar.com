@@ -16,7 +16,6 @@ const layout1 = (
         "                                        ",
         "                                        "]
 )
-
 const layout2 = (
     [
         "                                        ",
@@ -26,8 +25,8 @@ const layout2 = (
         "                                        ",
         "                                        ",
         "                                        ",
-        "       AND THEY LOOK FREAKIN' RAD       ",
-        "                                        ",
+        "            YOU CAN PICK THE            ",
+        "          MESSAGES TO DISPLAY           ",
         "                                        ",
         "                                        ",
         "                                        ",
@@ -44,9 +43,28 @@ const layout3 = (
         "                                        ",
         "                                        ",
         "                                        ",
-        "            YOU CAN COME MAKE           ",
         "                                        ",
-        "                YOUR OWN                ",
+        "       AND IT WILL CYCLE THROUGH        ",
+        "                                        ",
+        "                                        ",
+        "                                        ",
+        "                                        ",
+        "                                        ",
+        "                                        ",
+        "                                        "
+    ]
+)
+const layout35 = (
+    [
+        "                                        ",
+        "                                        ",
+        "                                        ",
+        "                                        ",
+        "                                        ",
+        "                                        ",
+        "                                        ",
+        "      GO AHEAD AND MAKE YOUR OWN        ",
+        "                                        ",
         "                                        ",
         "                                        ",
         "                                        ",
@@ -94,5 +112,5 @@ const layout5 = (
     ]
 )
 
-const startData = [layout1, layout2, layout3, layout4, layout5]
-export default startData
+export const desktopStartData = [layout1, layout2, layout3, layout35, layout4, layout5]
+export const mobileStartData = [layout1, layout2, layout3, layout4, layout5]

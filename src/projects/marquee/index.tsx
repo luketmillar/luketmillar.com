@@ -4,13 +4,15 @@ import Creator from './Creator'
 import Board from './Board'
 import { getRandomLayout, Layout } from './layout'
 import { useWindowSize } from './ResizeListener'
-import startData, { layout4 } from './startLayoutData'
+import { desktopStartData, mobileStartData, layout4 } from './startLayoutData'
 import moment from 'moment'
 import Button from './Creator/Button'
 
 const Marquee = () => {
     const history = useHistory()
-    const [layouts, setLayouts] = React.useState<Layout[]>(startData)
+    const windowSize = useWindowSize()
+    const wideScreen = windowSize.width > 900
+    const [layouts, setLayouts] = React.useState<Layout[]>(wideScreen ? desktopStartData : mobileStartData)
     const [index, setIndex] = React.useState(-1)
     const nextMessage = (delay = 2000) => {
         window.setTimeout(() => {
@@ -40,16 +42,16 @@ const Marquee = () => {
         const time = moment().format('LT')
         layout = layout.map(line => line.replace('10:30 PM', time.length === 8 ? time : `0${time}`))
     }
-    const windowSize = useWindowSize()
+
     const boardSize = React.useMemo(() => ({ width: windowSize.width - 20, height: windowSize.height - 200 }), [windowSize])
-    const isDemoData = startData === layouts
+    const isDemoData = desktopStartData === layouts || mobileStartData === layouts
     return <Switch>
         <Route path="/project/split-flap/create">
             <Creator onCreate={onCreate} initialLayouts={isDemoData ? undefined : layouts} />
         </Route>
         <Route>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-                <div style={{ position: 'absolute', top: 30, right: 50 }}><Button onClick={() => history.push('/project/split-flap/create')}>{isDemoData ? 'Create' : 'Edit'}</Button></div>
+                {wideScreen && <div style={{ position: 'absolute', top: 30, right: 50 }}><Button onClick={() => history.push('/project/split-flap/create')}>{isDemoData ? 'Create' : 'Edit'}</Button></div>}
                 <Board messageLayout={layout} onComplete={nextMessage} screenSize={boardSize} />
                 {/* <CreateButton to="/project/split-flap/create">Create</CreateButton> */}
             </div>
