@@ -3,14 +3,11 @@ import styled from 'styled-components'
 import { useBoard } from './GameContext'
 import Bomb from './bomb'
 import Colors from 'colors'
-
-const getCellColor = (row: number, column: number, rows: number, columns: number) => {
-    return Colors.purple
-}
+import * as Config from './config'
 
 const Cell = styled.div`
-    width: 50px;
-    height: 50px;
+    width: ${Config.CellSize}px;
+    height: ${Config.CellSize}px;
 
     border-radius: 5px;
 
@@ -29,7 +26,7 @@ const UnrevealedCell = styled(Cell) <{ isFlagged: boolean }>`
     }
 `
 const RevealedCell = styled(Cell) <{ isBomb?: boolean }>`
-    background-color: ${props => props.isBomb ? Colors.red : '#111'};
+    background-color: ${props => props.isBomb ? Colors.pink : '#111'};
 `
 
 
@@ -64,16 +61,21 @@ const StatefulCell = ({ row, column, isRevealed, isFlagged, onReveal, onFlag }: 
     if (isRevealed) {
         return <RevealedStatus row={row} column={column} />
     } else {
-        return <UnrevealedCell isFlagged={isFlagged} onClick={() => {
-            if (isFlagged) {
+        return <UnrevealedCell
+            isFlagged={isFlagged}
+            onClick={e => {
+                e.preventDefault()
+                if (isFlagged) {
+                    onFlag()
+                } else {
+                    onReveal()
+                }
+            }}
+            onContextMenu={e => {
+                e.preventDefault()
                 onFlag()
-            } else {
-                onReveal()
-            }
-        }} onContextMenu={e => {
-            e.preventDefault()
-            onFlag()
-        }} />
+            }}
+        />
     }
 }
 

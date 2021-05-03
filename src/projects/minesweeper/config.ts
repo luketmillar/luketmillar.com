@@ -1,3 +1,4 @@
-export const Rows = 15
-export const Columns = 15
-export const Bombs = 30
+export const Rows = 10
+export const Columns = 10
+export const Bombs = 20
+export const CellSize = 50

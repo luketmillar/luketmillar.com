@@ -46,6 +46,13 @@ export default class GameBoard extends EventEmitter<CellChange | BoardChange | W
         this.emit('cell-change', { row, column, isRevealed: this.isRevealed(row, column), isBomb: this.isBomb(row, column) })
         if (this.isBomb(row, column)) {
             this.done = true
+            this.cells.forEach((isBomb, index) => {
+                if (!isBomb) {
+                    return
+                }
+                const { row, column } = this.getPosition(index)
+                this.emit('cell-change', { row, column, isBomb, isRevealed: true })
+            })
             this.emit('lose', {})
         }
         if (!this.isBombOrBombNeighbor(row, column)) {
@@ -88,6 +95,12 @@ export default class GameBoard extends EventEmitter<CellChange | BoardChange | W
     }
 
     private getIndex = (row: number, column: number) => row * this.columns + column
+    private getPosition = (index: number) => {
+        return {
+            row: Math.floor(index / this.columns),
+            column: index % this.columns
+        }
+    }
 
     private isValid = (row: number, column: number) => {
         if (row < 0 || column < 0) {
