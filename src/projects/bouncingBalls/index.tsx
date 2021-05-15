@@ -15,7 +15,7 @@ const useController = (ref: React.RefObject<HTMLCanvasElement>) => {
     return controller
 }
 
-const Golf = () => {
+const BouncingBalls = () => {
     const ref = React.useRef<HTMLCanvasElement>(null)
     const controller = useController(ref)
     return <>
@@ -25,4 +25,4 @@ const Golf = () => {
 }
 
 
-export default Golf
+export default BouncingBalls
