@@ -1,12 +1,12 @@
 import React from 'react'
 
-const getSize = () => ({ width: window.innerWidth, height: window.innerHeight })
+export const getWindowSize = () => ({ width: window.innerWidth, height: window.innerHeight })
 
 export const useWindowSize = () => {
-    const [size, setSize] = React.useState(getSize())
+    const [size, setSize] = React.useState(getWindowSize())
     React.useEffect(() => {
         const onResize = () => {
-            setSize(getSize())
+            setSize(getWindowSize())
         }
         window.addEventListener('resize', onResize)
         onResize()

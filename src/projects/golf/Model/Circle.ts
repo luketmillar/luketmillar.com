@@ -1,5 +1,6 @@
 import { Color, Position, Stroke } from "../types"
 import Shape from './Shape'
+import * as Coordinates from '../Coordinates'
 
 export type CircleOptions = {
     position: Position
@@ -17,5 +18,10 @@ export default class Circle extends Shape {
         this.radius = options.radius
         this.fill = options.fill
         this.stroke = options.stroke
+    }
+
+    public intersects(position: Position) {
+        const distanceToCenter = Coordinates.distance(position, this.position)
+        return distanceToCenter < this.radius
     }
 }

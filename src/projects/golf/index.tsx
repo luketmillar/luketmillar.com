@@ -1,20 +1,31 @@
-import { useWindowSize } from 'projects/marquee/ResizeListener'
+import { useSizes } from './Coordinates'
 import React from 'react'
 import Controller from './Controller'
+import InputHandler from './InputHandler'
+
+const useController = (ref: React.RefObject<HTMLCanvasElement>) => {
+    const [controller, setController] = React.useState<Controller | undefined>()
+    React.useEffect(() => {
+        const controller = new Controller(ref.current!)
+        setController(controller)
+        controller.start()
+        return () => controller.stop()
+    }, [setController, ref])
+    return controller
+}
 
 const Golf = () => {
     const ref = React.useRef<HTMLCanvasElement>(null)
-    React.useEffect(() => {
-        const controller = new Controller(ref.current!)
-        controller.start()
-        return () => controller.stop()
-    }, [])
-    return <FullScreenCanvas ref={ref} />
+    const controller = useController(ref)
+    return <>
+        <FullScreenCanvas ref={ref} />
+        {controller && <InputHandler onClick={controller.onClick} onMouseMove={controller.onMouseMove} />}
+    </>
 }
 
 const FullScreenCanvas = React.forwardRef((_, ref: React.ForwardedRef<HTMLCanvasElement>) => {
-    const size = useWindowSize()
-    return <canvas ref={ref} width={size.width * window.devicePixelRatio} height={size.height * window.devicePixelRatio} style={{ width: size.width, height: size.height }} />
+    const { screenSize, worldSize } = useSizes()
+    return <canvas ref={ref} width={worldSize.width} height={worldSize.height} style={{ width: screenSize.width, height: screenSize.height }} />
 })
 
 export default Golf

@@ -30,7 +30,6 @@ export default class GameBoard extends EventEmitter<CellChange | BoardChange | W
         this.columns = columns
         this.bombs = bombs
         this.cells = create(rows, columns, bombs)
-        console.log(this.cells)
         this.revealState = []
     }
 
@@ -121,7 +120,6 @@ export default class GameBoard extends EventEmitter<CellChange | BoardChange | W
     }
 
     private isComplete = () => {
-        console.log(this.cells, this.revealState)
         for (let i = 0; i < this.cells.length; i++) {
             const isBomb = this.cells[i]
             const isRevealed = this.revealState[i] === true
@@ -129,7 +127,6 @@ export default class GameBoard extends EventEmitter<CellChange | BoardChange | W
                 return false
             }
         }
-        console.log('yes')
         return true
     }
 }

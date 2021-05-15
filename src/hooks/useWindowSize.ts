@@ -1,6 +1,6 @@
 import React from 'react'
 
-const getWindowSize = () => ({ width: window.innerWidth, height: window.innerHeight })
+export const getWindowSize = () => ({ width: window.innerWidth, height: window.innerHeight })
 
 const useWindowSize = () => {
     const [size, setSize] = React.useState(getWindowSize())

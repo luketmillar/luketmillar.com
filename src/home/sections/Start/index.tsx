@@ -12,7 +12,6 @@ const Start = () => {
   const ref = React.useRef<HTMLDivElement>(null)
   const [nameBottom, setNameBottom] = React.useState<number | undefined>(undefined)
   const [captionComplete, setCaptionComplete] = React.useState(false)
-  console.log(nameBottom)
   return (
     <StartContainer ref={ref}>
       <Name onComplete={setNameBottom} />

@@ -1,4 +1,5 @@
 import * as Model from "./Model"
+import { Position } from "./types"
 import View from "./View"
 
 export default class Controller {
@@ -14,13 +15,23 @@ export default class Controller {
 
     public start() {
         this.running = true
-        this.startTime = performance.now()
+        this.startTime = this.time
         this.lastFrameTime = this.startTime
         this.queueFrame()
     }
 
     public stop() {
         this.running = false
+    }
+
+    public onClick = (position: Position) => {
+        const shape = this.world.getShape(position)
+        shape?.startForces(this.time)
+    }
+
+    public onMouseMove = (position: Position) => {
+        const shape = this.world.getShape(position)
+        shape?.startForces(this.time)
     }
 
     private loop = (frameTime: number) => {
@@ -37,5 +48,9 @@ export default class Controller {
 
     private queueFrame() {
         requestAnimationFrame(this.loop)
+    }
+
+    private get time() {
+        return performance.now()
     }
 }
