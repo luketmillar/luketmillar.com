@@ -1,19 +1,21 @@
-import Model from "./Model"
+import * as Model from "./Model"
 import View from "./View"
 
 export default class Controller {
     private readonly view: View
-    private readonly model: Model
+    private readonly world: Model.World
     private running: boolean = false
     private startTime: number = 0
+    private lastFrameTime: number = 0
     constructor(canvas: HTMLCanvasElement) {
-        this.model = new Model()
+        this.world = new Model.World()
         this.view = new View(canvas)
     }
 
     public start() {
         this.running = true
         this.startTime = performance.now()
+        this.lastFrameTime = this.startTime
         this.queueFrame()
     }
 
@@ -27,8 +29,10 @@ export default class Controller {
         }
         this.queueFrame()
         const time = frameTime - this.startTime
-        this.model.update(time)
-        this.view.render(this.model)
+        const delta = frameTime - this.lastFrameTime
+        this.world.update(time, delta, this.view.size)
+        this.view.render(this.world)
+        this.lastFrameTime = frameTime
     }
 
     private queueFrame() {

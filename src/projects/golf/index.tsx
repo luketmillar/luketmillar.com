@@ -14,7 +14,7 @@ const Golf = () => {
 
 const FullScreenCanvas = React.forwardRef((_, ref: React.ForwardedRef<HTMLCanvasElement>) => {
     const size = useWindowSize()
-    return <canvas ref={ref} width={size.width} height={size.height} style={{ width: size.width, height: size.height }} />
+    return <canvas ref={ref} width={size.width * window.devicePixelRatio} height={size.height * window.devicePixelRatio} style={{ width: size.width, height: size.height }} />
 })
 
 export default Golf

@@ -1,4 +1,5 @@
-import Model from "../Model"
+import * as Model from "../Model"
+import { drawCircle } from './Circle'
 
 export default class View {
     private readonly canvas: HTMLCanvasElement
@@ -6,20 +7,30 @@ export default class View {
         this.canvas = canvas
     }
 
-    public render(model: Model) {
-        this.context.fillStyle = "#111"
-        this.context.fillRect(40, 40, this.width - 80, this.height - 80)
+    public get size() {
+        return { width: this.width, height: this.height }
     }
 
-    private get context() {
+    public render(world: Model.World) {
+        this.ctx.clearRect(0, 0, this.width, this.height)
+        world.shapes.forEach(shape => this.renderShape(shape))
+    }
+
+    private renderShape(shape: Model.Shape) {
+        if (shape instanceof Model.Circle) {
+            drawCircle(shape, this.ctx)
+        }
+    }
+
+    private get ctx() {
         return this.canvas.getContext('2d')!
     }
 
     private get width() {
-        return this.canvas.clientWidth
+        return this.canvas.width
     }
 
     private get height() {
-        return this.canvas.clientHeight
+        return this.canvas.height
     }
 }
