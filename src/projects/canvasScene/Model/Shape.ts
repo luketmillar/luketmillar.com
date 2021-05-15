@@ -1,4 +1,4 @@
-import { Position } from "../types"
+import { Bounds, Position } from "../types"
 import { Force } from "./Forces"
 
 export default abstract class Shape {
@@ -18,4 +18,5 @@ export default abstract class Shape {
     }
 
     public abstract intersects(position: Position): boolean
+    public abstract bounds(): Bounds
 }

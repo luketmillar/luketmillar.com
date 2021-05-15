@@ -1,5 +1,10 @@
-import type { Vector } from '../types'
+import { getWorldSize } from '../Coordinates'
+import type { Bounds, Vector } from '../types'
 import Shape from './Shape'
+
+const getMiddle = (bounds: Bounds) => {
+    return (bounds.bottom - bounds.top) / 2
+}
 
 export abstract class Force {
     private running: boolean = false
@@ -33,6 +38,12 @@ export class Velocity extends Force {
     public _update(time: number, delta: number, shape: Shape) {
         shape.position.x += this.value.x * (delta / 1000)
         shape.position.y += this.value.y * (delta / 1000)
+
+        const worldSize = getWorldSize()
+        const bounds = shape.bounds()
+        if (bounds.bottom > worldSize.height) {
+            shape.position.y = worldSize.height - getMiddle(bounds)
+        }
     }
 }
 
