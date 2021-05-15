@@ -3,7 +3,7 @@ import { Position } from "../canvasScene/types"
 
 export default class GolfController extends Controller {
     public onClick = (position: Position) => {
-        this.world.getShapeAtPosition(position)?.startForces(this.time)
+        this.world.getShapeAtPosition(position)?.startForces(this.runTime)
     }
 
     public onMouseMove = (position: Position) => {

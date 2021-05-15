@@ -14,7 +14,7 @@ export default class Controller {
 
     public start() {
         this.running = true
-        this.startTime = this.time
+        this.startTime = this.now
         this.lastFrameTime = this.startTime
         this.queueFrame()
     }
@@ -39,7 +39,11 @@ export default class Controller {
         requestAnimationFrame(this.loop)
     }
 
-    protected get time() {
+    protected get runTime() {
+        return this.now - this.startTime
+    }
+
+    protected get now() {
         return performance.now()
     }
 }
