@@ -4,15 +4,19 @@ import { World, Circle } from "../canvasScene/Model"
 
 const colors = ['#fff', '#f00', '#0f0', '#00f', '#0ff', '#ff0', '#f0f']
 
+const minRadius = 30
+const maxRadius = 80
+
 const createCircles = (n: number) => {
     const worldSize = getWorldSize()
     const circles: Circle[] = []
     for (let i = 0; i < n; i++) {
-        const r = Math.round(Math.random() * 100) + 50
+        const r = Math.round(Math.random() * maxRadius - minRadius) + minRadius
         const x = Math.round(Math.random() * (worldSize.width - r * 2)) + r
         const y = Math.round(Math.random() * (worldSize.height - r * 2)) + r
         const color = colors[Math.round(Math.random() * colors.length)]
-        const circle = new Circle({ position: { x, y }, radius: r, fill: color }, [new Velocity({ x: 0, y: -500 }), new Gravity({ x: 0, y: 100 })])
+        const velocity = -(Math.random() * 3000)
+        const circle = new Circle({ position: { x, y }, radius: r, fill: color }, [new Velocity({ x: 0, y: velocity }), new Gravity({ x: 0, y: 100 })])
         circles.push(circle)
     }
     return circles
@@ -20,7 +24,7 @@ const createCircles = (n: number) => {
 
 export default class BouncingBallsWorld extends World {
     constructor() {
-        const circles = createCircles(100)
+        const circles = createCircles(1000)
         super(circles)
     }
 }
