@@ -2,6 +2,7 @@ import { Color, Position, Stroke } from "../types"
 import Shape from './Shape'
 import * as Coordinates from '../Coordinates'
 import { Force } from "./Forces"
+import { createBounds } from "../Bounds"
 
 export type CircleOptions = {
     position: Position
@@ -27,11 +28,11 @@ export default class Circle extends Shape {
     }
 
     public bounds() {
-        return {
+        return createBounds({
             top: this.position.y - this.radius,
             bottom: this.position.y + this.radius,
             left: this.position.x - this.radius,
             right: this.position.x + this.radius,
-        }
+        })
     }
 }
