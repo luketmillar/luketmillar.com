@@ -4,7 +4,7 @@ import * as Collision from 'projects/canvasScene/Model/Collision'
 
 const colors = ['#005f73', '#0a9396', '#94d2bd', '#e9d8a6', '#ee9b00', '#ca6702', '#bb3e03', '#ae2012', '#9b2226']
 
-const minRadius = 10
+const minRadius = 20
 const maxRadius = 80
 
 const randomNegation = (value: number) => {
@@ -33,10 +33,10 @@ const createBalls = (n: number) => {
 
 const createWalls = () => {
     const worldSize = getWorldSize()
-    const floor = new Rectangle({ position: { x: worldSize.width / 2, y: worldSize.height + 30 }, width: worldSize.width, height: 100, fill: '#fff' })
-    const ceiling = new Rectangle({ position: { x: worldSize.width / 2, y: - 30 }, width: worldSize.width, height: 100, fill: '#fff' })
-    const leftWall = new Rectangle({ position: { x: -30, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#fff' })
-    const rightWall = new Rectangle({ position: { x: worldSize.width + 30, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#fff' })
+    const floor = new Rectangle({ position: { x: worldSize.width / 2, y: worldSize.height + 30 }, width: worldSize.width, height: 100, fill: '#222' })
+    const ceiling = new Rectangle({ position: { x: worldSize.width / 2, y: - 30 }, width: worldSize.width, height: 100, fill: '#222' })
+    const leftWall = new Rectangle({ position: { x: -30, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#222' })
+    const rightWall = new Rectangle({ position: { x: worldSize.width + 30, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#222' })
     return [floor, ceiling, leftWall, rightWall]
 }
 
@@ -47,7 +47,7 @@ export default class BouncingBallsWorld extends World {
     public readonly leftWall: Shape
     public readonly rightWall: Shape
     constructor() {
-        const balls = createBalls(100)
+        const balls = createBalls(10)
         const [floor, ceiling, leftWall, rightWall] = createWalls()
         super([...balls, floor, ceiling, leftWall, rightWall])
         this.balls = balls
@@ -58,52 +58,52 @@ export default class BouncingBallsWorld extends World {
     }
 
     protected afterUpdate() {
+        const processedCollisions: Record<string, boolean> = {}
         this.balls.forEach(ball => {
             const velocity = ball.velocity
-            if (velocity.y === 0) {
-                // not moving
-            } else if (velocity.y < 0) {
-                // ceiling
-                if (Collision.intersect(ball, this.ceiling)) {
-                    ball.velocity.y = -velocity.y
-                    ball.position.y = this.ceiling.bounds().bottom + ball.radius
-                }
-            } else {
-                // floor
-                if (Collision.intersect(ball, this.floor)) {
-                    ball.velocity.y = -velocity.y
-                    ball.position.y = this.floor.bounds().top - ball.radius
-                }
+
+            if (Collision.intersect(ball, this.ceiling)) {
+                ball.velocity.y = -velocity.y
+                ball.position.y = this.ceiling.bounds().bottom + ball.radius
+            }
+            if (Collision.intersect(ball, this.floor)) {
+                ball.velocity.y = -velocity.y
+                ball.position.y = this.floor.bounds().top - ball.radius
+            }
+            if (Collision.intersect(ball, this.leftWall)) {
+                ball.velocity.x = -velocity.x
+                ball.position.x = this.leftWall.bounds().right + ball.radius
+            }
+            if (Collision.intersect(ball, this.rightWall)) {
+                ball.velocity.x = -velocity.x
+                ball.position.x = this.rightWall.bounds().left - ball.radius
             }
 
-            if (velocity.x === 0) {
-                // not moving
-            } else if (velocity.x < 0) {
-                // left wall
-                if (Collision.intersect(ball, this.leftWall)) {
-                    ball.velocity.x = -velocity.x
-                    ball.position.x = this.leftWall.bounds().right + ball.radius
+            this.balls.forEach(b => {
+                if (b === ball) {
+                    return
                 }
-            } else {
-                // right wall
-                if (Collision.intersect(ball, this.rightWall)) {
-                    ball.velocity.x = -velocity.x
-                    ball.position.x = this.rightWall.bounds().left - ball.radius
+                if (Collision.intersect(ball, b)) {
+                    const key = getCollisionKey(ball.id, b.id)
+                    if (processedCollisions[key]) {
+                        return
+                    }
+                    const originalY = ball.velocity.y
+                    ball.velocity.y = b.velocity.y
+                    b.velocity.y = originalY
+
+                    const originalX = ball.velocity.x
+                    ball.velocity.x = b.velocity.x
+                    b.velocity.x = originalX
+
+                    processedCollisions[key] = true
                 }
-            }
+            })
+
         })
-
-        // landedBalls.forEach(ball => {
-        //     const velocity = ball.velocity
-        //     const boundVelocity = -(velocity.y * 0.7)
-
-        //     ball.position.y = floorBounds.top - ball.radius
-        //     if (boundVelocity > -40) {
-        //         ball.gravity = { x: 0, y: 0 }
-        //         ball.velocity = { x: velocity.x, y: 0 }
-        //         return
-        //     }
-        //     ball.velocity = { x: velocity.x, y: boundVelocity }
-        // })
     }
+}
+
+const getCollisionKey = (a: string, b: string) => {
+    return [a, b].sort().join(':')
 }

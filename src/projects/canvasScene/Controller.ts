@@ -30,6 +30,11 @@ export default class Controller<W extends Model.World> {
         this.queueFrame()
         const time = frameTime - this.startTime
         const delta = frameTime - this.lastFrameTime
+        if (delta > 500) {
+            this.startTime += delta
+            this.lastFrameTime = frameTime
+            return
+        }
         this.world.update(time, delta)
         this.view.render(this.world)
         this.lastFrameTime = frameTime

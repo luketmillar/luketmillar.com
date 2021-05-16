@@ -2,6 +2,10 @@ import { Circle, Rectangle } from "."
 import * as Coordinates from "../Coordinates"
 import Shape from "./Shape"
 
+const vector = (a: Shape, b: Shape) => {
+
+}
+
 export const intersect = (a: Shape, b: Shape) => {
     if (a instanceof Circle) {
         return intersectCircle(a, b)

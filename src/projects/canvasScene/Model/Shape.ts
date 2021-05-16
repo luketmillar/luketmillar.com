@@ -1,9 +1,11 @@
 import { Bounds, Position, Vector } from "../types"
 import { Velocity } from "./Forces"
+import { uuid } from 'uuidv4'
 
 
 export type ForceOptions = { velocity?: Vector, gravity?: Vector }
 export default abstract class Shape {
+    public readonly id = uuid()
     public position: Position
     public get velocity(): Vector {
         return this.force.velocity
