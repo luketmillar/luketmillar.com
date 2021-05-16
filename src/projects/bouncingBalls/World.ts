@@ -33,10 +33,10 @@ const createBalls = (n: number) => {
 
 const createWalls = () => {
     const worldSize = getWorldSize()
-    const floor = new Rectangle({ position: { x: worldSize.width / 2, y: worldSize.height + 30 }, width: worldSize.width, height: 100, fill: '#222' })
-    const ceiling = new Rectangle({ position: { x: worldSize.width / 2, y: - 30 }, width: worldSize.width, height: 100, fill: '#222' })
-    const leftWall = new Rectangle({ position: { x: -30, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#222' })
-    const rightWall = new Rectangle({ position: { x: worldSize.width + 30, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#222' })
+    const floor = new Rectangle({ position: { x: worldSize.width / 2, y: worldSize.height + 50 }, width: worldSize.width, height: 100, fill: '#222' })
+    const ceiling = new Rectangle({ position: { x: worldSize.width / 2, y: - 50 }, width: worldSize.width, height: 100, fill: '#222' })
+    const leftWall = new Rectangle({ position: { x: -50, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#222' })
+    const rightWall = new Rectangle({ position: { x: worldSize.width + 50, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#222' })
     return [floor, ceiling, leftWall, rightWall]
 }
 
