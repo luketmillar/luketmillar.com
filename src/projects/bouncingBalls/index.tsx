@@ -18,6 +18,13 @@ const useController = (ref: React.RefObject<HTMLCanvasElement>) => {
 const BouncingBalls = () => {
     const ref = React.useRef<HTMLCanvasElement>(null)
     const controller = useController(ref)
+    React.useEffect(() => {
+        if (controller) {
+            setTimeout(() => {
+                controller?.drop()
+            }, 2000)
+        }
+    }, [controller])
     return <>
         <FullscreenCanvas ref={ref} />
         {controller && <InputHandler onClick={controller.onClick} onMouseMove={controller.onMouseMove} />}

@@ -48,4 +48,17 @@ export default class Rectangle extends Shape {
             width: this.width,
         })
     }
+
+    public corners() {
+        const bounds = this.bounds()
+        const topLeft = { x: bounds.left, y: bounds.top }
+        const topRight = { x: bounds.right, y: bounds.top }
+        const bottomLeft = { x: bounds.left, y: bounds.bottom }
+        const bottomRight = { x: bounds.right, y: bounds.bottom }
+        return { topLeft, topRight, bottomLeft, bottomRight }
+    }
+
+    public expand(x: number, y: number) {
+        return new Rectangle({ position: this.position, width: this.width + x * 2, height: this.height + y * 2, fill: this.fill, stroke: this.stroke })
+    }
 }
