@@ -1,20 +1,36 @@
-import { Bounds, Position } from "../types"
-import { Force } from "./Forces"
+import { Bounds, Position, Vector } from "../types"
+import { Velocity } from "./Forces"
 
+
+export type ForceOptions = { velocity?: Vector, gravity?: Vector }
 export default abstract class Shape {
     public position: Position
-    public forces: Force[] = []
-    constructor(position: Position, forces?: Force[]) {
+    public get velocity(): Vector {
+        return this.force.velocity
+    }
+    public set velocity(value: Vector) {
+        this.force.velocity = value
+    }
+    public get gravity(): Vector {
+        return this.force.gravity
+    }
+    public set gravity(value: Vector) {
+        this.force.gravity = value
+    }
+    public force: Velocity
+    constructor(position: Position, forces?: ForceOptions) {
         this.position = position
-        this.forces = forces ?? []
+        const velocity = forces?.velocity ?? { x: 0, y: 0 }
+        const gravity = forces?.gravity ?? { x: 0, y: 0 }
+        this.force = new Velocity(velocity, gravity)
     }
 
     public update(time: number, delta: number) {
-        this.forces.forEach(force => force.update(time, delta, this))
+        this.force.update(time, delta, this)
     }
 
     public startForces(time: number) {
-        this.forces.forEach(force => force.start(time))
+        this.force.start(time)
     }
 
     public abstract intersects(position: Position): boolean

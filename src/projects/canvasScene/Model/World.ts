@@ -9,6 +9,7 @@ export default abstract class World {
 
     public update(time: number, delta: number) {
         this.shapes.forEach(shape => shape.update(time, delta))
+        this.afterUpdate()
     }
 
     public start(time: number) {
@@ -18,5 +19,7 @@ export default abstract class World {
     public getShapeAtPosition(position: Position) {
         return this.shapes.slice().reverse().find(shape => shape.intersects(position))
     }
+
+    protected afterUpdate() { }
 }
 

@@ -1,10 +1,5 @@
-import { getWorldSize } from '../Coordinates'
-import type { Bounds, Vector } from '../types'
+import type { Vector } from '../types'
 import Shape from './Shape'
-
-const getMiddle = (bounds: Bounds) => {
-    return (bounds.bottom - bounds.top) / 2
-}
 
 export abstract class Force {
     private running: boolean = false
@@ -30,20 +25,19 @@ export abstract class Force {
 }
 
 export class Velocity extends Force {
-    public readonly value: Vector
-    constructor(value: Vector) {
+    public velocity: Vector
+    public gravity: Vector
+    constructor(value: Vector, gravity: Vector = { x: 0, y: 0 }) {
         super()
-        this.value = value
+        this.velocity = value
+        this.gravity = gravity
     }
     public _update(time: number, delta: number, shape: Shape) {
-        shape.position.x += this.value.x * (delta / 1000)
-        shape.position.y += this.value.y * (delta / 1000)
-
-        const worldSize = getWorldSize()
-        const bounds = shape.bounds()
-        if (bounds.bottom > worldSize.height) {
-            shape.position.y = worldSize.height - getMiddle(bounds)
-        }
+        const deltaInSeconds = delta / 1000
+        this.velocity.x = this.velocity.x + (this.gravity.x * deltaInSeconds)
+        this.velocity.y = this.velocity.y + (this.gravity.y * deltaInSeconds)
+        shape.position.x += this.velocity.x * deltaInSeconds
+        shape.position.y += this.velocity.y * deltaInSeconds
     }
 }
 
@@ -53,25 +47,34 @@ export class Velocity extends Force {
 //     }
 // }
 
-export class Gravity extends Force {
-    private readonly value: Vector
-    private readonly velocity: Velocity
-    constructor(value: Vector) {
-        super()
-        this.value = value
-        this.velocity = new Velocity({ x: 0, y: 0 })
-    }
-    public start(time: number) {
-        super.start(time)
-        this.velocity.start(time)
-    }
-    public stop() {
-        super.stop()
-        this.velocity.stop()
-    }
-    public _update(time: number, delta: number, shape: Shape) {
-        this.velocity.value.x += this.value.x * time / 1000
-        this.velocity.value.y += this.value.y * time / 1000
-        this.velocity._update(time, delta, shape)
-    }
-}
+// export class Gravity extends Force {
+//     private readonly value: Vector
+//     public velocity?: Velocity
+//     constructor(value: Vector) {
+//         super()
+//         this.value = value
+//     }
+//     public start(time: number) {
+//         super.start(time)
+//         if (this.velocity) {
+//             this.velocity.value.x = 0
+//             this.velocity.value.y = 0
+//             this.velocity.start(time)
+//         }
+//     }
+//     public stop() {
+//         super.stop()
+//         if (this.velocity) {
+//             this.velocity.stop()
+//         }
+//     }
+//     public reset(time: number) {
+//         this.start(time)
+//     }
+//     public _update(time: number, delta: number, shape: Shape) {
+//         if (this.velocity) {
+//             this.velocity.value.x += this.value.x * delta
+//             this.velocity.value.y += this.value.y * delta
+//         }
+//     }
+// }

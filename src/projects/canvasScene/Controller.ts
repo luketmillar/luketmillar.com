@@ -1,13 +1,13 @@
 import * as Model from "./Model"
 import View from "./View"
 
-export default class Controller {
+export default class Controller<W extends Model.World> {
     protected readonly view: View
-    protected readonly world: Model.World
+    protected readonly world: W
     private running: boolean = false
     private startTime: number = 0
     private lastFrameTime: number = 0
-    constructor(canvas: HTMLCanvasElement, world: Model.World) {
+    constructor(canvas: HTMLCanvasElement, world: W) {
         this.world = world
         this.view = new View(canvas)
     }
