@@ -1,14 +1,13 @@
 import { Color, Position, Stroke } from "../types"
-import Shape, { ForceOptions } from './Shape'
+import Shape, { ForceOptions, ShapeOptions } from './Shape'
 import { createBounds } from "../Bounds"
 
 export type RectangleOptions = {
-    position: Position
     width: number
     height: number
     fill?: Color
     stroke?: Stroke
-}
+} & ShapeOptions
 
 export default class Rectangle extends Shape {
     public width: number
@@ -16,7 +15,7 @@ export default class Rectangle extends Shape {
     public fill?: Color
     public stroke?: Stroke
     constructor(options: RectangleOptions, forces?: ForceOptions) {
-        super(options.position, forces)
+        super(options, forces)
         this.width = options.width
         this.height = options.height
         this.fill = options.fill
@@ -59,6 +58,6 @@ export default class Rectangle extends Shape {
     }
 
     public expand(x: number, y: number) {
-        return new Rectangle({ position: this.position, width: this.width + x * 2, height: this.height + y * 2, fill: this.fill, stroke: this.stroke })
+        return new Rectangle({ position: this.position, mass: this.mass, width: this.width + x * 2, height: this.height + y * 2, fill: this.fill, stroke: this.stroke })
     }
 }

@@ -15,7 +15,7 @@ const createBalls = (n: number) => {
         const y = Math.round(Math.random() * (worldSize.height - r * 2)) + r
         const color = colors[Math.round(Math.random() * colors.length)]
         const velocity = -(Math.random() * 1000)
-        const circle = new Circle({ position: { x, y }, radius: r, fill: color }, { velocity: { x: 0, y: velocity } })
+        const circle = new Circle({ position: { x, y }, mass: 1, radius: r, fill: color }, { velocity: { x: 0, y: velocity } })
         circles.push(circle)
     }
     return circles
@@ -23,7 +23,7 @@ const createBalls = (n: number) => {
 
 const createFloor = () => {
     const worldSize = getWorldSize()
-    return new Rectangle({ position: { x: worldSize.width / 2, y: worldSize.height - 10 }, width: worldSize.width, height: 20, fill: '#fff' })
+    return new Rectangle({ position: { x: worldSize.width / 2, y: worldSize.height - 10 }, mass: 1, width: worldSize.width, height: 20, fill: '#fff' })
 }
 
 export default class FallingBallsWorld extends World {

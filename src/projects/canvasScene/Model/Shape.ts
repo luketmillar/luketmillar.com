@@ -2,13 +2,21 @@ import { Bounds, Position, Vector } from "../types"
 import { Velocity } from "./Forces"
 import { uuid } from 'uuidv4'
 
-
+export type ShapeOptions = {
+    position: Position
+    mass: number
+}
 export type ForceOptions = { velocity?: Vector, gravity?: Vector }
 export default abstract class Shape {
     public readonly id = uuid()
+    public mass: number
     public position: Position
     public get velocity(): Vector {
         return this.force.velocity
+    }
+    public get momentum(): Vector {
+        const v = this.velocity
+        return { x: v.x * this.mass, y: v.y * this.mass }
     }
     public set velocity(value: Vector) {
         this.force.velocity = value
@@ -20,8 +28,9 @@ export default abstract class Shape {
         this.force.gravity = value
     }
     public force: Velocity
-    constructor(position: Position, forces?: ForceOptions) {
-        this.position = position
+    constructor(options: ShapeOptions, forces?: ForceOptions) {
+        this.position = options.position
+        this.mass = options.mass
         const velocity = forces?.velocity ?? { x: 0, y: 0 }
         const gravity = forces?.gravity ?? { x: 0, y: 0 }
         this.force = new Velocity(velocity, gravity)

@@ -4,7 +4,7 @@ import * as Collision from 'projects/canvasScene/Model/Collision'
 
 const colors = ['#005f73', '#0a9396', '#94d2bd', '#e9d8a6', '#ee9b00', '#ca6702', '#bb3e03', '#ae2012', '#9b2226']
 
-const minRadius = 20
+const minRadius = 40
 const maxRadius = 80
 
 const randomNegation = (value: number) => {
@@ -25,7 +25,7 @@ const createBalls = (n: number) => {
         const color = colors[Math.round(Math.random() * colors.length)]
         const yVelocity = randomNegation(Math.random() * 1000)
         const xVelocity = randomNegation(Math.random() * 1000)
-        const circle = new Circle({ position: { x, y }, radius: r, fill: color }, { velocity: { x: xVelocity, y: yVelocity } })
+        const circle = new Circle({ position: { x, y }, mass: Math.PI * Math.pow(r, 2), radius: r, fill: color }, { velocity: { x: xVelocity, y: yVelocity } })
         circles.push(circle)
     }
     return circles
@@ -33,10 +33,10 @@ const createBalls = (n: number) => {
 
 const createWalls = () => {
     const worldSize = getWorldSize()
-    const floor = new Rectangle({ position: { x: worldSize.width / 2, y: worldSize.height + 50 }, width: worldSize.width, height: 100, fill: '#222' })
-    const ceiling = new Rectangle({ position: { x: worldSize.width / 2, y: - 50 }, width: worldSize.width, height: 100, fill: '#222' })
-    const leftWall = new Rectangle({ position: { x: -50, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#222' })
-    const rightWall = new Rectangle({ position: { x: worldSize.width + 50, y: worldSize.height / 2 }, width: 100, height: worldSize.height, fill: '#222' })
+    const floor = new Rectangle({ position: { x: worldSize.width / 2, y: worldSize.height + 50 }, mass: Infinity, width: worldSize.width, height: 100, fill: '#222' })
+    const ceiling = new Rectangle({ position: { x: worldSize.width / 2, y: - 50 }, mass: Infinity, width: worldSize.width, height: 100, fill: '#222' })
+    const leftWall = new Rectangle({ position: { x: -50, y: worldSize.height / 2 }, mass: Infinity, width: 100, height: worldSize.height, fill: '#222' })
+    const rightWall = new Rectangle({ position: { x: worldSize.width + 50, y: worldSize.height / 2 }, mass: Infinity, width: 100, height: worldSize.height, fill: '#222' })
     return [floor, ceiling, leftWall, rightWall]
 }
 
@@ -46,16 +46,19 @@ export default class BouncingBallsWorld extends World {
     public readonly ceiling: Shape
     public readonly leftWall: Shape
     public readonly rightWall: Shape
+    private lastFrameCollisions: Record<string, boolean>
     constructor() {
         const balls = createBalls(10)
         const [floor, ceiling, leftWall, rightWall] = createWalls()
         super([...balls, floor, ceiling, leftWall, rightWall])
+        this.lastFrameCollisions = {}
         this.balls = balls
         this.floor = floor
         this.ceiling = ceiling
         this.leftWall = leftWall
         this.rightWall = rightWall
     }
+
 
     protected afterUpdate() {
         const processedCollisions: Record<string, boolean> = {}
@@ -85,12 +88,13 @@ export default class BouncingBallsWorld extends World {
                 }
                 if (Collision.intersect(ball, b)) {
                     const key = getCollisionKey(ball.id, b.id)
-                    if (processedCollisions[key]) {
+                    if (processedCollisions[key] || this.lastFrameCollisions[key]) {
                         return
                     }
                     const originalY = ball.velocity.y
-                    ball.velocity.y = b.velocity.y
-                    b.velocity.y = originalY
+                    const massRatio = (ball.mass / b.mass)
+                    ball.velocity.y = b.velocity.y / massRatio
+                    b.velocity.y = originalY * massRatio
 
                     const originalX = ball.velocity.x
                     ball.velocity.x = b.velocity.x
@@ -99,8 +103,8 @@ export default class BouncingBallsWorld extends World {
                     processedCollisions[key] = true
                 }
             })
-
         })
+        this.lastFrameCollisions = processedCollisions
     }
 }
 
