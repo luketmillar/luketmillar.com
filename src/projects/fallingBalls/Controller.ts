@@ -5,7 +5,7 @@ import FallingBallsWorld from "./World"
 export default class FallingBallsController extends Controller<FallingBallsWorld> {
     public onClick = (position: Position) => {
         this.world.balls.forEach(ball => {
-            ball.gravity = { x: 0, y: 3000 }
+            ball.gravity = { x: 0, y: 4000 }
         })
     }
 

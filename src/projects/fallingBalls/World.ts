@@ -3,22 +3,22 @@ import { World, Circle, Shape, Rectangle } from "../canvasScene/Model"
 
 const colors = ['#005f73', '#0a9396', '#94d2bd', '#e9d8a6', '#ee9b00', '#ca6702', '#bb3e03', '#ae2012', '#9b2226']
 
-const minRadius = 30
+const minRadius = 10
 const maxRadius = 80
 
 const createBalls = (n: number) => {
     const worldSize = getWorldSize()
-    const shapes: Shape[] = []
+    const circles: Circle[] = []
     for (let i = 0; i < n; i++) {
-        const r = Math.round(Math.random() * maxRadius - minRadius) + minRadius
+        const r = Math.round(Math.random() * (maxRadius - minRadius)) + minRadius
         const x = Math.round(Math.random() * (worldSize.width - r * 2)) + r
         const y = Math.round(Math.random() * (worldSize.height - r * 2)) + r
         const color = colors[Math.round(Math.random() * colors.length)]
         const velocity = -(Math.random() * 1000)
         const circle = new Circle({ position: { x, y }, radius: r, fill: color }, { velocity: { x: 0, y: velocity } })
-        shapes.push(circle)
+        circles.push(circle)
     }
-    return shapes
+    return circles
 }
 
 const createFloor = () => {
@@ -27,10 +27,10 @@ const createFloor = () => {
 }
 
 export default class FallingBallsWorld extends World {
-    public readonly balls: Shape[]
+    public readonly balls: Circle[]
     public readonly floor: Shape
     constructor() {
-        const balls = createBalls(1000)
+        const balls = createBalls(100)
         const floor = createFloor()
         super([...balls, floor])
         this.balls = balls
@@ -48,13 +48,14 @@ export default class FallingBallsWorld extends World {
         })
         landedBalls.forEach(ball => {
             const velocity = ball.velocity
-            if (velocity.y < 40) {
+            const boundVelocity = -(velocity.y * 0.7)
+            ball.position.y = floorBounds.top - ball.radius
+            if (boundVelocity > -40) {
                 ball.gravity = { x: 0, y: 0 }
-                ball.velocity = { x: 0, y: 0 }
+                ball.velocity = { x: velocity.x, y: 0 }
                 return
             }
-
-            ball.velocity = { x: velocity.x, y: -(velocity.y * 0.5) }
+            ball.velocity = { x: velocity.x, y: boundVelocity }
         })
     }
 }
