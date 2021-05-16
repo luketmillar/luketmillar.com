@@ -3,6 +3,7 @@ import Marquee from './marquee'
 import Minesweeper from './minesweeper'
 import Golf from './golf'
 import BouncingBalls from './bouncingBalls'
+import FallingBalls from './fallingBalls'
 import { Route, Switch } from 'react-router-dom'
 
 const ProjectsRouter = () => {
@@ -19,6 +20,9 @@ const ProjectsRouter = () => {
             </Route>
             <Route path="/project/bouncing-balls">
                 <BouncingBalls />
+            </Route>
+            <Route path="/project/falling-balls">
+                <FallingBalls />
             </Route>
             <Route>
                 <div>This project doesn't exist yet</div>
