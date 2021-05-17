@@ -2,7 +2,7 @@ import { Position } from "../types"
 import Shape from './Shape'
 
 export default abstract class World {
-    public readonly shapes: Shape[] = []
+    public shapes: Shape[] = []
     constructor(shapes: Shape[]) {
         this.shapes = shapes
     }
@@ -18,6 +18,14 @@ export default abstract class World {
 
     public getShapeAtPosition(position: Position) {
         return this.shapes.slice().reverse().find(shape => shape.intersects(position))
+    }
+
+    public addShape(s: Shape) {
+        this.shapes.push(s)
+    }
+
+    public removeShape(id: string) {
+        this.shapes = this.shapes.filter(s => s.id !== id)
     }
 
     protected afterUpdate() { }

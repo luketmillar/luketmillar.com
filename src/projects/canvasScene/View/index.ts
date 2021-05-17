@@ -1,6 +1,7 @@
 import * as Model from "../Model"
 import { drawCircle } from './Circle'
 import { drawRectangle } from './Rectangle'
+import { drawLine } from './Line'
 
 export default class View {
     private readonly canvas: HTMLCanvasElement
@@ -22,6 +23,8 @@ export default class View {
             drawCircle(shape, this.ctx)
         } else if (shape instanceof Model.Rectangle) {
             drawRectangle(shape, this.ctx)
+        } else if (shape instanceof Model.Line) {
+            drawLine(shape, this.ctx)
         }
     }
 

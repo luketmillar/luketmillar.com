@@ -11,6 +11,7 @@ export default class BouncingBallsController extends Controller<BouncingBallsWor
     public onMouseMove = (position: Position) => {
     }
 
+
     public start = () => {
         super.start()
         this.world.start(this.runTime)

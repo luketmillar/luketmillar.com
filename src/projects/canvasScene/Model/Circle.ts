@@ -1,5 +1,5 @@
 import { Color, Position, Stroke } from "../types"
-import Shape, { ForceOptions, ShapeOptions } from './Shape'
+import Shape, { ShapeOptions } from './Shape'
 import * as Coordinates from '../Coordinates'
 import { createBounds } from "../Bounds"
 
@@ -13,8 +13,8 @@ export default class Circle extends Shape {
     public radius: number
     public fill?: Color
     public stroke?: Stroke
-    constructor(options: CircleOptions, forces?: ForceOptions) {
-        super(options, forces)
+    constructor(options: CircleOptions) {
+        super(options)
         this.radius = options.radius
         this.fill = options.fill
         this.stroke = options.stroke

@@ -14,17 +14,35 @@ const FullScreen = styled.div`
 interface IProps {
     onClick: (position: Position) => void
     onMouseMove: (position: Position) => void
+    onMouseUp?: (position: Position) => void
+    onMouseDown?: (position: Position) => void
 }
-const InputHandler = ({ onClick, onMouseMove }: IProps) => {
+const InputHandler = ({ onClick, onMouseMove, onMouseUp, onMouseDown }: IProps) => {
     const handleClick = React.useCallback((e: React.MouseEvent) => {
         const position = Coordinates.screenToWorld({ x: e.clientX, y: e.clientY })
         onClick(position)
     }, [onClick])
-    const handleMove = React.useCallback((e: React.MouseEvent) => {
+    const handleMouseDown = React.useCallback((e: React.MouseEvent) => {
         const position = Coordinates.screenToWorld({ x: e.clientX, y: e.clientY })
-        onMouseMove(position)
+        onMouseDown?.(position)
+    }, [onMouseDown])
+    React.useEffect(() => {
+        const handleUp = (e: MouseEvent) => {
+            const position = Coordinates.screenToWorld({ x: e.clientX, y: e.clientY })
+            onMouseUp?.(position)
+        }
+        window.addEventListener('mouseup', handleUp)
+        return () => window.removeEventListener('mouseup', handleUp)
+    }, [onMouseUp])
+    React.useEffect(() => {
+        const handleMove = (e: MouseEvent) => {
+            const position = Coordinates.screenToWorld({ x: e.clientX, y: e.clientY })
+            onMouseMove(position)
+        }
+        window.addEventListener('mousemove', handleMove)
+        return () => window.removeEventListener('mouseup', handleMove)
     }, [onMouseMove])
-    return <FullScreen onClick={handleClick} onMouseMove={handleMove} />
+    return <FullScreen onClick={handleClick} onMouseDown={handleMouseDown} />
 }
 
 export default InputHandler

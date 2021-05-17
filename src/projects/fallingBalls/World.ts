@@ -15,7 +15,7 @@ const createBalls = (n: number) => {
         const y = Math.round(Math.random() * (worldSize.height - r * 2)) + r
         const color = colors[Math.round(Math.random() * colors.length)]
         const velocity = -(Math.random() * 1000)
-        const circle = new Circle({ position: { x, y }, mass: 1, radius: r, fill: color }, { velocity: { x: 0, y: velocity } })
+        const circle = new Circle({ position: { x, y }, mass: 1, radius: r, fill: color, forces: { velocity: { x: 0, y: velocity } } })
         circles.push(circle)
     }
     return circles

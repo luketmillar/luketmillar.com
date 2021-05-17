@@ -1,10 +1,11 @@
 import { Bounds, Position, Vector } from "../types"
 import { Velocity } from "./Forces"
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid'
 
 export type ShapeOptions = {
     position: Position
     mass: number
+    forces?: ForceOptions
 }
 export type ForceOptions = { velocity?: Vector, gravity?: Vector }
 export default abstract class Shape {
@@ -28,11 +29,11 @@ export default abstract class Shape {
         this.force.gravity = value
     }
     public force: Velocity
-    constructor(options: ShapeOptions, forces?: ForceOptions) {
+    constructor(options: ShapeOptions) {
         this.position = options.position
         this.mass = options.mass
-        const velocity = forces?.velocity ?? { x: 0, y: 0 }
-        const gravity = forces?.gravity ?? { x: 0, y: 0 }
+        const velocity = options.forces?.velocity ?? { x: 0, y: 0 }
+        const gravity = options.forces?.gravity ?? { x: 0, y: 0 }
         this.force = new Velocity(velocity, gravity)
     }
 

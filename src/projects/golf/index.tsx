@@ -20,7 +20,7 @@ const Golf = () => {
     const controller = useController(ref)
     return <>
         <FullscreenCanvas ref={ref} />
-        {controller && <InputHandler onClick={controller.onClick} onMouseMove={controller.onMouseMove} />}
+        {controller && <InputHandler onClick={controller.onClick} onMouseMove={controller.onMouseMove} onMouseDown={controller.onMouseDown} onMouseUp={controller.onMouseUp} />}
     </>
 }
 
