@@ -19,8 +19,9 @@ export default class GolfWorld extends World {
     public readonly leftWall: Shape
     public readonly rightWall: Shape
     constructor() {
+        const worldSize = getWorldSize()
         const [floor, ceiling, leftWall, rightWall] = createWalls()
-        const ball = new Circle({ position: { x: 500, y: 1500 }, mass: 1, radius: 50, fill: '#0ff' })
+        const ball = new Circle({ position: { x: worldSize.width / 6, y: worldSize.height * 0.75 }, mass: 1, radius: 50, fill: '#0ff' })
         super([ball, floor, ceiling, leftWall, rightWall])
         this.ball = ball
         this.floor = floor

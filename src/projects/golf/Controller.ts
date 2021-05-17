@@ -21,11 +21,13 @@ export default class GolfController extends Controller<GolfWorld> {
             return
         }
         const delta = { x: position.x - this.mouseDownPosition.x, y: position.y - this.mouseDownPosition.y }
+        const center = this.ball.position
+        const end = { x: center.x + delta.x, y: center.y + delta.y }
         if (this.handleCircle) {
-            this.handleCircle.position = position
+            this.handleCircle.position = end
         }
         if (this.handleLine) {
-            this.handleLine.end = { x: this.handleLine.start.x + delta.x, y: this.handleLine.start.y + delta.y }
+            this.handleLine.end = end
         }
     }
 
