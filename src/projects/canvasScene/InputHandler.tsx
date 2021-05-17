@@ -28,6 +28,9 @@ const InputHandler = ({ onClick, onMouseMove, onMouseUp, onMouseDown }: IProps) 
         onMouseDown?.(position)
     }, [onMouseDown])
     const handleMouseDown = React.useCallback((e: React.MouseEvent) => {
+        if (e.detail !== 1 || e.button !== 0) {
+            return
+        }
         const position = Coordinates.screenToWorld({ x: e.clientX, y: e.clientY })
         onMouseDown?.(position)
     }, [onMouseDown])
