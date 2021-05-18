@@ -3,69 +3,107 @@ import { World, Circle, Rectangle, Shape } from "../canvasScene/Model"
 import * as Collision from 'projects/canvasScene/Model/Collision'
 
 
-const createWalls = () => {
-    const worldSize = getWorldSize()
-    const floor = new Rectangle({ position: { x: worldSize.width / 2, y: worldSize.height + 50 }, mass: Infinity, width: worldSize.width, height: 100, fill: '#222' })
-    const ceiling = new Rectangle({ position: { x: worldSize.width / 2, y: - 50 }, mass: Infinity, width: worldSize.width, height: 100, fill: '#222' })
-    const leftWall = new Rectangle({ position: { x: -50, y: worldSize.height / 2 }, mass: Infinity, width: 100, height: worldSize.height, fill: '#222' })
-    const rightWall = new Rectangle({ position: { x: worldSize.width + 50, y: worldSize.height / 2 }, mass: Infinity, width: 100, height: worldSize.height, fill: '#222' })
-    return [floor, ceiling, leftWall, rightWall]
-}
-
 export default class GolfWorld extends World {
-    public readonly ball: Circle
-    public readonly floor: Shape
-    public readonly ceiling: Shape
-    public readonly leftWall: Shape
-    public readonly rightWall: Shape
+    public level!: ILevel
     constructor() {
-        const worldSize = getWorldSize()
-        const [floor, ceiling, leftWall, rightWall] = createWalls()
-        const ball = new Circle({ position: { x: worldSize.width / 6, y: worldSize.height * 0.75 }, mass: 1, radius: 50, fill: '#0ff' })
-        super([ball, floor, ceiling, leftWall, rightWall])
-        this.ball = ball
-        this.floor = floor
-        this.ceiling = ceiling
-        this.leftWall = leftWall
-        this.rightWall = rightWall
+        super([])
+        this.initialize()
     }
 
+    public get ball() {
+        return this.level.ball
+    }
 
     protected afterUpdate() {
-        const ball = this.ball
-        const velocity = ball.velocity
+        if (Collision.intersect(this.ball, this.level.goal)) {
+            this.level.hitGoal()
+        }
 
-        if (Collision.intersect(ball, this.ceiling)) {
-            ball.velocity.y = -velocity.y * 0.75
-            ball.velocity.x *= 0.95
-            ball.position.y = this.ceiling.bounds().bottom + ball.radius
-            if (Math.abs(ball.velocity.y) < 40) {
-                ball.velocity.y = 0
+        this.level.obstacles().forEach(shape => {
+            if (Collision.intersect(this.ball, shape)) {
+                if (this.ball.velocity.x > 0) {
+                    this.ball.position.x = shape.bounds().left - this.ball.radius
+                } else {
+                    this.ball.position.x = shape.bounds().right + this.ball.radius
+                }
+
+                this.ball.velocity.x = -this.ball.velocity.x * 0.95
             }
+        })
+
+        const worldSize = getWorldSize()
+        if (this.ball.bounds().top > worldSize.height) {
+            this.initialize()
+        } else if (this.ball.bounds().right < 0) {
+            this.initialize()
+        } else if (this.ball.bounds().left > worldSize.width) {
+            this.initialize()
         }
-        if (Collision.intersect(ball, this.floor)) {
-            ball.velocity.y = -velocity.y * 0.75
-            ball.velocity.x *= 0.95
-            ball.position.y = this.floor.bounds().top - ball.radius
-            if (Math.abs(ball.velocity.y) < 40) {
-                ball.velocity.y = 0
-            }
-        }
-        if (Collision.intersect(ball, this.leftWall)) {
-            ball.velocity.x = -velocity.x * 0.75
-            ball.velocity.y *= 0.95
-            ball.position.x = this.leftWall.bounds().right + ball.radius
-            if (Math.abs(ball.velocity.x) < 40) {
-                ball.velocity.x = 0
-            }
-        }
-        if (Collision.intersect(ball, this.rightWall)) {
-            ball.velocity.x = -velocity.x * 0.75
-            ball.velocity.y *= 0.95
-            ball.position.x = this.rightWall.bounds().left - ball.radius
-        }
-        if (Math.abs(ball.velocity.x) < 40) {
-            ball.velocity.x = 0
-        }
+    }
+
+    private initialize() {
+        this.shapes = []
+        this.level = new Level2()
+        this.level.getShapes().forEach(shape => {
+            this.addShape(shape)
+        })
+    }
+}
+
+interface ILevel {
+    ball: Circle
+    goal: Circle
+    hitGoal: () => void
+    getShapes: () => Shape[]
+    obstacles: () => Shape[]
+}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class Level1 implements ILevel {
+    public ball: Circle
+    public goal: Circle
+    public wall: Rectangle
+    constructor() {
+        const worldSize = getWorldSize()
+        this.ball = new Circle({ position: { x: worldSize.width / 6, y: worldSize.height * 0.75 }, mass: 1, radius: 50, fill: '#0ff' })
+        this.goal = new Circle({ position: { x: worldSize.width * 0.8, y: worldSize.height * 0.3 }, mass: 0, radius: 50, stroke: { color: '#fff', width: 2 } })
+        this.wall = new Rectangle({ position: { x: worldSize.width * 0.5, y: worldSize.height * 0.5 }, mass: Infinity, width: 20, height: worldSize.height * 0.6, fill: '#fff' })
+    }
+
+    public hitGoal() {
+        this.goal.stroke = undefined
+        this.goal.fill = '#fff'
+    }
+
+    public getShapes() {
+        return [this.ball, this.goal, this.wall]
+    }
+
+    public obstacles() {
+        return [this.wall]
+    }
+}
+
+class Level2 implements ILevel {
+    public ball: Circle
+    public goal: Circle
+    public wall: Rectangle
+    constructor() {
+        const worldSize = getWorldSize()
+        this.ball = new Circle({ position: { x: worldSize.width / 6, y: worldSize.height * 0.75 }, mass: 1, radius: 50, fill: '#0ff' })
+        this.goal = new Circle({ position: { x: worldSize.width * 0.8, y: worldSize.height * 0.3 }, mass: 0, radius: 50, stroke: { color: '#fff', width: 2 } })
+        this.wall = new Rectangle({ position: { x: worldSize.width * 0.5, y: worldSize.height * 0.5 }, mass: Infinity, width: 20, height: worldSize.height * 0.6, fill: '#fff' })
+    }
+
+    public hitGoal() {
+        this.goal.stroke = undefined
+        this.goal.fill = '#fff'
+    }
+
+    public getShapes() {
+        return [this.ball, this.goal, this.wall]
+    }
+
+    public obstacles() {
+        return [this.wall]
     }
 }
