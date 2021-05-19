@@ -1,61 +1,33 @@
-import { Circle, Line } from "projects/canvasScene/Model"
-import Controller from "../canvasScene/Controller"
-import { Position } from "../canvasScene/types"
-import GolfWorld from "./World"
+import { Position } from 'projects/canvasScene/types'
+import BaseController from './BaseController'
+import World from './World'
+import ToolStack from './Tools/ToolStack'
+import ShooterTool from './Tools/ShooterTool'
+import BaseObject from './models/Base'
 
-export default class GolfController extends Controller<GolfWorld> {
-    private isDragging = false
-    private mouseDownPosition: Position | undefined
-    private handleCircle: Circle | undefined
-    private handleLine: Line | undefined
-    public onClick = (position: Position) => {
-
-    }
-
-    private get ball() {
-        return this.world.ball
-    }
-
-    public onMouseMove = (position: Position) => {
-        if (!this.mouseDownPosition) {
-            return
-        }
-        const delta = { x: position.x - this.mouseDownPosition.x, y: position.y - this.mouseDownPosition.y }
-        const center = this.ball.position
-        const end = { x: center.x + delta.x, y: center.y + delta.y }
-        if (this.handleCircle) {
-            this.handleCircle.position = end
-        }
-        if (this.handleLine) {
-            this.handleLine.end = end
-        }
-    }
-
+export default class Controller extends BaseController<World> {
+    public toolStack = new ToolStack()
     public onMouseDown = (position: Position) => {
-        this.mouseDownPosition = position
-        this.isDragging = true
-        this.handleCircle = new Circle({ position, mass: 1, radius: 10, fill: '#fff' })
-        this.world.addShape(this.handleCircle)
-        this.handleLine = new Line({ start: this.ball.position, mass: 1, end: this.ball.position, color: '#fff', thickness: 8 })
-        this.world.addShape(this.handleLine)
+        this.tool?.onMouseDown(position)
+    }
+    public onMouseMove = (position: Position) => {
+        this.tool?.onMouseMove(position)
+    }
+    public onMouseUp = () => {
+        this.tool?.onMouseUp()
     }
 
-    public onMouseUp = (position: Position) => {
-        if (!this.isDragging) {
-            return
-        }
-        this.mouseDownPosition = undefined
-        this.isDragging = false
-        const shape = this.ball!
-        const line = this.handleLine!
-        shape.velocity = { x: (line.start.x - line.end.x) * 10, y: (line.start.y - line.end.y) * 10 }
-        shape.gravity = { x: 0, y: 4000 }
-        shape.startForces(this.runTime)
-        if (this.handleCircle) {
-            this.world.removeShape(this.handleCircle.id)
-            this.handleCircle = undefined
-        }
-        this.world.removeShape(line.id)
-        this.handleLine = undefined
+    protected onStart() {
+        this.toolStack.on('objects-changed', this.handleToolObjectsChanged)
+        this.toolStack.push(new ShooterTool(this))
+    }
+
+    private get tool() {
+        return this.toolStack.top()
+    }
+
+    private handleToolObjectsChanged = ({ previous, next }: { previous: BaseObject[], next: BaseObject[] }) => {
+        previous.forEach(obj => this.world.removeObject(obj))
+        next.forEach(obj => this.world.addObject(obj))
     }
 }

@@ -33,7 +33,7 @@ export const screenToWorld = (position: Position) => {
     }
 }
 
-const useScreenSize = () => {
+export const useScreenSize = () => {
     const [size, setSize] = React.useState(getScreenSize())
     React.useEffect(() => {
         const onResize = () => setSize(getScreenSize())

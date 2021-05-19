@@ -12,15 +12,15 @@ const FullScreen = styled.div`
 `
 
 interface IProps {
-    onClick: (position: Position) => void
-    onMouseMove: (position: Position) => void
+    onClick?: (position: Position) => void
+    onMouseMove?: (position: Position) => void
     onMouseUp?: (position: Position) => void
     onMouseDown?: (position: Position) => void
 }
 const InputHandler = ({ onClick, onMouseMove, onMouseUp, onMouseDown }: IProps) => {
     const handleClick = React.useCallback((e: React.MouseEvent) => {
         const position = Coordinates.screenToWorld({ x: e.clientX, y: e.clientY })
-        onClick(position)
+        onClick?.(position)
     }, [onClick])
     const handleTouchStart = React.useCallback((e: React.TouchEvent) => {
         e.preventDefault()
@@ -45,7 +45,7 @@ const InputHandler = ({ onClick, onMouseMove, onMouseUp, onMouseDown }: IProps) 
     React.useEffect(() => {
         const handleMove = (e: MouseEvent) => {
             const position = Coordinates.screenToWorld({ x: e.clientX, y: e.clientY })
-            onMouseMove(position)
+            onMouseMove?.(position)
         }
         window.addEventListener('mousemove', handleMove)
         return () => window.removeEventListener('mousemove', handleMove)
@@ -54,7 +54,7 @@ const InputHandler = ({ onClick, onMouseMove, onMouseUp, onMouseDown }: IProps) 
         const handleMove = (e: TouchEvent) => {
             e.preventDefault()
             const position = Coordinates.screenToWorld({ x: e.touches[0].clientX, y: e.touches[0].clientY })
-            onMouseMove(position)
+            onMouseMove?.(position)
         }
         window.addEventListener('touchmove', handleMove)
         return () => window.removeEventListener('touchmove', handleMove)
