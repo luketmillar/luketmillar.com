@@ -1,6 +1,5 @@
 import BaseObject from "./Base"
 import { Bodies, Body, Sleeping, Vector } from 'matter-js'
-import { getWorldSize } from "projects/canvasScene/Coordinates"
 
 export default class Ball extends BaseObject {
     public readonly x: number
@@ -10,7 +9,7 @@ export default class Ball extends BaseObject {
         super()
         this.x = x
         this.y = y
-        this.body = Bodies.circle(x, y, 40, { isSleeping: true, friction: 0, restitution: 1, render: { fillStyle: '#0ff' } })
+        this.body = Bodies.circle(x, y, 30, { isSleeping: true, friction: 0, restitution: 1, render: { fillStyle: '#0ff' } })
     }
 
     public getBodies() {
@@ -18,9 +17,8 @@ export default class Ball extends BaseObject {
     }
 
     public isOutOfBounds() {
-        const worldSize = getWorldSize()
         const bounds = this.body.bounds
-        return bounds.min.y > worldSize.height || bounds.min.x > worldSize.width || bounds.max.x < 0
+        return bounds.min.y > 1920 || bounds.min.x > 1080 || bounds.max.x < 0
     }
 
     public start = (force: Vector) => {

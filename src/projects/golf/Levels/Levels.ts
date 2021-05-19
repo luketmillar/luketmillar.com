@@ -40,12 +40,35 @@ export default class Level {
 
 export const Levels = [
     {
-        goal: { x: 2000, y: 1500 }, ball: { x: 500, y: 1500 }, walls: [
-            new Wall(1000, 1500, 1000, 10, Math.PI / 2),
-            new Wall(1370, 850, 800, 10, -Math.PI / 8),
-            new Wall(2000, 1000, 500, 10, -Math.PI / 8),
-            new Wall(1500, 1500, 500, 10, Math.PI / 8),
+        ball: { x: 540, y: 400 },
+        goal: { x: 540, y: 1500 },
+        walls: []
+    },
+    {
+        ball: { x: 200, y: 960 },
+        goal: { x: 880, y: 960 },
+        walls: [
+            new Wall(540, 960, 100, 10, Math.PI / 2)
         ]
     },
-    { goal: { x: 2500, y: 1500 }, ball: { x: 500, y: 1500 }, walls: [new Wall(1500, 1500, 2000, 10, Math.PI / 2)] },
+    {
+        ball: { x: 200, y: 960 },
+        goal: { x: 880, y: 960 },
+        walls: [
+            new Wall(540, 850, 300, 10, Math.PI / 2),
+            new Wall(540, 700, 1080, 10, Math.PI),
+            new Wall(540, 1200, 700, 10, Math.PI),
+        ]
+    },
+    {
+        ball: { x: 200, y: 1300 },
+        goal: { x: 800, y: 1250 },
+        walls: [
+            new Wall(400, 1200, 500, 10, Math.PI / 2),
+            new Wall(540, 890, 300, 10, -Math.PI / 8),
+            new Wall(800, 1000, 300, 10, -Math.PI / 8),
+            new Wall(600, 1300, 300, 10, Math.PI / 8),
+        ]
+    },
+
 ]
