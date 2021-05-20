@@ -12,6 +12,16 @@ const controller = new Controller(world, view)
 const worldSize = { width: 1080, height: 1920 }
 
 const Golf = () => {
+    React.useEffect(() => {
+        const preventBehavior = (e: TouchEvent) => {
+            e.preventDefault()
+        }
+
+        document.body.addEventListener("touchmove", preventBehavior, { passive: false })
+        return () => {
+            document.body.removeEventListener("touchmove", preventBehavior)
+        }
+    })
     const ref = React.useRef<HTMLCanvasElement>(null)
     React.useEffect(() => {
         view.canvas = ref.current!

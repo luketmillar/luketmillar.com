@@ -7,6 +7,7 @@
 }
 html {
   height: var(--app-height);
+  position: fixed;
 }
 body {
   margin: 0;
@@ -20,6 +21,7 @@ body {
   background-color: #000;
   color: #fff;
   user-select: none;
+  position: fixed;
 }
 
 h1 {
