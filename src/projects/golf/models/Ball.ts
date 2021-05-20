@@ -29,6 +29,10 @@ export default class Ball extends BaseObject {
         Body.applyForce(this.body, this.body.position, force)
     }
 
+    public stop = () => {
+        Sleeping.set(this.body, true)
+    }
+
     public get isRunning() {
         return !this.body.isSleeping
     }

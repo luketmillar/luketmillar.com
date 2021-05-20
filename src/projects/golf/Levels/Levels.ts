@@ -3,17 +3,20 @@ import { Position } from 'projects/canvasScene/types'
 import Ball from '../models/Ball'
 import Goal from '../models/Goal'
 import Wall from '../models/Wall'
+import Box from '../models/Box'
+
+type Obstacle = Box | Wall
 
 interface ILevel {
     ball: Position
     goal: Position
-    walls: Wall[]
+    walls: Obstacle[]
 }
 
 export default class Level {
     public readonly ball: Ball
     public readonly goal: Goal
-    public readonly walls: Wall[]
+    public readonly walls: Obstacle[]
     constructor(config: ILevel) {
         this.ball = new Ball(config.ball.x, config.ball.y)
         this.goal = new Goal(config.goal.x, config.goal.y)
@@ -46,10 +49,39 @@ export const Levels = [
     },
     {
         ball: { x: 540, y: 400 },
+        goal: { x: 880, y: 400 },
+        walls: [
+            new Wall(650, 400, 100, 10, Math.PI * 0.5),
+        ]
+    },
+    {
+        ball: { x: 540, y: 400 },
         goal: { x: 880, y: 960 },
         walls: [
             new Wall(380, 900, 400, 10, Math.PI * 0.32),
             new Wall(700, 680, 300, 10, Math.PI * -0.2),
+        ]
+    },
+    {
+        ball: { x: 880, y: 400 },
+        goal: { x: 200, y: 400 },
+        walls: [
+            new Wall(540, 600, 800, 10, Math.PI),
+            new Wall(540, 200, 800, 10, Math.PI),
+            new Box(540, 500, 50, 50, Math.PI),
+            new Box(540, 450, 50, 50, Math.PI),
+            new Box(540, 400, 50, 50, Math.PI),
+            new Box(540, 350, 50, 50, Math.PI),
+            new Box(540, 300, 50, 50, Math.PI),
+            new Box(540, 250, 50, 50, Math.PI),
+            new Box(540, 200, 50, 50, Math.PI),
+        ]
+    },
+    {
+        ball: { x: 200, y: 400 },
+        goal: { x: 880, y: 960 },
+        walls: [
+            new Wall(480, 820, 1000, 10, Math.PI * .22)
         ]
     },
     {

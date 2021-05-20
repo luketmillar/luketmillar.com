@@ -1,11 +1,13 @@
 import { Body } from 'matter-js'
-import { Vector } from 'projects/canvasScene/types'
+import { Position, Vector } from 'projects/canvasScene/types'
 import BaseWorld from './BaseWorld'
 import Level, { Levels } from './Levels/Levels'
 
 export default class World extends BaseWorld {
     public level: Level | undefined
     private currentLevel: number = 0
+    private ballIsStoppedTimeout: number | undefined
+    private lastBallPosition: Position | undefined
     public throwBall = (velocity: Vector) => {
         this.level?.ball.start(velocity)
     }
@@ -15,6 +17,19 @@ export default class World extends BaseWorld {
     }
 
     protected onUpdate = () => {
+        if (this.ball?.isRunning) {
+            const currentPosition = this.ball.body.position
+            console.log(this.ball.body.position, this.lastBallPosition)
+            if (!positionsMatch(this.ball.body.position, this.lastBallPosition)) {
+                window.clearTimeout(this.ballIsStoppedTimeout)
+                this.ballIsStoppedTimeout = window.setTimeout(() => {
+                    console.log(this.ball?.body.position, this.lastBallPosition)
+                    if (positionsMatch(this.ball?.body.position, this.lastBallPosition))
+                        this.ball?.stop()
+                }, 500)
+            }
+            this.lastBallPosition = { x: currentPosition.x, y: currentPosition.y }
+        }
         if (this.level?.isDead()) {
             this.restart()
             return
@@ -44,4 +59,16 @@ export default class World extends BaseWorld {
     public get goal() {
         return this.level?.goal
     }
+}
+
+const positionsMatch = (a: Position | undefined, b: Position | undefined) => {
+    if (!a || !b) {
+        return false
+    }
+    return positionEqual(a, b)
+}
+
+const positionEqual = (a: Position, b: Position) => {
+    const round = (v: number) => Math.round(v * 10) / 10
+    return round(a.x) === round(b.x) && round(a.y) === round(b.y)
 }
