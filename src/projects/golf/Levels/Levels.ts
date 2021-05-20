@@ -55,14 +55,6 @@ export const Levels = [
         ]
     },
     {
-        ball: { x: 540, y: 400 },
-        goal: { x: 880, y: 960 },
-        walls: [
-            new Wall(380, 900, 400, 10, Math.PI * 0.32),
-            new Wall(700, 680, 300, 10, Math.PI * -0.2),
-        ]
-    },
-    {
         ball: { x: 880, y: 400 },
         goal: { x: 200, y: 400 },
         walls: [
