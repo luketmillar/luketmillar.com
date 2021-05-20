@@ -9,7 +9,7 @@ export default class Ball extends BaseObject {
         super()
         this.x = x
         this.y = y
-        this.body = Bodies.circle(x, y, 30, { isSleeping: true, friction: 0, restitution: 1, render: { fillStyle: '#0ff' } })
+        this.body = Bodies.circle(x, y, 30, { isSleeping: true, friction: 0, restitution: 0.8, render: { fillStyle: '#0ff' } })
     }
 
     public getBodies() {

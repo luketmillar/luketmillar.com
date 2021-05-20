@@ -41,11 +41,19 @@ export default class View implements IView {
     private renderBodies = (ctx: CanvasRenderingContext2D, bodies: Body[]) => {
         bodies.forEach(body => {
             ctx.save()
-            ctx.fillStyle = body.render.fillStyle ?? '#fff'
             ctx.beginPath()
             ctx.moveTo(body.vertices[0].x, body.vertices[0].y)
             body.vertices.slice(1).forEach(vertex => ctx.lineTo(vertex.x, vertex.y))
-            ctx.fill()
+            ctx.lineTo(body.vertices[0].x, body.vertices[0].y)
+            if (body.render.fillStyle) {
+                ctx.fillStyle = body.render.fillStyle
+                ctx.fill()
+            }
+            if (body.render.strokeStyle) {
+                ctx.strokeStyle = body.render.strokeStyle
+                ctx.lineWidth = body.render.lineWidth ?? 1
+                ctx.stroke()
+            }
             ctx.restore()
         })
     }

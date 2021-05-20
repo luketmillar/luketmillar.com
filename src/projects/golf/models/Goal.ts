@@ -10,7 +10,7 @@ export default class Goal extends BaseObject {
         super()
         this.x = x
         this.y = y
-        this.body = Bodies.circle(x, y, 30, { isStatic: true, isSensor: true, render: { strokeStyle: '#fff', lineWidth: 2 } })
+        this.body = Bodies.circle(x, y, 30, { isStatic: true, isSensor: true, render: { strokeStyle: '#fff', lineWidth: 2, fillStyle: '#000' } })
         this.isReached = false
     }
     public getBodies() {

@@ -40,35 +40,46 @@ export default class Level {
 
 export const Levels = [
     {
-        ball: { x: 540, y: 400 },
-        goal: { x: 540, y: 1500 },
+        ball: { x: 540, y: 1500 },
+        goal: { x: 540, y: 400 },
         walls: []
     },
     {
-        ball: { x: 200, y: 960 },
+        ball: { x: 540, y: 400 },
         goal: { x: 880, y: 960 },
         walls: [
-            new Wall(540, 960, 100, 10, Math.PI / 2)
+            new Wall(380, 900, 400, 10, Math.PI * 0.32),
+            new Wall(700, 680, 300, 10, Math.PI * -0.2),
         ]
     },
     {
-        ball: { x: 200, y: 960 },
-        goal: { x: 880, y: 960 },
+        ball: { x: 880, y: 960 },
+        goal: { x: 200, y: 960 },
         walls: [
             new Wall(540, 850, 300, 10, Math.PI / 2),
             new Wall(540, 700, 1080, 10, Math.PI),
-            new Wall(540, 1200, 700, 10, Math.PI),
+            new Wall(540, 1800, 700, 10, Math.PI),
         ]
     },
     {
-        ball: { x: 200, y: 1300 },
+        ball: { x: 200, y: 960 },
         goal: { x: 800, y: 1250 },
         walls: [
-            new Wall(400, 1200, 500, 10, Math.PI / 2),
-            new Wall(540, 890, 300, 10, -Math.PI / 8),
+            new Wall(400, 1000, 900, 10, Math.PI / 2),
+            new Wall(540, 500, 300, 10, -Math.PI / 8),
+            new Wall(800, 600, 300, 10, -Math.PI / 8),
+            new Wall(600, 800, 300, 10, Math.PI / 8),
             new Wall(800, 1000, 300, 10, -Math.PI / 8),
             new Wall(600, 1300, 300, 10, Math.PI / 8),
         ]
     },
-
+    {
+        ball: { x: 800, y: 1250 },
+        goal: { x: 700, y: 1350 },
+        walls: [
+            new Wall(720, 1430, 200, 10, Math.PI / 6),
+            new Wall(340, 1200, 200, 10, Math.PI / 6),
+            new Wall(700, 1150, 700, 10, Math.PI * 0.4),
+        ]
+    },
 ]
