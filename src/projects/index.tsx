@@ -4,6 +4,7 @@ import Minesweeper from './minesweeper'
 import Golf from './golf'
 import BouncingBalls from './bouncingBalls'
 import FallingBalls from './fallingBalls'
+import ColorPalette from './color-palette'
 import { Route, Switch } from 'react-router-dom'
 
 const ProjectsRouter = () => {
@@ -23,6 +24,9 @@ const ProjectsRouter = () => {
             </Route>
             <Route path="/project/falling-balls">
                 <FallingBalls />
+            </Route>
+            <Route path="/project/color-palette">
+                <ColorPalette />
             </Route>
             <Route>
                 <div>This project doesn't exist yet</div>
