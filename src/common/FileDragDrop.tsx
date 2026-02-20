@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 
 const styles = {
     container: {
@@ -23,51 +23,44 @@ interface IProps {
     onFilesDropped: (files: File[]) => void
 }
 
-interface IState {
-    isDragging: boolean
-}
+export default function FileDropTarget({ style, children, onFilesDropped }: IProps) {
+    const [isDragging, setIsDragging] = useState(false)
+    const containerRef = useRef<HTMLDivElement>(null)
 
-export default class FileDropTarget extends React.Component<IProps, IState> {
-    public _containerRef = React.createRef<HTMLDivElement>()
-    public state = { isDragging: false }
-
-    public render() {
-        const { style, children } = this.props
-        return (
-            <div
-                style={style}
-                onDragEnter={this._handleDragEnter}
-                onDrop={this._handleDrop}
-                onDragOver={this._handleDragOver}
-                ref={this._containerRef}
-            >
-                {this.state.isDragging ? (
-                    <div onDragLeave={this._handleDragLeave} style={{ ...styles.container, ...styles.onDrag }} />
-                ) : null}
-                {children}
-            </div>
-        )
-    }
-
-    private _handleDragEnter = (e: any) => {
-        if (!this.state.isDragging) {
-            this.setState({ isDragging: true })
+    const handleDragEnter = (e: React.DragEvent) => {
+        if (!isDragging) {
+            setIsDragging(true)
         }
     }
 
-    private _handleDragLeave = (e: any) => {
-        this.setState({ isDragging: false })
+    const handleDragLeave = (e: React.DragEvent) => {
+        setIsDragging(false)
     }
 
-    private _handleDrop = (e: React.DragEvent) => {
+    const handleDrop = (e: React.DragEvent) => {
         e.preventDefault()
         if (e.dataTransfer.files.length) {
-            this.props.onFilesDropped(Array.from(e.dataTransfer.files))
+            onFilesDropped(Array.from(e.dataTransfer.files))
         }
-        this.setState({ isDragging: false })
+        setIsDragging(false)
     }
 
-    private _handleDragOver = (e: any) => {
+    const handleDragOver = (e: React.DragEvent) => {
         e.preventDefault()
     }
+
+    return (
+        <div
+            style={style}
+            onDragEnter={handleDragEnter}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            ref={containerRef}
+        >
+            {isDragging ? (
+                <div onDragLeave={handleDragLeave} style={{ ...styles.container, ...styles.onDrag }} />
+            ) : null}
+            {children}
+        </div>
+    )
 }

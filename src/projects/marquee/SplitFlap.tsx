@@ -12,25 +12,25 @@ export const CellRatio = (Width + HorizontalMargin) / (Height + VerticalMargin)
 const HeightPaddingRatio = Height / (Height + VerticalMargin)
 const WidthPaddingRatio = Width / (Width + HorizontalMargin)
 
-const Flap = styled.div<{ width: number, height: number }>`
+const Flap = styled.div<{ $width: number, $height: number }>`
     position: relative;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: ${props => Math.floor(props.width / 16)}px;
+    border-radius: ${props => Math.floor(props.$width / 16)}px;
     background-color: #111;
 
-    width: ${props => Math.floor(props.width * WidthPaddingRatio)}px;
-    height: ${props => Math.floor(props.height * HeightPaddingRatio)}px;
+    width: ${props => Math.floor(props.$width * WidthPaddingRatio)}px;
+    height: ${props => Math.floor(props.$height * HeightPaddingRatio)}px;
 
     font-family: 'PT Sans Narrow';
-    font-size: ${props => Math.min(props.width, props.height)}px;;
+    font-size: ${props => Math.min(props.$width, props.$height)}px;;
     font-weight: 300;
 
-    margin-right: ${props => props.width - Math.floor(props.width * WidthPaddingRatio)}px;
-    margin-bottom: ${props => props.height - Math.floor(props.height * HeightPaddingRatio)}px;
+    margin-right: ${props => props.$width - Math.floor(props.$width * WidthPaddingRatio)}px;
+    margin-bottom: ${props => props.$height - Math.floor(props.$height * HeightPaddingRatio)}px;
 
     ::after {
         content: '';
@@ -38,7 +38,7 @@ const Flap = styled.div<{ width: number, height: number }>`
         bottom: 50%;
         left: -1px;
         right: -1px;
-        height: ${props => props.height > 30 ? 1 : 0}px;
+        height: ${props => props.$height > 30 ? 1 : 0}px;
         background-color: #000;
     }
 
@@ -95,7 +95,7 @@ const SplitFlap = ({ character, row, column, size, onStart, onComplete, onClick,
     }, [character, delay, onComplete, onStart])
 
     displayCharacterRef.current = displayCharacter
-    return <Flap id={FocusManager.ID.create(row, column)} onKeyDown={onKeyDown} tabIndex={selectable ? 0 : undefined} width={size.width} height={size.height} onClick={onClick}>{displayCharacter}</Flap>
+    return <Flap id={FocusManager.ID.create(row, column)} onKeyDown={onKeyDown} tabIndex={selectable ? 0 : undefined} $width={size.width} $height={size.height} onClick={onClick}>{displayCharacter}</Flap>
 }
 
 const skipFrames = (n: number, fn: () => void) => {

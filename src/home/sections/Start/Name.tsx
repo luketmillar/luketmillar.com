@@ -4,7 +4,7 @@ import useFrameTime from '../../../hooks/useFrameTime'
 import { WidescreenSelect } from '../../utils'
 import Colors from '../../../colors'
 
-const Name = styled.div<{ highlighted?: boolean, color: string }>`
+const Name = styled.div<{ $highlighted?: boolean, $color: string }>`
   font-weight: 900;
   font-style: italic;
   font-size: 3rem;
@@ -12,7 +12,7 @@ const Name = styled.div<{ highlighted?: boolean, color: string }>`
   line-height: .9em;
   padding: 0 10px;
 
-  color: ${props => props.highlighted ? props.color : 'white'};
+  color: ${props => props.$highlighted ? props.$color : 'white'};
 
   ${WidescreenSelect} {
     font-size: 8rem;
@@ -22,7 +22,7 @@ const Name = styled.div<{ highlighted?: boolean, color: string }>`
 const Shadow = styled(Name)`
     color: transparent;
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: ${props => props.highlighted ? props.color : 'white'};
+    -webkit-text-stroke-color: ${props => props.$highlighted ? props.$color : 'white'};
 `
 
 const AnimatedName = ({ onComplete }: { onComplete: (bottom: number) => void }) => {
@@ -42,7 +42,7 @@ const AnimatedName = ({ onComplete }: { onComplete: (bottom: number) => void }) 
     }
     return (
         <div ref={parentRef} style={{ position: 'relative' }}>
-            <Name color={'white'} style={{ visibility: isComplete ? 'visible' : 'hidden' }} ref={centerRef}>Luke Millar</Name>
+            <Name $color={'white'} style={{ visibility: isComplete ? 'visible' : 'hidden' }} ref={centerRef}>Luke Millar</Name>
             {centerRect && !isComplete && <ShadowTrail height={centerRect.height} onComplete={handleComplete} />}
         </div>
     )
@@ -79,9 +79,9 @@ const ShadowTrail = ({ height, onComplete }: { height: number, onComplete: () =>
         const highlighted = i === startRenderIndex
         const color = getColor(Math.min(i / (positions.length - 3), 1))
         if (position.isShadow) {
-            return <Shadow key={i} color={color} highlighted={highlighted} style={{ opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Shadow>
+            return <Shadow key={i} $color={color} $highlighted={highlighted} style={{ opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Shadow>
         } else {
-            return <Name key={i} color={color} highlighted={highlighted} style={{ opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Name>
+            return <Name key={i} $color={color} $highlighted={highlighted} style={{ opacity: visible ? 1 : 0, position: 'absolute', transform: `translateY(${position.y}px)` }}>Luke Millar</Name>
         }
     })
     return <>

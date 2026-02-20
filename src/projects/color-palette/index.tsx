@@ -3,7 +3,7 @@ import ImageDropTarget, { State } from './ImageDropTarget'
 import useTextCopier from 'common/useTextCopier'
 import React from 'react'
 import styled from 'styled-components'
-const ColorThief = require('colorthief').default
+import ColorThief from 'colorthief'
 
 const colorThief = new ColorThief()
 

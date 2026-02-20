@@ -5,33 +5,19 @@ import Golf from './golf'
 import BouncingBalls from './bouncingBalls'
 import FallingBalls from './fallingBalls'
 import ColorPalette from './color-palette'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 const ProjectsRouter = () => {
     return (
-        <Switch>
-            <Route path="/project/split-flap">
-                <Marquee />
-            </Route>
-            <Route path="/project/minesweeper">
-                <Minesweeper />
-            </Route>
-            <Route path="/project/golf">
-                <Golf />
-            </Route>
-            <Route path="/project/bouncing-balls">
-                <BouncingBalls />
-            </Route>
-            <Route path="/project/falling-balls">
-                <FallingBalls />
-            </Route>
-            <Route path="/project/color-palette">
-                <ColorPalette />
-            </Route>
-            <Route>
-                <div>This project doesn't exist yet</div>
-            </Route>
-        </Switch>
+        <Routes>
+            <Route path="split-flap/*" element={<Marquee />} />
+            <Route path="minesweeper" element={<Minesweeper />} />
+            <Route path="golf" element={<Golf />} />
+            <Route path="bouncing-balls" element={<BouncingBalls />} />
+            <Route path="falling-balls" element={<FallingBalls />} />
+            <Route path="color-palette" element={<ColorPalette />} />
+            <Route path="*" element={<div>This project doesn't exist yet</div>} />
+        </Routes>
     )
 }
 

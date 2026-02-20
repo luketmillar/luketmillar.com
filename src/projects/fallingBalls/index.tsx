@@ -4,7 +4,7 @@ import World from './World'
 import InputHandler from 'projects/canvasScene/InputHandler'
 import FullscreenCanvas from 'projects/canvasScene/FullscreenCanvas'
 
-const useController = (ref: React.RefObject<HTMLCanvasElement>) => {
+const useController = (ref: React.RefObject<HTMLCanvasElement | null>) => {
     const [controller, setController] = React.useState<Controller | undefined>()
     React.useEffect(() => {
         const controller = new Controller(ref.current!, new World())

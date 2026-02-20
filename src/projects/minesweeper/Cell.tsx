@@ -16,8 +16,8 @@ const Cell = styled.div`
     justify-content: center;
 `
 
-const UnrevealedCell = styled(Cell) <{ isFlagged: boolean }>`
-    background-color: ${props => props.isFlagged ? Colors.aqua : '#444'};
+const UnrevealedCell = styled(Cell) <{ $isFlagged: boolean }>`
+    background-color: ${props => props.$isFlagged ? Colors.aqua : '#444'};
     :hover {
         opacity: 0.9;
     }
@@ -25,8 +25,8 @@ const UnrevealedCell = styled(Cell) <{ isFlagged: boolean }>`
         opacity: 0.8;
     }
 `
-const RevealedCell = styled(Cell) <{ isBomb?: boolean }>`
-    background-color: ${props => props.isBomb ? Colors.pink : '#111'};
+const RevealedCell = styled(Cell) <{ $isBomb?: boolean }>`
+    background-color: ${props => props.$isBomb ? Colors.pink : '#111'};
 `
 
 
@@ -62,7 +62,7 @@ const StatefulCell = ({ row, column, isRevealed, isFlagged, onReveal, onFlag }: 
         return <RevealedStatus row={row} column={column} />
     } else {
         return <UnrevealedCell
-            isFlagged={isFlagged}
+            $isFlagged={isFlagged}
             onClick={e => {
                 e.preventDefault()
                 if (isFlagged) {
@@ -84,7 +84,7 @@ const RevealedStatus = ({ row, column }: { row: number, column: number }) => {
     const count = board.bombNeighborCount(row, column)
     const isBomb = board.isBomb(row, column)
     if (isBomb) {
-        return <RevealedCell isBomb><Bomb /></RevealedCell>
+        return <RevealedCell $isBomb><Bomb /></RevealedCell>
     }
     return <RevealedCell>{count ? count : null}</RevealedCell>
 }
