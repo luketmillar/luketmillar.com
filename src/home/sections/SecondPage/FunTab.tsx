@@ -35,7 +35,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
     max-width: 700px;
     width: 100%;
 `
@@ -43,27 +43,35 @@ const Wrapper = styled.div`
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
     width: 100%;
 
     ${WidescreenSelect} {
         grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
     }
 `
 
 const itemStyles = `
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 18px;
+    gap: 10px;
+    padding: 12px 14px;
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
+    border-radius: 10px;
     color: white;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
     transition: border-color 200ms, background 200ms;
     background: rgba(0, 0, 0, 0.2);
+
+    @media screen and (min-width: 900px) {
+        padding: 14px 18px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        gap: 12px;
+    }
 
     &:hover {
         border-color: rgba(255, 255, 255, 0.4);

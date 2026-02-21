@@ -6,7 +6,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 24px;
     max-width: 1000px;
     width: 100%;
 
@@ -19,8 +19,8 @@ const Wrapper = styled.div`
 
 const PhotoWrapper = styled.div`
     flex-shrink: 0;
-    width: 200px;
-    height: 200px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid ${Colors.aqua};
@@ -40,22 +40,24 @@ const Photo = styled.img`
 const TextBlock = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
     text-align: center;
 
     ${WidescreenSelect} {
         text-align: left;
+        gap: 14px;
     }
 `
 
 const Bio = styled.p`
-    font-size: 1rem;
-    line-height: 1.7;
+    font-size: 0.9rem;
+    line-height: 1.6;
     color: rgba(255, 255, 255, 0.85);
     margin: 0;
 
     ${WidescreenSelect} {
         font-size: 1.05rem;
+        line-height: 1.7;
     }
 `
 
@@ -79,7 +81,7 @@ const AboutTab = () => {
                     Mario Kart World expert (I have almost all the house records). Claim to fame: #52 in Link's Awakening world record speed runs.
                 </Bio>
                 <Bio>
-                Huge fan of Back to the Future, Lost, Mission Impossible, and everything Idris Elba does.
+                    Huge fan of Back to the Future, Lost, Mission Impossible, and everything Idris Elba does.
                 </Bio>
             </TextBlock>
         </Wrapper>

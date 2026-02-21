@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { WidescreenSelect } from '../../utils'
-import Colors from '../../../colors'
 
 const Wrapper = styled.div`
     max-width: 900px;
@@ -11,7 +10,7 @@ const Wrapper = styled.div`
 const Grid = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
 
     ${WidescreenSelect} {
         display: grid;
@@ -24,12 +23,17 @@ const Card = styled.a`
     display: block;
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 36px;
+    border-radius: 12px;
+    padding: 20px;
     background: rgba(255, 255, 255, 0.03);
     text-decoration: none;
     color: inherit;
     transition: border-color 200ms, background 200ms;
+
+    ${WidescreenSelect} {
+        border-radius: 16px;
+        padding: 36px;
+    }
 
     &:hover {
         border-color: rgba(255, 255, 255, 0.25);
@@ -39,25 +43,39 @@ const Card = styled.a`
 
 const StatusPill = styled.span<{ $live: boolean }>`
     position: absolute;
-    top: 16px;
-    right: 16px;
-    font-size: 0.7rem;
+    top: 12px;
+    right: 12px;
+    font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 100px;
     color: ${props => props.$live ? '#4caf50' : 'rgba(255, 255, 255, 0.35)'};
     border: 1px solid ${props => props.$live ? 'rgba(76, 175, 80, 0.3)' : 'rgba(255, 255, 255, 0.1)'};
+
+    ${WidescreenSelect} {
+        top: 16px;
+        right: 16px;
+        font-size: 0.7rem;
+        padding: 4px 10px;
+    }
 `
 
 const AppIcon = styled.div<{ $color: string }>`
-    width: 64px;
-    height: 64px;
-    border-radius: 14px;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
     background: ${props => props.$color};
-    margin-bottom: 20px;
+    margin-bottom: 14px;
     overflow: hidden;
+
+    ${WidescreenSelect} {
+        width: 64px;
+        height: 64px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+    }
 
     img {
         width: 100%;
@@ -67,17 +85,27 @@ const AppIcon = styled.div<{ $color: string }>`
 `
 
 const AppName = styled.h3`
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin: 0 0 8px 0;
+    margin: 0 0 6px 0;
     color: white;
+
+    ${WidescreenSelect} {
+        font-size: 1.4rem;
+        margin: 0 0 8px 0;
+    }
 `
 
 const AppDescription = styled.p`
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.85rem;
+    line-height: 1.5;
     color: rgba(255, 255, 255, 0.7);
     margin: 0;
+
+    ${WidescreenSelect} {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
 `
 
 const apps = [

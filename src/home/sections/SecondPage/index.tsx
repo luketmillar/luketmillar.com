@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Container from '../container'
+import { WidescreenSelect } from '../../utils'
 import FunTab from './FunTab'
 import AboutTab from './AboutTab'
 import WorkTab from './WorkTab'
@@ -16,28 +17,42 @@ const tabList = [
 const PageContainer = styled(Container)`
     justify-content: flex-start;
     padding: 0;
+    overflow: visible;
 `
 
 const Nav = styled.nav`
     display: flex;
-    gap: 8px;
-    padding: 40px 40px 0;
+    gap: 0;
+    padding: 20px 16px 0;
     width: 100%;
     justify-content: center;
+    flex-shrink: 0;
+
+    ${WidescreenSelect} {
+        gap: 8px;
+        padding: 40px 40px 0;
+    }
 `
 
 const NavItem = styled.button<{ $active: boolean }>`
     background: none;
     border: none;
     color: ${props => props.$active ? 'white' : 'rgba(255, 255, 255, 0.4)'};
-    font-size: 1rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    padding: 12px 24px;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
     cursor: pointer;
     position: relative;
     transition: color 200ms;
+    white-space: nowrap;
+
+    ${WidescreenSelect} {
+        font-size: 1rem;
+        letter-spacing: 0.15em;
+        padding: 12px 24px;
+    }
 
     &:hover {
         color: ${props => props.$active ? 'white' : 'rgba(255, 255, 255, 0.7)'};
@@ -59,11 +74,17 @@ const NavItem = styled.button<{ $active: boolean }>`
 const TabContent = styled.div`
     flex: 1;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     width: 100%;
-    padding: 0 40px;
-    overflow: hidden;
+    padding: 24px 20px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    ${WidescreenSelect} {
+        padding: 0 40px;
+        align-items: center;
+    }
 `
 
 interface SecondPageProps {

@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 const Grid = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 14px;
 
     ${WidescreenSelect} {
         display: grid;
@@ -22,23 +22,38 @@ const Grid = styled.div`
 const Card = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 28px;
+    padding: 18px;
     background: rgba(255, 255, 255, 0.03);
+
+    ${WidescreenSelect} {
+        padding: 28px;
+    }
 `
 
 const CardHeader = styled.div`
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 12px;
+    gap: 12px;
+    margin-bottom: 8px;
+
+    ${WidescreenSelect} {
+        gap: 14px;
+        margin-bottom: 12px;
+    }
 `
 
 const Logo = styled.div`
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     overflow: hidden;
     flex-shrink: 0;
+
+    ${WidescreenSelect} {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+    }
 
     img {
         width: 100%;
@@ -47,31 +62,54 @@ const Logo = styled.div`
     }
 `
 
-const HeaderText = styled.div``
+const HeaderText = styled.div`
+    min-width: 0;
+`
 
 const Company = styled.h3`
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
     margin: 0;
     color: white;
+
+    ${WidescreenSelect} {
+        font-size: 1.2rem;
+    }
 `
 
 const Role = styled.div`
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    ${WidescreenSelect} {
+        font-size: 0.85rem;
+    }
 `
 
 const Years = styled.div`
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.35);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
+
+    ${WidescreenSelect} {
+        font-size: 0.8rem;
+        margin-bottom: 12px;
+    }
 `
 
 const Description = styled.p`
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.85rem;
+    line-height: 1.5;
     color: rgba(255, 255, 255, 0.7);
     margin: 0;
+
+    ${WidescreenSelect} {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
 `
 
 const jobs = [
