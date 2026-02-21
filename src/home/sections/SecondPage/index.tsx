@@ -17,7 +17,8 @@ const tabList = [
 const PageContainer = styled(Container)`
     justify-content: flex-start;
     padding: 0;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: visible;
 `
 
 const Nav = styled.nav`
