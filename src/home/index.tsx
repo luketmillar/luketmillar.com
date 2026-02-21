@@ -14,6 +14,7 @@ const getTabFromHash = (hash: string) => {
 const ScrollWrapper = styled.div`
     overflow-y: auto;
     height: 100vh;
+    height: 100dvh;
 `
 
 const Home = () => {

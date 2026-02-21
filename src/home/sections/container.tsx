@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 const Container = styled.section`
   height: 100vh;
+  height: 100dvh;
   margin: 0 auto;
   position: relative;
 
