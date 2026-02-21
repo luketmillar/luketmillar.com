@@ -74,7 +74,7 @@ const Caption = ({ onComplete }: { onComplete: () => void }) => {
         }
         return next
       })
-    }, 2000)
+    }, 1200)
     return () => {
       clearInterval(interval)
     }
