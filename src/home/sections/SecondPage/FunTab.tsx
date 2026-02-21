@@ -18,6 +18,13 @@ const move = keyframes`
 
 const duration = 30
 
+const BlobContainer = styled.div`
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+`
+
 const GradientBlob = styled.div<{ $color: string; $size: number }>`
     position: absolute;
     bottom: 0;
@@ -26,7 +33,6 @@ const GradientBlob = styled.div<{ $color: string; $size: number }>`
     height: ${props => props.$size}vmax;
     transform: translate(-50%, 50%);
     animation: ${move} ${duration}s linear infinite;
-    z-index: -1;
     background: radial-gradient(${props => props.$color}, rgba(0, 0, 0, 0) 60%);
 `
 
@@ -110,27 +116,31 @@ const demos: Demo[] = [
 
 const FunTab = () => {
     return (
-        <Wrapper>
-            <GradientBlob $size={100} $color={'rgba(255,255,255,0.5)'} style={{ animationDelay: `-${duration / 4}s` }} />
-            <GradientBlob $size={110} $color={Colors.aqua} style={{ animationDelay: `-${(3 * duration) / 4}s` }} />
-            <GradientBlob $size={120} $color={Colors.purple} />
-            <GradientBlob $size={140} $color={Colors.pink} style={{ animationDelay: `-${(2 * duration) / 4}s` }} />
-            <Grid>
-                {demos.map((demo) =>
-                    'path' in demo ? (
-                        <InternalLink key={demo.name} to={demo.path}>
-                            <Dot $color={demo.color} />
-                            {demo.name}
-                        </InternalLink>
-                    ) : (
-                        <ExternalLink key={demo.name} href={demo.href} target="_blank" rel="noopener noreferrer">
-                            <Dot $color={demo.color} />
-                            {demo.name}
-                        </ExternalLink>
-                    )
-                )}
-            </Grid>
-        </Wrapper>
+        <>
+            <BlobContainer>
+                <GradientBlob $size={100} $color={'rgba(255,255,255,0.5)'} style={{ animationDelay: `-${duration / 4}s` }} />
+                <GradientBlob $size={110} $color={Colors.aqua} style={{ animationDelay: `-${(3 * duration) / 4}s` }} />
+                <GradientBlob $size={120} $color={Colors.purple} />
+                <GradientBlob $size={140} $color={Colors.pink} style={{ animationDelay: `-${(2 * duration) / 4}s` }} />
+            </BlobContainer>
+            <Wrapper>
+                <Grid>
+                    {demos.map((demo) =>
+                        'path' in demo ? (
+                            <InternalLink key={demo.name} to={demo.path}>
+                                <Dot $color={demo.color} />
+                                {demo.name}
+                            </InternalLink>
+                        ) : (
+                            <ExternalLink key={demo.name} href={demo.href} target="_blank" rel="noopener noreferrer">
+                                <Dot $color={demo.color} />
+                                {demo.name}
+                            </ExternalLink>
+                        )
+                    )}
+                </Grid>
+            </Wrapper>
+        </>
     )
 }
 
