@@ -94,6 +94,7 @@ const demos: Demo[] = [
     { name: 'Golf', path: '/project/golf', color: Colors.orange },
     { name: 'Piano Vibes', href: 'https://pianovibes.netlify.app', color: '#a78bfa' },
     { name: 'Amazed.fun', href: 'https://silly-agnesi-5e0876.netlify.app', color: '#60a5fa' },
+    { name: 'The Logo Quiz', href: 'https://competent-bohr-540067.netlify.app', color: '#f59e0b' },
     { name: 'Bouncing Balls', path: '/project/bouncing-balls', color: Colors.purple },
     { name: 'Falling Balls', path: '/project/falling-balls', color: Colors.aqua },
     { name: 'Color Palette', path: '/project/color-palette', color: Colors.orange },
