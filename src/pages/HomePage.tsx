@@ -99,6 +99,7 @@ const PhotoLayer = styled.div`
         flex: 0 1 auto;
         justify-content: flex-start;
         align-items: flex-end;
+        padding-left: 100px;
     }
 `
 
