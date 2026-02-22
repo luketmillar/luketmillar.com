@@ -94,12 +94,13 @@ const PhotoLayer = styled.div`
 
     ${SidebarHidden} {
         position: relative;
-        width: 100%;
+        width: 120%;
         height: auto;
         flex: 0 1 auto;
         justify-content: flex-start;
         align-items: flex-end;
-        padding-left: 100px;
+        padding-left: 50px;
+        padding-top: 20px;
     }
 `
 
