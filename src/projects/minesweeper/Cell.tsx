@@ -79,6 +79,17 @@ const StatefulCell = ({ row, column, isRevealed, isFlagged, onReveal, onFlag }: 
     }
 }
 
+const numberColors: Record<number, string> = {
+    1: '#4FC3F7',
+    2: '#81C784',
+    3: '#FF8A65',
+    4: '#BA68C8',
+    5: '#FFD54F',
+    6: '#4DD0E1',
+    7: '#F48FB1',
+    8: '#E0E0E0',
+}
+
 const RevealedStatus = ({ row, column }: { row: number, column: number }) => {
     const board = useBoard()
     const count = board.bombNeighborCount(row, column)
@@ -86,7 +97,9 @@ const RevealedStatus = ({ row, column }: { row: number, column: number }) => {
     if (isBomb) {
         return <RevealedCell $isBomb><Bomb /></RevealedCell>
     }
-    return <RevealedCell>{count ? count : null}</RevealedCell>
+    return <RevealedCell>
+        {count ? <span style={{ color: numberColors[count] || '#fff', fontWeight: 700, fontSize: Config.CellSize * 0.55 }}>{count}</span> : null}
+    </RevealedCell>
 }
 
 export default CellContainer

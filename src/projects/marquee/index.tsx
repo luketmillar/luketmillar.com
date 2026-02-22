@@ -45,17 +45,19 @@ const Marquee = () => {
 
     const boardSize = React.useMemo(() => ({ width: windowSize.width - 20, height: windowSize.height - 200 }), [windowSize])
     const isDemoData = desktopStartData === layouts || mobileStartData === layouts
-    return <Routes>
-        <Route path="create" element={
-            <Creator onCreate={onCreate} initialLayouts={isDemoData ? undefined : layouts} />
-        } />
-        <Route path="*" element={
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-                {wideScreen && <div style={{ position: 'absolute', top: 30, right: 50 }}><Button onClick={() => navigate('/project/split-flap/create')}>{isDemoData ? 'Create' : 'Edit'}</Button></div>}
-                <Board messageLayout={layout} onComplete={nextMessage} screenSize={boardSize} />
-            </div>
-        } />
-    </Routes>
+    return <div style={{ backgroundColor: '#000', color: '#fff', minHeight: '100vh' }}>
+        <Routes>
+            <Route path="create" element={
+                <Creator onCreate={onCreate} initialLayouts={isDemoData ? undefined : layouts} />
+            } />
+            <Route path="*" element={
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+                    {wideScreen && <div style={{ position: 'absolute', top: 30, right: 50 }}><Button onClick={() => navigate('/project/split-flap/create')}>{isDemoData ? 'Create' : 'Edit'}</Button></div>}
+                    <Board messageLayout={layout} onComplete={nextMessage} screenSize={boardSize} />
+                </div>
+            } />
+        </Routes>
+    </div>
 }
 
 

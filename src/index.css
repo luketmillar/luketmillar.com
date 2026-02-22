@@ -2,13 +2,21 @@
   box-sizing: border-box;
   margin: 0;
 }
+
 :root {
-  --app-height: 100%;
+  --bg: #F5F3EF;
+  --text: #1A1A1A;
+  --text-secondary: rgba(26, 26, 26, 0.6);
+  --text-tertiary: rgba(26, 26, 26, 0.4);
+  --border: rgba(26, 26, 26, 0.1);
+  --card-bg: rgba(26, 26, 26, 0.03);
+  --card-bg-hover: rgba(26, 26, 26, 0.06);
 }
+
 html {
-  height: var(--app-height);
-  position: fixed;
+  height: 100%;
 }
+
 body {
   margin: 0;
   font-family: 'Montserrat', 'Roboto', 'Oxygen',
@@ -16,12 +24,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: var(--app-height);
+  height: 100%;
 
-  background-color: #000;
-  color: #fff;
+  background-color: var(--bg);
+  color: var(--text);
   user-select: none;
-  position: fixed;
 }
 
 h1 {

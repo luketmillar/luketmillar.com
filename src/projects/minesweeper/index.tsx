@@ -16,7 +16,7 @@ const Minesweeper = () => {
             offLose()
         }
     }, [board])
-    return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+    return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: '#000', color: '#fff' }}>
         <div>
             <h1 style={{ textAlign: 'center' }}>{won ? <h1>You won</h1> : lost ? <h1>You lose</h1> : 'Minesweeper'}</h1>
             <div style={{ height: 24 }} />
