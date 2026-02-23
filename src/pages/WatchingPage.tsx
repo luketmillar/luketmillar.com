@@ -322,6 +322,10 @@ const CurrentlyGrid = styled.div`
     ${SidebarHidden} {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        margin-left: calc(-1 * clamp(32px, 6vw, 80px));
+        margin-right: calc(-1 * clamp(32px, 6vw, 80px));
+        padding-left: clamp(32px, 6vw, 80px);
+        padding-right: clamp(32px, 6vw, 80px);
     }
 `
 
@@ -380,6 +384,14 @@ const NeedToWatchGrid = styled.div`
     max-width: 640px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+
+    ${SidebarHidden} {
+        max-width: none;
+        margin-left: calc(-1 * clamp(32px, 6vw, 80px));
+        margin-right: calc(-1 * clamp(32px, 6vw, 80px));
+        padding-left: clamp(32px, 6vw, 80px);
+        padding-right: clamp(32px, 6vw, 80px);
+    }
 `
 
 const NeedToWatchCard = styled.div<{ $src: string }>`
