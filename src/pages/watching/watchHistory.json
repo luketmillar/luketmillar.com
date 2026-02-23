@@ -1,6 +1,7 @@
 [
     { "title": "Olympics", "detail": "Men's Hockey Gold Medal", "date": { "year": 2026, "month": 2, "day": 22 }, "type": "sports", "watchedWith": ["lisa"] },
     { "title": "Olympics", "detail": "Women's Curling Bronze Medal", "date": { "year": 2026, "month": 2, "day": 22 }, "type": "sports", "watchedWith": ["lisa"] },
+    { "title": "Sacramento Kings @ San Antonio Spurs", "date": { "year": 2026, "month": 2, "day": 21 }, "type": "sports" },
     { "title": "Night at the Museum", "date": { "year": 2026, "month": 2, "day": 20 }, "type": "movie", "watchedWith": ["lisa", "maddie", "claire", "annalise", "caroline", "jake"] },
     { "title": "Schitt's Creek", "detail": "S2 E5 · Bob's Bagels", "date": { "year": 2026, "month": 2, "day": 19 }, "type": "tv", "watchedWith": ["lisa", "maddie", "claire"] },
     { "title": "Schitt's Creek", "detail": "S2 E3 · Jazzagals", "date": { "year": 2026, "month": 2, "day": 19 }, "type": "tv", "watchedWith": ["lisa", "maddie", "claire"] },

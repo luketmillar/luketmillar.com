@@ -183,6 +183,8 @@ const Feed = styled.div`
 const HeatmapWrapper = styled.div`
     max-width: 640px;
     margin-bottom: 24px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 `
 
 const FilterBar = styled.div`
@@ -316,6 +318,11 @@ const SectionLabel = styled.h2`
 const CurrentlyGrid = styled.div`
     display: flex;
     gap: 10px;
+
+    ${SidebarHidden} {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 `
 
 const CurrentlyCard = styled.div<{ $src: string }>`
@@ -325,6 +332,11 @@ const CurrentlyCard = styled.div<{ $src: string }>`
     border-radius: 10px;
     overflow: hidden;
     background: url(${(p) => p.$src}) center / cover no-repeat;
+
+    ${SidebarHidden} {
+        flex: none;
+        width: 260px;
+    }
 `
 
 const CurrentlyOverlay = styled.div`
