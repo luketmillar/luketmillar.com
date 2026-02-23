@@ -70,10 +70,10 @@ const Sidebar = ({ onNavigate }: SidebarProps) => {
                 <StyledNavLink to="/apps" onClick={onNavigate}>Apps</StyledNavLink>
                 <StyledNavLink to="/work" onClick={onNavigate}>Work</StyledNavLink>
                 <StyledNavLink to="/playground" onClick={onNavigate}>Playground</StyledNavLink>
+                <StyledNavLink to="/watching" onClick={onNavigate}>Watching</StyledNavLink>
             </NavItems>
             <SectionLabel>Coming Soon</SectionLabel>
             <NavItems>
-                <StyledNavLink to="/watching" onClick={onNavigate}>Watching</StyledNavLink>
                 <StyledNavLink to="/playing" onClick={onNavigate}>Playing</StyledNavLink>
             </NavItems>
         </Nav>

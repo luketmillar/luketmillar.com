@@ -8,6 +8,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "colorthief": "^2.3.2",
+    "lucide-react": "^0.575.0",
     "matter-js": "^0.17.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

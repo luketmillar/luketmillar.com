@@ -8,6 +8,7 @@ import AppsPage from './pages/AppsPage'
 import WorkPage from './pages/WorkPage'
 import PlaygroundPage from './pages/PlaygroundPage'
 import PlaceholderPage from './pages/PlaceholderPage'
+import WatchingPage from './pages/WatchingPage'
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
           <Route path="/apps" element={<AppsPage />} />
           <Route path="/work" element={<WorkPage />} />
           <Route path="/playground" element={<PlaygroundPage />} />
-          <Route path="/watching" element={<PlaceholderPage title="Watching" />} />
+          <Route path="/watching" element={<WatchingPage />} />
           <Route path="/playing" element={<PlaceholderPage title="Playing" />} />
           <Route path="*" element={<div>Nothing here yet</div>} />
         </Route>
