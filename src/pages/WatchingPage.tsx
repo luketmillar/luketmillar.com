@@ -142,14 +142,16 @@ const buildHeatmapData = () => {
         weeks.push(week)
     }
 
-    // Find month label positions
+    // Find month label positions (skip first partial month)
     const monthLabels: { label: string; col: number }[] = []
     let lastMonth = -1
     for (let w = 0; w < weeks.length; w++) {
         const firstDay = weeks[w][0]
         const m = firstDay.date.getMonth()
         if (m !== lastMonth) {
-            monthLabels.push({ label: MONTH_SHORT[m], col: w })
+            if (lastMonth !== -1) {
+                monthLabels.push({ label: MONTH_SHORT[m], col: w })
+            }
             lastMonth = m
         }
     }
