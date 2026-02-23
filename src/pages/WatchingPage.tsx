@@ -2,7 +2,9 @@ import React, { useState, useRef, useMemo } from 'react'
 import styled from 'styled-components'
 import { Film, Tv, Trophy } from 'lucide-react'
 import { SidebarHidden } from '../breakpoints'
-import watchHistory from './watchHistory.json'
+import watchHistory from './watching/watchHistory.json'
+import currentlyWatching from './watching/currentlyWatching.json'
+import needToWatch from './watching/needToWatch.json'
 
 // --- Types ---
 
@@ -517,63 +519,31 @@ const WatchingPage = () => {
             <HeroSection>
                 <SectionLabel>Currently Watching</SectionLabel>
                 <CurrentlyGrid>
-                    <CurrentlyCard $src="/survivor-50.jpg">
-                        <CurrentlyOverlay>
-                            <CurrentlyInfo>
-                                <CurrentlyTitle>Survivor</CurrentlyTitle>
-                                <CurrentlyDetail>Season 50</CurrentlyDetail>
-                            </CurrentlyInfo>
-                            <CurrentlyWithPill>Whole Family</CurrentlyWithPill>
-                        </CurrentlyOverlay>
-                    </CurrentlyCard>
-                    <CurrentlyCard $src="/house-md.webp">
-                        <CurrentlyOverlay>
-                            <CurrentlyInfo>
-                                <CurrentlyTitle>House MD</CurrentlyTitle>
-                                <CurrentlyDetail>Season 1</CurrentlyDetail>
-                            </CurrentlyInfo>
-                            <CurrentlyWithPill>Claire</CurrentlyWithPill>
-                        </CurrentlyOverlay>
-                    </CurrentlyCard>
-                    <CurrentlyCard $src="/olympics.jpg">
-                        <CurrentlyOverlay>
-                            <CurrentlyInfo>
-                                <CurrentlyTitle>Winter Olympics</CurrentlyTitle>
-                                <CurrentlyDetail>Milano Cortina 2026</CurrentlyDetail>
-                            </CurrentlyInfo>
-                            <CurrentlyWithPill>Lisa</CurrentlyWithPill>
-                        </CurrentlyOverlay>
-                    </CurrentlyCard>
+                    {currentlyWatching.map((show) => (
+                        <CurrentlyCard key={show.title} $src={show.image}>
+                            <CurrentlyOverlay>
+                                <CurrentlyInfo>
+                                    <CurrentlyTitle>{show.title}</CurrentlyTitle>
+                                    {show.detail && <CurrentlyDetail>{show.detail}</CurrentlyDetail>}
+                                </CurrentlyInfo>
+                                {show.with && <CurrentlyWithPill>{show.with}</CurrentlyWithPill>}
+                            </CurrentlyOverlay>
+                        </CurrentlyCard>
+                    ))}
                 </CurrentlyGrid>
             </HeroSection>
 
             <HeroSection>
                 <SectionLabel>Need to Watch</SectionLabel>
                 <NeedToWatchGrid>
-                    <NeedToWatchCard $src="/hijack.jpg">
-                        <NeedToWatchOverlay>
-                            <NeedToWatchTitle>Hijack</NeedToWatchTitle>
-                            <NeedToWatchDetail>S2</NeedToWatchDetail>
-                        </NeedToWatchOverlay>
-                    </NeedToWatchCard>
-                    <NeedToWatchCard $src="/stranger-things.webp">
-                        <NeedToWatchOverlay>
-                            <NeedToWatchTitle>Stranger Things</NeedToWatchTitle>
-                            <NeedToWatchDetail>S2–S5</NeedToWatchDetail>
-                        </NeedToWatchOverlay>
-                    </NeedToWatchCard>
-                    <NeedToWatchCard $src="/alone.jpg">
-                        <NeedToWatchOverlay>
-                            <NeedToWatchTitle>Alone</NeedToWatchTitle>
-                            <NeedToWatchDetail>S12</NeedToWatchDetail>
-                        </NeedToWatchOverlay>
-                    </NeedToWatchCard>
-                    <NeedToWatchCard $src="/silo.jpg">
-                        <NeedToWatchOverlay>
-                            <NeedToWatchTitle>Silo</NeedToWatchTitle>
-                            <NeedToWatchDetail>S2</NeedToWatchDetail>
-                        </NeedToWatchOverlay>
-                    </NeedToWatchCard>
+                    {needToWatch.map((show) => (
+                        <NeedToWatchCard key={show.title} $src={show.image}>
+                            <NeedToWatchOverlay>
+                                <NeedToWatchTitle>{show.title}</NeedToWatchTitle>
+                                {show.detail && <NeedToWatchDetail>{show.detail}</NeedToWatchDetail>}
+                            </NeedToWatchOverlay>
+                        </NeedToWatchCard>
+                    ))}
                 </NeedToWatchGrid>
             </HeroSection>
 
