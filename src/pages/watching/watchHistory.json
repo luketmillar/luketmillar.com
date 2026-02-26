@@ -1,4 +1,8 @@
 [
+    { "title": "Ted Lasso", "detail": "S1 E4 · For the Children", "date": { "year": 2026, "month": 2, "day": 25 }, "type": "tv" },
+    { "title": "Ted Lasso", "detail": "S1 E3 · Trent Crimm: The Independent", "date": { "year": 2026, "month": 2, "day": 25 }, "type": "tv" },
+    { "title": "Ted Lasso", "detail": "S1 E2 · Biscuits", "date": { "year": 2026, "month": 2, "day": 25 }, "type": "tv" },
+    { "title": "Ted Lasso", "detail": "S1 E1 · Pilot", "date": { "year": 2026, "month": 2, "day": 25 }, "type": "tv" },
     { "title": "Sacramento Kings @ Houston Rockets", "date": { "year": 2026, "month": 2, "day": 25 }, "type": "sports" },
     { "title": "Sacramento Kings @ Memphis Grizzlies", "date": { "year": 2026, "month": 2, "day": 23 }, "type": "sports" },
     { "title": "Olympics", "detail": "Men's Hockey Gold Medal", "date": { "year": 2026, "month": 2, "day": 22 }, "type": "sports", "watchedWith": ["lisa"] },
