@@ -2,33 +2,8 @@ import React, { useState, useRef, useMemo } from 'react'
 import styled from 'styled-components'
 import { Film, Tv, Trophy } from 'lucide-react'
 import { SidebarHidden } from '../breakpoints'
-import watchHistory from './watching/watchHistory.json'
-import currentlyWatching from './watching/currentlyWatching.json'
-import needToWatch from './watching/needToWatch.json'
-
-// --- Types ---
-
-type FlexDate =
-    | { year: number; month: number; day: number }
-    | { year: number; month: number }
-    | { year: number }
-
-interface Person {
-    id: string
-    name: string
-    color: string
-}
-
-type EntryType = 'movie' | 'tv' | 'sports' | 'other'
-
-interface Entry {
-    title: string
-    detail?: string
-    date: FlexDate
-    type: EntryType
-    stars?: number
-    watchedWith?: string[]
-}
+import { useWatchData } from './watching/useWatchData'
+import type { FlexDate, EntryType, Entry, Person } from './watching/types'
 
 // --- Types & People ---
 
@@ -47,10 +22,6 @@ const people: Record<string, Person> = {
     caroline: { id: 'caroline', name: 'Caroline', color: '#a78bfa' },
     jake: { id: 'jake', name: 'Jake', color: '#f87171' },
 }
-
-// --- Data ---
-
-const entries: Entry[] = watchHistory as Entry[]
 
 // --- Date Helpers ---
 
@@ -106,7 +77,7 @@ const groupEntries = (items: Entry[]) => {
 
 // --- Heatmap Logic ---
 
-const buildHeatmapData = () => {
+const buildHeatmapData = (entries: Entry[]) => {
     const counts = new Map<string, number>()
 
     for (const entry of entries) {
@@ -438,8 +409,8 @@ const CELL_STEP = CELL_SIZE + CELL_GAP
 const DAY_LABEL_WIDTH = 28
 const HEADER_HEIGHT = 16
 
-const Heatmap: React.FC<{ onMonthClick: (monthKey: string) => void }> = ({ onMonthClick }) => {
-    const { weeks, monthLabels } = useMemo(buildHeatmapData, [])
+const Heatmap: React.FC<{ entries: Entry[]; onMonthClick: (monthKey: string) => void }> = ({ entries, onMonthClick }) => {
+    const { weeks, monthLabels } = useMemo(() => buildHeatmapData(entries), [entries])
 
     const gridWidth = weeks.length * CELL_STEP
     const svgWidth = gridWidth + DAY_LABEL_WIDTH
@@ -517,13 +488,14 @@ const Heatmap: React.FC<{ onMonthClick: (monthKey: string) => void }> = ({ onMon
 // --- Main Component ---
 
 const WatchingPage = () => {
+    const { entries, currentlyWatching, needToWatch, loading } = useWatchData()
     const [typeFilter, setTypeFilter] = useState<EntryType | null>(null)
     const groupRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
     const filteredEntries = useMemo(() => {
         if (!typeFilter) return entries
         return entries.filter((e) => e.type === typeFilter)
-    }, [typeFilter])
+    }, [typeFilter, entries])
 
     const groups = useMemo(() => groupEntries(filteredEntries), [filteredEntries])
 
@@ -536,6 +508,14 @@ const WatchingPage = () => {
 
     const handleTypeClick = (type: EntryType) => {
         setTypeFilter((prev) => (prev === type ? null : type))
+    }
+
+    if (loading) {
+        return (
+            <Container>
+                <Title>What I'm watching</Title>
+            </Container>
+        )
     }
 
     return (
@@ -573,7 +553,7 @@ const WatchingPage = () => {
                 </NeedToWatchGrid>
             </HeroSection>
 
-            <Heatmap onMonthClick={handleMonthClick} />
+            <Heatmap entries={entries} onMonthClick={handleMonthClick} />
 
             <FilterBar>
                 <FilterPill
