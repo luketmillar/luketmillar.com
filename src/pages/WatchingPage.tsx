@@ -3,24 +3,15 @@ import styled from 'styled-components'
 import { Film, Tv, Trophy } from 'lucide-react'
 import { SidebarHidden } from '../breakpoints'
 import { useWatchData } from './watching/useWatchData'
-import type { FlexDate, EntryType, Entry, Person } from './watching/types'
+import type { FlexDate, EntryType, Entry } from './watching/types'
 
-// --- Types & People ---
+// --- Types ---
 
 const typeConfig: Record<EntryType, { label: string; color: string; icon: typeof Film }> = {
     movie:  { label: 'Movies',  color: '#e07a5f', icon: Film },
     tv:     { label: 'TV',      color: '#3d85c6', icon: Tv },
     sports: { label: 'Sports',  color: '#2d6a4f', icon: Trophy },
     other:  { label: 'Other',   color: '#8b8b8b', icon: Film },
-}
-
-const people: Record<string, Person> = {
-    lisa: { id: 'lisa', name: 'Lisa', color: '#e07a5f' },
-    maddie: { id: 'maddie', name: 'Maddie', color: '#81b29a' },
-    claire: { id: 'claire', name: 'Claire', color: '#3d85c6' },
-    annalise: { id: 'annalise', name: 'Annalise', color: '#f2cc8f' },
-    caroline: { id: 'caroline', name: 'Caroline', color: '#a78bfa' },
-    jake: { id: 'jake', name: 'Jake', color: '#f87171' },
 }
 
 // --- Date Helpers ---
@@ -257,23 +248,6 @@ const Stars = styled.span`
     color: var(--text-tertiary);
 `
 
-const PersonPill = styled.button<{ $color: string }>`
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 1px solid ${(p) => p.$color}40;
-    background: ${(p) => p.$color}14;
-    color: ${(p) => p.$color};
-    font-size: 0.65rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 150ms, border-color 150ms;
-
-    &:hover {
-        background: ${(p) => p.$color}28;
-        border-color: ${(p) => p.$color};
-    }
-`
-
 const HeroSection = styled.div`
     max-width: 640px;
     margin-bottom: 32px;
@@ -338,17 +312,6 @@ const CurrentlyDetail = styled.div`
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.75);
     margin-top: 1px;
-`
-
-const CurrentlyWithPill = styled.span`
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.65rem;
-    font-weight: 600;
-    flex-shrink: 0;
-    align-self: flex-end;
 `
 
 const NeedToWatchGrid = styled.div`
@@ -532,7 +495,6 @@ const WatchingPage = () => {
                                     <CurrentlyTitle>{show.title}</CurrentlyTitle>
                                     {show.detail && <CurrentlyDetail>{show.detail}</CurrentlyDetail>}
                                 </CurrentlyInfo>
-                                {show.with && <CurrentlyWithPill>{show.with}</CurrentlyWithPill>}
                             </CurrentlyOverlay>
                         </CurrentlyCard>
                     ))}
@@ -599,18 +561,6 @@ const WatchingPage = () => {
                                         {entry.stars && (
                                             <Stars>{renderStars(entry.stars)}</Stars>
                                         )}
-                                        {entry.watchedWith?.map((pid) => {
-                                            const person = people[pid]
-                                            if (!person) return null
-                                            return (
-                                                <PersonPill
-                                                    key={pid}
-                                                    $color={person.color}
-                                                >
-                                                    {person.name}
-                                                </PersonPill>
-                                            )
-                                        })}
                                     </LogMeta>
                                 </LogEntry>
                             ))}

@@ -17,7 +17,6 @@ interface WatchHistoryRow {
   date_day: number | null;
   type: string;
   stars: number | null;
-  watched_with: string[] | null;
 }
 
 interface CurrentlyWatchingRow {
@@ -25,7 +24,6 @@ interface CurrentlyWatchingRow {
   title: string;
   detail: string | null;
   image: string;
-  with: string | null;
   sort_order: number;
 }
 
@@ -139,12 +137,6 @@ const tools = [
                 enum: ["tv", "movie", "sports", "other"],
               },
               stars: { type: "number", description: "Rating 1-5" },
-              watched_with: {
-                type: "array",
-                items: { type: "string" },
-                description:
-                  "Person IDs: lisa, maddie, claire, annalise, caroline, jake",
-              },
               date: {
                 type: "object",
                 properties: {
@@ -164,9 +156,25 @@ const tools = [
     },
   },
   {
+    name: "remove_watch_history",
+    description:
+      "Remove entries from watch_history. First use query_watch_history to find the entries and their IDs, then pass the IDs here to delete them.",
+    input_schema: {
+      type: "object",
+      properties: {
+        ids: {
+          type: "array",
+          items: { type: "number" },
+          description: "Array of watch_history row IDs to delete",
+        },
+      },
+      required: ["ids"],
+    },
+  },
+  {
     name: "update_currently_watching",
     description:
-      "Add or remove items from the currently_watching list. When adding, provide title, image URL, and optionally detail and with (person name). When removing, just provide the title.",
+      "Add or remove items from the currently_watching list. When adding, provide title, image URL, and optionally detail. When removing, just provide the title.",
     input_schema: {
       type: "object",
       properties: {
@@ -178,7 +186,6 @@ const tools = [
               title: { type: "string" },
               detail: { type: "string" },
               image: { type: "string", description: "Image URL (use TMDB backdrop)" },
-              with: { type: "string", description: "Person name" },
             },
             required: ["title", "image"],
           },
@@ -342,7 +349,6 @@ async function executeTool(
         detail?: string;
         type: string;
         stars?: number;
-        watched_with?: string[];
         date?: { year: number; month?: number; day?: number };
       }>;
 
@@ -352,7 +358,6 @@ async function executeTool(
         detail: e.detail || null,
         type: e.type,
         stars: e.stars || null,
-        watched_with: e.watched_with || null,
         date_year: e.date?.year ?? now.getFullYear(),
         date_month: e.date?.month ?? now.getMonth() + 1,
         date_day: e.date?.day ?? now.getDate(),
@@ -364,6 +369,17 @@ async function executeTool(
         .select();
       if (error) throw error;
       return { inserted: data.length, rows: data };
+    }
+
+    case "remove_watch_history": {
+      const ids = input.ids as number[];
+      const { data, error } = await supabase
+        .from("watch_history")
+        .delete()
+        .in("id", ids)
+        .select();
+      if (error) throw error;
+      return { deleted: data.length, rows: data };
     }
 
     case "update_currently_watching": {
@@ -395,13 +411,11 @@ async function executeTool(
             title: string;
             detail?: string;
             image: string;
-            with?: string;
           }>
         ).map((item) => ({
           title: item.title,
           detail: item.detail || null,
           image: item.image,
-          with: item.with || null,
           sort_order: nextSort++,
         }));
 
@@ -476,8 +490,7 @@ Rules:
 - Default date is today unless specified otherwise.
 - For sports entries, type is "sports". For movies, "movie". For TV, "tv".
 - Be concise in your reply — just confirm what was done.
-- Always use tools to look up real episode titles. Never guess.
-- The people who can be in watched_with are: lisa, maddie, claire, annalise, caroline, jake.`;
+- Always use tools to look up real episode titles. Never guess.`;
 
 interface ClaudeMessage {
   role: "user" | "assistant";
@@ -511,7 +524,7 @@ async function callClaude(
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-haiku-4-5-20251001",
       max_tokens: 1024,
       system: SYSTEM_PROMPT,
       tools,
@@ -617,6 +630,15 @@ Deno.serve(async (req: Request) => {
                   action: "insert",
                   title: e.title,
                   detail: e.detail,
+                });
+              }
+            } else if (block.name === "remove_watch_history") {
+              const ids = block.input.ids as number[];
+              for (const id of ids) {
+                actions.push({
+                  table: "watch_history",
+                  action: "remove",
+                  title: `id:${id}`,
                 });
               }
             } else if (block.name === "update_currently_watching") {

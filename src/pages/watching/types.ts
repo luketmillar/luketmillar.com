@@ -3,12 +3,6 @@ export type FlexDate =
     | { year: number; month: number }
     | { year: number }
 
-export interface Person {
-    id: string
-    name: string
-    color: string
-}
-
 export type EntryType = 'movie' | 'tv' | 'sports' | 'other'
 
 export interface Entry {
@@ -17,14 +11,12 @@ export interface Entry {
     date: FlexDate
     type: EntryType
     stars?: number
-    watchedWith?: string[]
 }
 
 export interface CurrentlyWatchingItem {
     title: string
     detail?: string
     image: string
-    with?: string
 }
 
 export interface NeedToWatchItem {

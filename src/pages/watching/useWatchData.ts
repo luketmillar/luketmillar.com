@@ -11,7 +11,6 @@ interface WatchHistoryRow {
     date_day: number | null
     type: string
     stars: number | null
-    watched_with: string[] | null
 }
 
 interface CurrentlyWatchingRow {
@@ -19,7 +18,6 @@ interface CurrentlyWatchingRow {
     title: string
     detail: string | null
     image: string
-    with: string | null
     sort_order: number
 }
 
@@ -47,14 +45,12 @@ const toEntry = (row: WatchHistoryRow): Entry => ({
     date: toFlexDate(row),
     type: row.type as EntryType,
     ...(row.stars ? { stars: row.stars } : {}),
-    ...(row.watched_with?.length ? { watchedWith: row.watched_with } : {}),
 })
 
 const toCurrentlyWatching = (row: CurrentlyWatchingRow): CurrentlyWatchingItem => ({
     title: row.title,
     ...(row.detail ? { detail: row.detail } : {}),
     image: row.image,
-    ...(row.with ? { with: row.with } : {}),
 })
 
 const toNeedToWatch = (row: NeedToWatchRow): NeedToWatchItem => ({
