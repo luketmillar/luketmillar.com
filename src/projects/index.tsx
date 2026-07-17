@@ -5,6 +5,7 @@ import Golf from './golf'
 import BouncingBalls from './bouncingBalls'
 import FallingBalls from './fallingBalls'
 import ColorPalette from './color-palette'
+import Graffiti from './graffiti'
 import { Route, Routes } from 'react-router-dom'
 
 const ProjectsRouter = () => {
@@ -16,6 +17,7 @@ const ProjectsRouter = () => {
             <Route path="bouncing-balls" element={<BouncingBalls />} />
             <Route path="falling-balls" element={<FallingBalls />} />
             <Route path="color-palette" element={<ColorPalette />} />
+            <Route path="graffiti" element={<Graffiti />} />
             <Route path="*" element={<div>This project doesn't exist yet</div>} />
         </Routes>
     )

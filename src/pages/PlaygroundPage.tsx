@@ -67,6 +67,7 @@ type Demo = {
 } & ({ path: string } | { href: string })
 
 const demos: Demo[] = [
+    { name: 'Graffiti Wall', path: '/project/graffiti', color: Colors.pink },
     { name: 'Split-Flap', path: '/project/split-flap', color: Colors.aqua },
     { name: 'Minesweeper', path: '/project/minesweeper', color: Colors.pink },
     { name: 'Golf', path: '/project/golf', color: Colors.orange },
